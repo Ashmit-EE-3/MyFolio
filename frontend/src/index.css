@@ -1,13 +1,5 @@
 @import "tailwindcss" ; 
 
-<<<<<<< HEAD
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-=======
->>>>>>> origin/main
 @theme {
     --color-indie-100: '#F8F8F2'; 
     --color-indie-200: '#C2CBF5'; 
@@ -21,12 +13,9 @@
     --color-veronica-900: '#791F53' ;
     --font-poppins: "Poppins" ;  
 }
-<<<<<<< HEAD
-=======
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
->>>>>>> origin/main
