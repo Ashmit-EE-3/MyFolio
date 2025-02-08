@@ -1,7 +1,22 @@
 @import "tailwindcss" ; 
 
+<<<<<<< HEAD
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+=======
+@theme {
+    --color-indie-100: '#F8F8F2'; 
+    --color-indie-200: '#C2CBF5'; 
+    --color-indie-300: '#B5BDE5'; 
+    --color-indie-400: '#414558'; 
+    --color-indie-500: '#282A36'; 
+    --color-indie-600: '#242631'; 
+    --color-indie-600: '#20222C'; 
+    --color-veronica-700: '#FF79C6';
+    --color-veronica-800: '#FF2EA6' ;
+    --color-veronica-900: '#791F53' ;
+    --font-poppins: "Poppins" ;  
+>>>>>>> origin/main
 }
