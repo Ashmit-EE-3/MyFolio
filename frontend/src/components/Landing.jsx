@@ -2,7 +2,7 @@ import React from 'react'
 
 function Landing() {
     return (
-        <div id="#landing" className='flex flex-col items-center gap-30 py-40 px-20'>
+        <div id="signup" className='flex flex-col items-center gap-30 py-40 px-20'>
             <header className="font-extrabold text-7xl text-indie-100">Showcase your skills!</header>
             <div className=' flex flex-col gap-2.5'>
             <div className="flex border-1 border-indie-100 items-center bg-gray-800 text-white rounded-lg p-3 w-120">

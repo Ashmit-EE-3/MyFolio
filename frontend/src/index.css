@@ -16,7 +16,9 @@
 body{
     background-color: #242631;
 }
-
+html{
+    scroll-behavior: smooth;
+}
 /* *{
     margin: 0;
     padding: 0;
