@@ -1,0 +1,30 @@
+{
+  "name": "tch",
+  "version": "1.0.0",
+  "description": "\"# TCH\"",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon backend/index.js",
+    "start": "node backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashmit-EE-3/TCH.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Ashmit-EE-3/TCH/issues"
+  },
+  "homepage": "https://github.com/Ashmit-EE-3/TCH#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

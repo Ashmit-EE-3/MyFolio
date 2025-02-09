@@ -2,10 +2,14 @@ import React from 'react'
 import Footer from '../components/Footer'
 import Landing from '../components/Landing'
 import Redirect from '../components/Redirect'
+import Navbar from '../components/Navbar'
+import HeroSection from '../components/HeroSection'
 
 function Homepage() {
   return (
-    <div className='font-poppins'>
+    <div className='font-poppins scroll-smooth'>
+        <Navbar/>
+        <HeroSection/>
         <div className="bg-indie-700">
         <Redirect imageUrl="../media/image-redirect.jpg" heading="Show your unique entrepreneurial story" description="Share your journey. Link your startups. Write about your failures, successes, and everything in between. Be you, be unique, be remarkable." text="BUILD MY INDIE PAGE"/>
         </div>

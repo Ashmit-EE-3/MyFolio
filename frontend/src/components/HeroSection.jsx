@@ -2,7 +2,7 @@ function HeroSection()
 {
     return(
         <>
-        <div className="flex font-poppins gap-24 ml-40">
+        <div className="flex font-poppins gap-24 ml-40 scroll-smooth">
             <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] mt-7">    
             </div>
             <div className="grid h-96 gap-12 w-[45rem]">
