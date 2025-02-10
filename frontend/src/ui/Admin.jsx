@@ -5,7 +5,7 @@ const name = "Yash Agarwal";
 
 function Admin() {
   return (
-    <div className="flex flex-col gap-8 text-indie-100 text-center h-screen overflow-hiddenS">
+    <div className="flex flex-col gap-8 text-indie-100 text-center h-screen overflow-hidden">
       <AdminNavbar />
       <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
         <div className="flex flex-col w-[50vw] m-auto bg-indie-700 h-48 rounded-2xl text-start p-6 gap-4">
