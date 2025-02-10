@@ -27,4 +27,7 @@ html{
 }
 *{
     font-family: 'Poppins', sans-serif;
-    }
+}
+.active{
+    @apply bg-indie-400
+}
