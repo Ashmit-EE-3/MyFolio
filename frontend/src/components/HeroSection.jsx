@@ -5,8 +5,8 @@ function HeroSection()
         <div className="flex font-poppins gap-24 ml-40 scroll-smooth">
             <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] mt-7">    
             </div>
-            <div className="grid h-96 gap-12 w-[45rem]">
-            <div className="text-indie-100 text-7xl mt-28 font-extrabold font-poppins">
+            <div className="flex flex-col justify-center items-center h-96 gap-12 w-[45rem] mt-20">
+            <div className="text-indie-100 text-7xl font-extrabold font-poppins">
             Showcase and grow your startups
             </div>
             <div className="text-indie-200 text-[16px]">
@@ -27,10 +27,10 @@ function HeroSection()
 </div>
             </div>
         </div>
-        <div className="grid bg-indie-400 text-indie-200 font-poppins m-auto text-center p-16 mt-14 gap-16 h-96">
-            <h1 className="text-6xl mt-14 font-extrabold">Building in public is mainstream</h1>
+        <div className="flex flex-col justify-center items-center bg-indie-400 text-indie-200 font-poppins m-auto text-center p-16 gap-16 h-96 mt-14">
+            <h1 className="text-6xl font-extrabold">Building in public is mainstream</h1>
             <h3 className="text-2xl">You can&apos;t just build a product and expect people to come...</h3>
-            <h5>There are more ways to stand out</h5>
+            <h5><span className="mt-10"> ⬇ </span>There are more ways to stand out</h5>
         </div>
         </>
     )
