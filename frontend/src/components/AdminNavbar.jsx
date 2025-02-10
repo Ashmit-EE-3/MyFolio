@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function AdminNavbar() {
   return (
     <div className="flex justify-between bg-indie-700 p-4 font-poppins text-[18px] w-[95vw] m-auto rounded-xl mt-6">
       <ul className="flex gap-10 text-indie-100 font-semibold">
-        <Link className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <NavLink to="page" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
               className="fill-white"
@@ -24,8 +24,8 @@ function AdminNavbar() {
             </svg>
           </span>
           PAGE
-        </Link>
-        <li className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        </NavLink>
+        <NavLink to="styles" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
               id="Capa_1"
@@ -49,8 +49,8 @@ function AdminNavbar() {
             </svg>
           </span>
           STYLE
-        </li>
-        <li className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        </NavLink>
+        <NavLink to="stats" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
               width="15px"
@@ -67,8 +67,8 @@ function AdminNavbar() {
             </svg>
           </span>
           STATS
-        </li>
-        <li className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        </NavLink>
+        <NavLink to="settings" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
               width="15px"
@@ -105,7 +105,7 @@ function AdminNavbar() {
             </svg>
           </span>
           SETTINGS
-        </li>
+        </NavLink>
       </ul>
       <button
         className="bg-veronica-700 py-4 w-[124px] rounded-lg hover:cursor-pointer hover:bg-veronica-800 transition duration-200
