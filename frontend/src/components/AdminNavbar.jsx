@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 function AdminNavbar() {
   return (
     <div className="flex justify-between bg-indie-700 p-4 font-poppins text-[18px] w-[95vw] m-auto rounded-xl mt-6">
       <ul className="flex gap-10 text-indie-100 font-semibold">
-        <li className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <Link className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
               className="fill-white"
@@ -22,7 +24,7 @@ function AdminNavbar() {
             </svg>
           </span>
           PAGE
-        </li>
+        </Link>
         <li className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
           <span>
             <svg
@@ -106,8 +108,8 @@ function AdminNavbar() {
         </li>
       </ul>
       <button
-        className="bg-veronica-700 p-3 w-[124px] rounded-lg hover:cursor-pointer hover:bg-veronica-800 transition duration-200
-      focus:outline-none focus:ring focus:ring-offset-1 focus:ring-veronica-900"
+        className="bg-veronica-700 py-4 w-[124px] rounded-lg hover:cursor-pointer hover:bg-veronica-800 transition duration-200
+      focus:outline-none focus:ring focus:ring-offset-1 focus:ring-veronica-900 mr-2"
       >
         🌟 DEPLOY
       </button>

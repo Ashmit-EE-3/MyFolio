@@ -5,9 +5,9 @@ const name = "Yash Agarwal";
 
 function Admin() {
   return (
-    <div className="flex flex-col gap-8 text-indie-100 text-center">
+    <div className="flex flex-col gap-8 text-indie-100 text-center h-screen overflow-hiddenS">
       <AdminNavbar />
-      <div className="flex flex-col gap-4 font-poppins">
+      <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
         <div className="flex flex-col w-[50vw] m-auto bg-indie-700 h-48 rounded-2xl text-start p-6 gap-4">
           <h1 className="text-yellow-200">
             ⚠ Create a username to get a public page
@@ -15,7 +15,8 @@ function Admin() {
           <form className="w-full flex flex-col gap-4">
             <input
               placeholder="username"
-              className="p-4 border-[1px] rounded-lg h-12"
+              className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30"
+              required
             />
             <button
               className="bg-veronica-700 text-indie-600 p-2 rounded-lg h-12 tracking-wide font-semibold hover:bg-veronica-800
@@ -34,7 +35,7 @@ function Admin() {
             <textarea
               placeholder="I quit my 9-5 job to work 24/7 on my startup"
               type="text"
-              className="w-[92.5%] h-28 bg-transparent p-4 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1"
+              className="w-[92.5%] h-28 bg-transparent p-4 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1 placeholder:opacity-50"
             ></textarea>
           </form>
           <div className="flex gap-2 w-36 items-center justify-center">
@@ -80,8 +81,9 @@ function Admin() {
           ADD STARTUP
         </button>
         <hr className="h-0.5 m-auto w-[50vw] bg-slate-600 border-none" />
+        <AdminIcons />
       </div>
-      <AdminIcons />
+      
     </div>
   );
 }
