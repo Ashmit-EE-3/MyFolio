@@ -40,38 +40,38 @@ const signin = async (req, res, next) => {
     }
 }
 
-// const google = async (req, res, next) => {
-//     try {
-//         const { username, email, avatar } = req.body;
-//         const validUser = await User.findOne({ email });
+const google = async (req, res, next) => {
+    try {
+        const { username, email, avatar} = req.body;
+        const validUser = await User.findOne({ email });
 
-//         if (validUser) {
-//             const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
-//             const { password: pass, ...userInfo } = validUser._doc
-//             res
-//                 .cookie('access_token', token, { httpOnly: true })
-//                 .status(200)
-//                 .json(userInfo)
-//         }
-//         else {
-//             const newUserName = username.split(" ").join('') + Math.random().toString(36).slice(-4)
-//             const password = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
-//             const hashedPassword = bcryptjs.hashSync(password, 10);
+        if (validUser) {
+            const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
+            const { password: pass, ...userInfo } = validUser._doc
+            res
+                .cookie('access_token', token, { httpOnly: true })
+                .status(200)
+                .json(userInfo)
+        }
+        else {
+            const newUserName = username.split(" ").join('') + Math.random().toString(36).slice(-4)
+            const password = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
+            const hashedPassword = bcryptjs.hashSync(password, 10);
             
-//             const newUser = await User.create({username: newUserName, password: hashedPassword, email, avatar: photo})
+            const newUser = await User.create({username: newUserName, password: hashedPassword, email, avatar})
 
-//             const token = jwt.sign({id: newUser._id}) ; 
-//             const {password: pass, ...userInfo} = newUser._doc ; 
+            const token = jwt.sign({id: newUser._id}) ; 
+            const {password: pass, ...userInfo} = newUser._doc ; 
+  
+            res
+            .cookie("access_token", token, {httpOnly: true})
+            .status(200)
+            .json(userInfo)
 
-//             res
-//             .cookie("access_token", token, {httpOnly: true})
-//             .status(200)
-//             .json(userInfo)
+        }
+    } catch(error){
+        next(error)
+    }
+}
 
-//         }
-//     } catch(error){
-//         next(error)
-//     }
-// }
-
-module.exports = { signup, signin}
+module.exports = { signup, signin, google} 

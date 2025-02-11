@@ -8,6 +8,7 @@ import Page from './ui/Page';
 import Stats from './ui/Stats';
 import Styles from './ui/Styles';
 import Settings from './ui/Settings';
+import SignInRedirect from './ui/SignInRedirect';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,12 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login/>,
-    errorElement: <Error/>
+    errorElement: <Error/>,
+  },
+  {
+    element: <SignInRedirect/>,
+    path: '/signInRedirect',
+    errorElement: <Error/>,
   },
   {
     path:'/admin',
@@ -31,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         element:<Page/>,
-        path:'page'
+        path:'page',
       },
       {
         path:'styles',

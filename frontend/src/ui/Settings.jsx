@@ -7,6 +7,7 @@ function Settings()
         <div>
             Change Username {username}
         </div>
+
     )
 }
 export default Settings;
