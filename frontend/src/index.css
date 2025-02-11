@@ -8,6 +8,7 @@
     --color-indie-500: #282A36; 
     --color-indie-600: #242631; 
     --color-indie-700: #20222C; 
+    --color-indie-800: #22222A;
     --color-veronica-700: #FF79C6;
     --color-veronica-800: #FF2EA6 ;
     --color-veronica-900: #791F53 ;
@@ -30,4 +31,7 @@ html{
 }
 .active{
     @apply bg-indie-400
+}
+svg{
+    color: white;
 }
