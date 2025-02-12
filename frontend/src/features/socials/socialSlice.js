@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
-    startup:"",
-    github:"",
-    email:"",
-    youtube:"",
-    linkedin:"",
-    instagram:"",
-    twitter:""
+    socials:{}
 }
 const socialSlice = createSlice({
     name:'socials',
@@ -15,8 +9,12 @@ const socialSlice = createSlice({
     reducers:{
         addStartuplink(state,action){
             state.startup=action.payload
+        },
+        addSocial(state,action){
+            const {platform,link}=action.payload
+            state.socials[platform]=link
         }
     }
 })
 export default socialSlice.reducer;
-export const {addStartuplink} = socialSlice.actions;
+export const {addStartuplink,addSocial} = socialSlice.actions;

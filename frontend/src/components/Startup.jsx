@@ -5,7 +5,7 @@ import Confetti from "react-confetti"
 
 function Startup() {
   const [addStartup, setAddstartup] = useState(false);
-  const [url, setUrl] = useState("https://");
+  const [url, setUrl] = useState("");
   const [confetti,setConfetti] = useState(false)
 
   const dispatch=useDispatch();
@@ -42,6 +42,7 @@ function Startup() {
                 className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 w-full"
                 required
                 onChange={handleStartup}
+                placeholder="https://"
               />
               <span
                 className="cursor-pointer rounded-full hover:bg-indie-400 p-2"
