@@ -21,7 +21,7 @@ html{
     scroll-behavior: smooth;
 }
 .landing {
-    background: url('../media/landing_img.png');
+    background: url('../public/landing_img.png');
     background-size: cover;
     background-color: rgba(0,0,0,0.70);
     background-blend-mode: darken;

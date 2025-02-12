@@ -43,14 +43,14 @@ function AdminIcons() {
             social.includes("Github") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
-              Github: true,
+            setSelected((prev)=>({
               Instagram: false,
+              Github: !prev.Github,
               LinkedIn: false,
               Email: false,
               Twitter: false,
               Youtube: false,
-            })
+            }))
           }
         >
           <svg
@@ -71,14 +71,14 @@ function AdminIcons() {
             social.includes("Instagram") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
+            setSelected((prev)=>({
               Github: false,
-              Instagram: true,
+              Instagram: !prev.Instagram,
               LinkedIn: false,
               Email: false,
               Twitter: false,
               Youtube: false,
-            })
+            }))
           }
         >
           <svg
@@ -109,14 +109,14 @@ function AdminIcons() {
             social.includes("LinkedIn") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
+            setSelected((prev)=>({
               Github: false,
+              LinkedIn: !prev.LinkedIn,
               Instagram: false,
-              LinkedIn: true,
               Email: false,
               Twitter: false,
               Youtube: false,
-            })
+            }))
           }
         >
           <svg
@@ -138,14 +138,14 @@ function AdminIcons() {
             social.includes("Email") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
+            setSelected((prev)=>({
               Github: false,
-              Instagram: false,
+              Email: !prev.Email,
               LinkedIn: false,
-              Email: true,
+              Instagram: false,
               Twitter: false,
               Youtube: false,
-            })
+            }))
           }
         >
           <svg
@@ -171,14 +171,14 @@ function AdminIcons() {
             social.includes("Twitter") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
+            setSelected((prev)=>({
               Github: false,
-              Instagram: false,
+              Twitter: !prev.Twitter,
               LinkedIn: false,
               Email: false,
-              Twitter: true,
+              Instagram: false,
               Youtube: false,
-            })
+            }))
           }
         >
           <svg
@@ -198,14 +198,14 @@ function AdminIcons() {
             social.includes("Youtube") ? `bg-indie-400` : ``
           }`}
           onClick={() =>
-            setSelected({
+            setSelected((prev)=>({
               Github: false,
-              Instagram: false,
+              Youtube: !prev.Youtube,
               LinkedIn: false,
               Email: false,
               Twitter: false,
-              Youtube: true,
-            })
+              Instagram: false,
+            }))
           }
         >
           <svg
