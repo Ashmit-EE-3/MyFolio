@@ -39,7 +39,7 @@ function Startup() {
               <input
                 value={url}
                 type="url"
-                className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 w-full"
+                className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 required
                 onChange={handleStartup}
                 placeholder="https://"

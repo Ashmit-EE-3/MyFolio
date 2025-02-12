@@ -9,6 +9,8 @@ import Stats from './ui/Stats';
 import Styles from './ui/Styles';
 import Settings from './ui/Settings';
 import SignInRedirect from './ui/SignInRedirect';
+import Account from './components/Account';
+import Billing from './components/Billing';
 
 const router = createBrowserRouter([
   {
@@ -49,7 +51,21 @@ const router = createBrowserRouter([
       },
       {
         path:'settings',
-        element:<Settings/>
+        element:<Settings/>,
+        children:[
+          {
+            element:<Navigate to='account' replace/>,
+            index:true
+          },
+          {
+            path:'account',
+            element:<Account/>
+          },
+          {
+            path:'billing',
+            element:<Billing/>
+          }
+        ]
       }
     ]
   }

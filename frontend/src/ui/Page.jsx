@@ -63,7 +63,7 @@ function Page() {
               placeholder="username"
               type="text"
               value={username}
-              className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500"
+              className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               required
               onChange={handleChange}
             />
@@ -81,7 +81,7 @@ function Page() {
           <div className="relative h-14 w-14 group">
             <input type="picture" className="hidden" />
             <svg
-              className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100"
+              className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               fill="white"
@@ -103,7 +103,7 @@ function Page() {
             type="text"
             placeholder="Your name"
             defaultValue={name}
-            className="w-full p-2 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
+            className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
         </form>
         <form className="px-6">
@@ -179,7 +179,7 @@ function Page() {
               <input
                 placeholder="Location"
                 type="text"
-                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full"
+                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 value={location}
                 onChange={handleLocation}
               />
@@ -200,7 +200,7 @@ function Page() {
               <input
                 placeholder="Location"
                 type="text"
-                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full"
+                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 value={revenue}
                 onChange={handleRevenue}
               />
