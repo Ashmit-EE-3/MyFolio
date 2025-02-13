@@ -5,6 +5,7 @@ import { addUsername } from "../features/user/userSlice";
 function Account() {
   const username = useSelector((state) => state.user.username);
   const [user, setUsername] = useState("");
+  const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
 
   function handleChange(e) {
@@ -16,51 +17,79 @@ function Account() {
     setUsername("");
   }
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`indiepa.ge/${username}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="flex flex-col gap-8 bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100 w-[40vw] mx-auto">
-      <form
-        className="flex flex-col gap-6 text-start"
-        onSubmit={changeUsername}
-      >
-        <label className="text-xl">Change Username</label>
-        <div className="flex gap-2">
-          <input
-            placeholder={username || "Enter Username"}
-            type="text"
-            className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
+    <div className="grid gap-6 mx-auto w-[40vw]">
+      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
+        <form
+          className="flex flex-col gap-6 text-start"
+          onSubmit={changeUsername}
+        >
+          <label className="text-xl">Change Username</label>
+          <div className="flex gap-2">
+            <input
+              placeholder={username || "Enter Username"}
+              type="text"
+              className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
             placeholder:opacity-30 p-4 w-full"
-            value={user}
-            onChange={handleChange}
-            required
-          />
-          <button
-            className={`p-3 rounded-xl bg-indie-400 ${
-              user !== ""
-                ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
-                : ""
-            }`}
-            disabled={user === ""}
-          >
-            UPDATE
-          </button>
+              value={user}
+              onChange={handleChange}
+              required
+            />
+            <button
+              className={`p-3 rounded-xl bg-indie-400 ${
+                user !== ""
+                  ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
+                  : ""
+              }`}
+              disabled={user === ""}
+            >
+              UPDATE
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
+        <div className="flex flex-col gap-6 text-start">
+          <h1 className="text-xl">MyFolio Domain</h1>
+          <div className="flex justify-between items-center">
+            <p>indiepa.ge/{username}</p>
+            <button
+              onClick={handleCopy}
+              className="p-3 rounded-xl bg-veronica-600 hover:bg-indie-400 cursor-pointer transition-colors duration-200"
+            >
+              {copied ? "COPIED!" : "COPY"}
+            </button>
+          </div>
         </div>
-      </form>
-      <form
-        className="flex flex-col gap-6 text-start"
-      >
-        <label className="text-xl">Custom Domain</label>
-        <div className="flex gap-2">
-          <input
-            placeholder="example.com"
-            type="text"
-            className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
+      </div>
+      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
+        <form className="flex flex-col gap-6 text-start">
+          <label className="text-xl">Custom Domain</label>
+          <div className="flex gap-2">
+            <input
+              placeholder="example.com"
+              type="text"
+              className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
             placeholder:opacity-30 p-4 w-full"
-          />
-          <button className="p-3 rounded-xl bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200">
-            SAVE
-          </button>
-        </div>
-      </form>
+            />
+            <button className="p-3 rounded-xl bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200">
+              SAVE
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="border-b-2 border-indie-400"></div>
+      <div className="flex justify-end gap-4">
+        <button className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>
+        <button className="p-3 rounded-xl hover:bg-indie-400 cursor-pointer transition-colors duration-200">LOGOUT</button>
+      </div>
+
     </div>
   );
 }

@@ -22,7 +22,7 @@ function HeroSection()
                 />
             </div>
             <button className="bg-veronica-300 p-3 rounded-md bg-veronica-700 hover:bg-veronica-800 text-indie-800 w-80 flex items-center justify-center gap-2 group mt-4 transition duration-300 ease-in-out
-            focus:outline-none focus:ring focus:ring-indie-500 focus:ring-offset-1 font-semibold">
+            focus:outline-none focus:ring focus:ring-indie-500 focus:ring-offset-1 font-semibold cursor-pointer">
                 <p>CLAIM MY INDIE PAGE</p><span className='group-hover:translate-x-1 transition-transform duration-300 ease-in-out'>→</span></button>
 </div>
             </div>
