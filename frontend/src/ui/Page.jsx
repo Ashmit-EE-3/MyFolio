@@ -3,24 +3,20 @@ import AdminIcons from "../components/AdminIcons";
 import { useState } from "react";
 import {
   addLocation,
-  addRevenue,
   addUsername,
 } from "../features/user/userSlice";
 import Startup from "../components/Startup";
 
 function Page() {
-  const name = useSelector((state) => state.user.displayName);
-  const imgURL = useSelector((state) => state.user.avatar);
+  const name = useSelector((state) => state.user.currentUser.displayName);
+  const imgURL = useSelector((state) => state.user.currentUser.avatar);
   const submit = useSelector((state) => state.user.submit);
 
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
-  const [selected, setSelected] = useState({ location: false, revenue: false });
-  const [revenue, setRevenue] = useState(1000);
-  
-  
+  const [selected, setSelected] = useState({ location: false });
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -39,16 +35,6 @@ function Page() {
     e.preventDefault();
     dispatch(addLocation(location));
     setSelected((prev) => ({ ...prev, location: !prev.location }));
-  }
-
-  function handleRevenue(e) {
-    setRevenue(e.target.value);
-  }
-
-  function handleRevenueSubmit(e) {
-    e.preventDefault();
-    dispatch(addRevenue(location));
-    setSelected((prev) => ({ ...prev, revenue: !prev.revenue }));
   }
 
   return (
@@ -118,7 +104,6 @@ function Page() {
             className={`p-2 hover:bg-indie-400 rounded-full ml-2 relative group cursor-pointer ${selected.location ? "bg-indie-400" : ""}`}
             onClick={() =>
               setSelected(() => ({
-                revenue: false,
                 location: true,
               }))
             }
@@ -140,30 +125,6 @@ function Page() {
               </g>
             </svg>
           </span>
-          <span
-            className={`p-2 hover:bg-indie-400 rounded-full relative group cursor-pointer ${selected.revenue ? "bg-indie-400" : ""}` }
-            onClick={() =>
-              setSelected(() => ({
-                location: false,
-                revenue: true,
-              }))
-            }
-          >
-            <div className="absolute -top-10 left-1/2 -translate-x-1 w-28 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              Your Revenue
-            </div>
-            <svg
-              height="35px"
-              viewBox="0 0 512 512"
-              width="35px"
-              xmlSpace="preserve"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="white"
-            >
-              <path d="M256,73.089c-100.864,0-182.911,82.058-182.911,182.917S155.136,438.911,256,438.911  c100.859,0,182.911-82.046,182.911-182.905S356.86,73.089,256,73.089z M256,410.059c-84.951,0-154.06-69.108-154.06-154.054  c0-84.956,69.109-154.065,154.06-154.065c84.951,0,154.06,69.109,154.06,154.065C410.06,340.951,340.951,410.059,256,410.059z" />
-              <path d="M227.076,220.157c0-11.572,16.925-13.548,31.606-13.548c13.837,0,32.744,6.485,48.553,14.681l3.098-31.895  c-7.906-4.52-26.247-9.884-44.877-11.005l4.515-32.461H239.77l4.521,32.461c-38.947,3.664-51.651,26.242-51.651,45.154  c0,47.697,88.898,37.547,88.898,66.888c0,11.017-10.434,14.959-28.785,14.959c-24.832,0-43.467-8.74-53.056-17.779l-4.803,35.848  c9.04,5.364,27.375,10.161,49.397,11.294l-4.521,31.329h30.201l-4.515-31.617c45.722-3.954,53.906-28.23,53.906-44.311  C319.363,233.428,227.076,247.532,227.076,220.157z" />
-            </svg>
-          </span>
         </div>
         {selected.location && (
           <form
@@ -182,27 +143,6 @@ function Page() {
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 value={location}
                 onChange={handleLocation}
-              />
-            </div>
-          </form>
-        )}
-        {selected.revenue && (
-          <form
-            className="flex flex-col gap-3 text-start px-6 py-2"
-            onSubmit={handleRevenueSubmit}
-          >
-            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
-            <label>Display your revenue goals</label>
-            <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
-              <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
-                <span className> 💵 </span>
-              </div>
-              <input
-                placeholder="Location"
-                type="text"
-                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={revenue}
-                onChange={handleRevenue}
               />
             </div>
           </form>

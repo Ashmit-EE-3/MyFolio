@@ -30,4 +30,13 @@ const oAuth = async (req, res, next) => {
     }
 }
 
-module.exports = {oAuth} 
+const logout = async (req,res,next) => {
+    try{
+        res.clearCookie('access_token') ;
+        res.status(200).json({success: true, msg: "User has successfully been signed out!"})
+    }
+    catch(error){
+        next(error)
+    }
+}
+module.exports = {oAuth, logout} 

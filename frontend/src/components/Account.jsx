@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUsername } from "../features/user/userSlice";
+import { addUsername, logOutUser } from "../features/user/userSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
@@ -11,6 +12,27 @@ function Account() {
   function handleChange(e) {
     setUsername(e.target.value);
   }
+
+  const handleLogOutClick = async(e) => {
+    try{
+      const res = await fetch('/api/v1/auth/logout',{
+        method: 'GET',
+      })
+
+      const data = res.json() ;
+      if (data.success === true){
+        console.log('Done!!') ; 
+        dispatch(logOutUser()) ; 
+        return ; 
+      }
+      else {
+        console.log("Something went wrong!")
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   function changeUsername(e) {
     e.preventDefault();
     dispatch(addUsername(user));
@@ -86,7 +108,7 @@ function Account() {
       </div>
       <div className="border-b-2 border-indie-400"></div>
       <div className="flex justify-end gap-4">
-        <button className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>
+        <button onClick={handleLogOutClick} className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>
         <button className="p-3 rounded-xl hover:bg-indie-400 cursor-pointer transition-colors duration-200">LOGOUT</button>
       </div>
 

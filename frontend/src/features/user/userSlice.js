@@ -1,35 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState={
-    displayName:"",
-    avatar:"https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
-    email:"",
-    username:"",
-    submit:false,
-    location:"",
-    revenue:0
+const initialState = {
+    currentUser: {
+        displayName: "",
+        avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
+        email: "",
+    },
+    username: "",
+    submit: false,
+    location: "",
 }
 const userSlice = createSlice({
-    name:'user',
+    name: 'user',
     initialState,
-    reducers:{
-        addLogInCredentials(state,action){
-            state.displayName=action.payload.displayName,
-            state.avatar=action.payload.photoURL,
-            state.email=action.payload.email
+    reducers: {
+        addLogInCredentials(state, action) {
+            state.currentUser = {
+                displayName: action.payload.displayName || "",
+                avatar : action.payload.photoURL || "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
+                email : action.payload.email || ""
+            }
         },
-        addUsername(state,action){
-            state.username=action.payload,
-            state.submit=true
+        logOutUser(state) {
+            state.currentUser = {
+                displayName: "",
+                avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
+                email : ""
+            }
         },
-        addLocation(state,action){
-            state.location=action.payload
+        addUsername(state, action) {
+            state.username = action.payload,
+                state.submit = true
         },
-        addRevenue(state,action)
-        {
-            state.revenue=action.payload
-        }
+        addLocation(state, action) {
+            state.location = action.payload
+        },
     }
 })
-export const {addUsername,addLogInCredentials,addLocation,addRevenue} = userSlice.actions
+export const { addUsername, addLogInCredentials, logOutUser, addLocation} = userSlice.actions
 export default userSlice.reducer;
