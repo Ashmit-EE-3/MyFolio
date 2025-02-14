@@ -1,39 +1,38 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addStartuplink } from "../features/socials/socialSlice";
-import Confetti from "react-confetti"
+import { addProjectlink } from "../features/socials/socialSlice";
+import Confetti from "react-confetti";
 
-function Startup() {
-  const [addStartup, setAddstartup] = useState(false);
+function Project() {
+  const [addProject, setAddProject] = useState(false);
   const [url, setUrl] = useState("");
-  const [confetti,setConfetti] = useState(false)
+  const [confetti, setConfetti] = useState(false);
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-  function handleStartupSubmit(e) {
+  function handleProjectSubmit(e) {
     e.preventDefault();
-    dispatch(addStartuplink(url));
-    setAddstartup(false);
+    dispatch(addProjectlink(url));
+    setAddProject(false);
   }
 
-  function handleStartup(e) {
+  function handleProject(e) {
     setUrl(e.target.value);
   }
 
-  async function handleConfetti()
-  {
+  async function handleConfetti() {
     setConfetti(true);
-    await new Promise((resolve)=>setTimeout(resolve,3500))
-    setConfetti(false)
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+    setConfetti(false);
   }
 
   return (
     <>
-      {addStartup ? (
+      {addProject ? (
         <div className="bg-indie-700 p-4 w-[50vw] rounded-2xl">
           <form
             className="w-full flex flex-col gap-3 h-32 justify-center"
-            onSubmit={handleStartupSubmit}
+            onSubmit={handleProjectSubmit}
           >
             <div className="flex gap-4">
               <input
@@ -41,12 +40,12 @@ function Startup() {
                 type="url"
                 className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 required
-                onChange={handleStartup}
+                onChange={handleProject}
                 placeholder="https://"
               />
               <span
                 className="cursor-pointer rounded-full hover:bg-indie-400 p-2"
-                onClick={() => setAddstartup(false)}
+                onClick={() => setAddProject(false)}
               >
                 <svg
                   height="30px"
@@ -67,35 +66,36 @@ function Startup() {
               </span>
             </div>
             <button
-              className="bg-veronica-700 text-indie-600 p-3 rounded-lg m-auto w-[48vw] tracking-wide font-semibold cursor-pointer
+              className="bg-veronica-700 text-indie-600 p-3 rounded-lg mx-auto w-[48vw] tracking-wide font-semibold cursor-pointer
         hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group"
-        onClick={async (e) => {
-          e.preventDefault();
-          await handleConfetti();
-          handleStartupSubmit(e)
-        }}>
+              onClick={async (e) => {
+                e.preventDefault();
+                await handleConfetti();
+                handleProjectSubmit(e);
+              }}
+            >
               <span className="mr-2 transition-transform duration-500 delay-200 group-hover:rotate-90 inline-block">
                 +
               </span>
-              ADD STARTUP
+              ADD PROJECT
             </button>
           </form>
-          {confetti&&<Confetti key={confetti}/>}
+          {confetti && <Confetti key={confetti} />}
         </div>
       ) : (
         <button
           className="bg-veronica-700 text-indie-600 p-3 rounded-lg m-auto w-[48vw] tracking-wide font-semibold cursor-pointer
         hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group"
-          onClick={() => setAddstartup(true)}
+          onClick={() => setAddProject(true)}
         >
           <span className="mr-2 transition-transform duration-500 delay-200 group-hover:rotate-90 inline-block">
             +
           </span>
-          ADD STARTUP
+          ADD PROJECT
         </button>
       )}
-      {/** Add startup details component here */}
+      {/** Add Project details component here */}
     </>
   );
 }
-export default Startup;
+export default Project;

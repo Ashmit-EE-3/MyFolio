@@ -7,8 +7,8 @@ const socialSlice = createSlice({
     name:'socials',
     initialState,
     reducers:{
-        addStartuplink(state,action){
-            state.startup=action.payload
+        addProjectlink(state,action){
+            state.project=action.payload
         },
         addSocial(state,action){
             const {platform,link}=action.payload
@@ -17,4 +17,4 @@ const socialSlice = createSlice({
     }
 })
 export default socialSlice.reducer;
-export const {addStartuplink,addSocial} = socialSlice.actions;
+export const {addProjectlink,addSocial} = socialSlice.actions;

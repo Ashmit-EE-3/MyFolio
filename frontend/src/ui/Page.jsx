@@ -3,9 +3,16 @@ import AdminIcons from "../components/AdminIcons";
 import { useState } from "react";
 import {
   addLocation,
+  addPdf,
+  addSkills,
   addUsername,
 } from "../features/user/userSlice";
-import Startup from "../components/Startup";
+import Project from "../components/Project";
+import { CiLocationOn } from "react-icons/ci";
+import UserDetails from "../components/UserDetails";
+import { GiSkills } from "react-icons/gi";
+import { PiReadCvLogo } from "react-icons/pi";
+import { IoCloudUploadOutline } from "react-icons/io5";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
@@ -15,8 +22,15 @@ function Page() {
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
-  const [location, setLocation] = useState("");
-  const [selected, setSelected] = useState({ location: false });
+  const [Location, setLocation] = useState("");
+  const [skill, setSkill] = useState("");
+  const [selected, setSelected] = useState({
+    Location: false,
+    Skills: false,
+    Resume: false,
+  });
+  const [, setPdfFile] = useState(null);
+  const [pdfName, setPdfName] = useState("");
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -33,10 +47,38 @@ function Page() {
 
   function handleLocationSubmit(e) {
     e.preventDefault();
-    dispatch(addLocation(location));
-    setSelected((prev) => ({ ...prev, location: !prev.location }));
+    dispatch(addLocation(Location));
+    setSelected((prev) => ({ ...prev, Location: !prev.Location }));
   }
 
+  function handleSkills(e) {
+    setSkill(e.target.value);
+  }
+
+  function handleSkillSubmit(e) {
+    e.preventDefault();
+    dispatch(addSkills(skill));
+    setSkill("");
+  }
+
+  function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPdfFile(file);
+        setPdfName(file.name);
+        dispatch(addPdf({
+          file: reader.result,
+          name: file.name
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please upload a PDF file");
+    }
+  }
+  
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
       {!submit && (
@@ -55,7 +97,7 @@ function Page() {
             />
             <button
               className="bg-veronica-700 text-indie-600 p-2 rounded-lg h-12 tracking-wide font-semibold hover:bg-veronica-800
-            transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2"
+            transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer"
             >
               CREATE USERNAME
             </button>
@@ -99,34 +141,27 @@ function Page() {
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
         </form>
-        <div className="flex gap-2 items-center mt-1">
-          <span
-            className={`p-2 hover:bg-indie-400 rounded-full ml-2 relative group cursor-pointer ${selected.location ? "bg-indie-400" : ""}`}
-            onClick={() =>
-              setSelected(() => ({
-                location: true,
-              }))
-            }
-          >
-            <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-              Location
-            </div>
-            <svg
-              viewBox="0 0 512 512"
-              width="31px"
-              height="31px"
-              fill="white"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title />
-              <g data-name="1" id="_1">
-                <path d="M257,450.17a15,15,0,0,1-7.32-1.91A282.08,282.08,0,0,1,105,201.8q0-3.08.06-6.14c1-45.48,17.93-83.78,49-110.75C181.54,61.11,218.09,48,257,48s75.45,13.11,102.9,36.91c31.1,27,48.06,65.27,49,110.75h0c0,2,.07,4.09.07,6.14a281.8,281.8,0,0,1-40,144.87A283.7,283.7,0,0,1,264.32,448.26,15,15,0,0,1,257,450.17ZM257,78c-31.69,0-61.26,10.5-83.25,29.58-24.53,21.26-37.91,51.94-38.69,88.72,0,1.82-.06,3.66-.06,5.5a252.06,252.06,0,0,0,122,216,253.66,253.66,0,0,0,86.28-86.58A251.83,251.83,0,0,0,379,201.8c0-1.84,0-3.68-.06-5.5-.79-36.78-14.17-67.46-38.69-88.72C318.25,88.5,288.69,78,257,78Z" />
-                <path d="M257.39,296.6a94.32,94.32,0,1,1,94.32-94.32A94.42,94.42,0,0,1,257.39,296.6Zm0-158.63a64.32,64.32,0,1,0,64.32,64.31A64.39,64.39,0,0,0,257.39,138Z" />
-              </g>
-            </svg>
-          </span>
+        <div className="flex gap-2 items-center mt-2 mb-2">
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={CiLocationOn}
+            text="Location"
+          />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={GiSkills}
+            text="Skills"
+          />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={PiReadCvLogo}
+            text="Resume"
+          />
         </div>
-        {selected.location && (
+        {selected.Location && (
           <form
             className="flex flex-col gap-3 text-start px-6 py-2"
             onSubmit={handleLocationSubmit}
@@ -141,15 +176,59 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={location}
+                value={Location}
                 onChange={handleLocation}
               />
             </div>
           </form>
         )}
+        {selected.Skills && (
+          <form
+            className="flex flex-col gap-3 text-start px-6 py-2"
+            onSubmit={handleSkillSubmit}
+          >
+            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
+            <label>Where are your Skills</label>
+            <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
+              <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                <span className> 🧠 </span>
+              </div>
+              <input
+                placeholder="Add Skills"
+                type="text"
+                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+                value={skill}
+                onChange={handleSkills}
+              />
+            </div>
+          </form>
+        )}
+        {selected.Resume && (
+          <div className="px-6 py-2">
+            <input 
+              type="file" 
+              accept=".pdf"
+              onChange={handleFileUpload}
+              className="hidden"
+              id="pdf-upload"
+            />
+            <div className="flex flex-col gap-2">
+              <button 
+                onClick={() => document.getElementById('pdf-upload').click()}
+                className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+              >
+                <span><IoCloudUploadOutline style={{ color: '#22222A' }} size={28}/></span>
+                {pdfName || "UPLOAD CV"}
+              </button>
+              {pdfName && (
+                <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
-      <h2>Your failures, successes and everything in between!</h2>
-      <Startup/>
+      <h1 className="text-xl">Your failures, successes and everything in between!</h1>
+      <Project />
       <AdminIcons />
     </div>
   );

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, logOutUser } from "../features/user/userSlice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
