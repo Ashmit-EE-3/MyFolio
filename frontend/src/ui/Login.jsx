@@ -31,19 +31,6 @@ function Login() {
                 console.log(error);
             });
     }
-    const handleGithubClick = async () => {
-        try {
-            const provider = new GithubAuthProvider();
-            const auth = getAuth(app);
-
-            const result = await signInWithPopup(auth, provider);
-            dispatch(addLogInCredentials(result.user));
-            console.log(result);
-            navigate('/admin');
-        } catch (error) {
-            console.log(error)
-        }
-    };
 
     return (
         <div className="h-screen flex items-center justify-center">
