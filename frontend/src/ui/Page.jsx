@@ -115,11 +115,11 @@ function Page() {
         </form>
         <div className="flex gap-2 items-center mt-1">
           <span
-            className="p-2 hover:bg-indie-400 rounded-full ml-2 relative group cursor-pointer"
+            className={`p-2 hover:bg-indie-400 rounded-full ml-2 relative group cursor-pointer ${selected.location ? "bg-indie-400" : ""}`}
             onClick={() =>
-              setSelected((prev) => ({
+              setSelected(() => ({
                 revenue: false,
-                location: !prev.location,
+                location: true,
               }))
             }
           >
@@ -141,11 +141,11 @@ function Page() {
             </svg>
           </span>
           <span
-            className="p-2 hover:bg-indie-400 rounded-full relative group cursor-pointer"
+            className={`p-2 hover:bg-indie-400 rounded-full relative group cursor-pointer ${selected.revenue ? "bg-indie-400" : ""}` }
             onClick={() =>
-              setSelected((prev) => ({
+              setSelected(() => ({
                 location: false,
-                revenue: !prev.revenue,
+                revenue: true,
               }))
             }
           >
