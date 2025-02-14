@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   addLocation,
   addPdf,
-  addSkills,
+  addLanguages,
   addUsername,
 } from "../features/user/userSlice";
 import Project from "../components/Project";
@@ -13,6 +13,8 @@ import UserDetails from "../components/UserDetails";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { IoLanguageSharp } from "react-icons/io5";
+import Techstack from "../components/Techstack";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
@@ -23,11 +25,12 @@ function Page() {
 
   const [username, setUsername] = useState("");
   const [Location, setLocation] = useState("");
-  const [skill, setSkill] = useState("");
+  const [language, setLanguage] = useState("");
   const [selected, setSelected] = useState({
     Location: false,
-    Skills: false,
+    Languages: false,
     Resume: false,
+    Skills:false
   });
   const [, setPdfFile] = useState(null);
   const [pdfName, setPdfName] = useState("");
@@ -51,14 +54,14 @@ function Page() {
     setSelected((prev) => ({ ...prev, Location: !prev.Location }));
   }
 
-  function handleSkills(e) {
-    setSkill(e.target.value);
+  function handleLanguage(e) {
+    setLanguage(e.target.value);
   }
 
-  function handleSkillSubmit(e) {
+  function handleLanguageSubmit(e) {
     e.preventDefault();
-    dispatch(addSkills(skill));
-    setSkill("");
+    dispatch(addLanguages(language));
+    setLanguage("");
   }
 
   function handleFileUpload(e) {
@@ -151,6 +154,12 @@ function Page() {
           <UserDetails
             selected={selected}
             setSelected={setSelected}
+            Icon={IoLanguageSharp}
+            text="Languages"
+          />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
             Icon={GiSkills}
             text="Skills"
           />
@@ -167,7 +176,7 @@ function Page() {
             onSubmit={handleLocationSubmit}
           >
             <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
-            <label>Where are you based</label>
+            <label>Where are you based?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
                 <span className> 🌴 </span>
@@ -182,23 +191,23 @@ function Page() {
             </div>
           </form>
         )}
-        {selected.Skills && (
+        {selected.Languages && (
           <form
             className="flex flex-col gap-3 text-start px-6 py-2"
-            onSubmit={handleSkillSubmit}
+            onSubmit={handleLanguageSubmit}
           >
             <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
-            <label>Where are your Skills</label>
+            <label>What Languages do you know?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
                 <span className> 🧠 </span>
               </div>
               <input
-                placeholder="Add Skills"
+                placeholder="Add Language"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={skill}
-                onChange={handleSkills}
+                value={language}
+                onChange={handleLanguage}
               />
             </div>
           </form>
@@ -225,6 +234,9 @@ function Page() {
               )}
             </div>
           </div>
+        )}
+        {selected.Skills && (
+          <Techstack/>
         )}
       </div>
       <h1 className="text-xl">Your failures, successes and everything in between!</h1>

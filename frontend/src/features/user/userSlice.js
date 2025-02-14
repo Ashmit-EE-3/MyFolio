@@ -9,7 +9,8 @@ const initialState = {
     username: "",
     submit: false,
     location: "",
-    skills: [],
+    languages: [],
+    skills:[],
     pdfFile:null,
     pdfName:""
 }
@@ -38,15 +39,18 @@ const userSlice = createSlice({
         addLocation(state, action) {
             state.location = action.payload
         },
-        addSkills(state, action) {
-            if(!state.skills.includes(action.payload))
-            state.skills.push(action.payload);
+        addLanguages(state, action) {
+            if(!state.languages.includes(action.payload))
+            state.languages.push(action.payload);
         },
         addPdf(state,action){
             state.pdfFile=action.payload.file
             state.pdfName=action.payload.name
+        },
+        addSkills(state,action){
+            state.skills.push(action.payload)
         }
     }
 })
-export const { addUsername, addLogInCredentials, logOutUser, addLocation, addSkills,addPdf} = userSlice.actions
+export const { addUsername, addLogInCredentials, logOutUser, addLocation, addLanguages,addPdf,addSkills} = userSlice.actions
 export default userSlice.reducer;
