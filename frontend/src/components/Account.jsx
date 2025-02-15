@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
@@ -20,13 +21,42 @@ function Account() {
 
       const data = await res.json();
       if (data.success === true) {
+        toast.success("Logged out successfully!", {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px"
+          }
+        })
         dispatch(logOutUser());
         return;
       }
       else {
-        console.log("Something went wrong!")
+        toast.error("Something went wrong!", {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px"
+          }
+        })
       }
     } catch (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px"
+        }
+      })
       console.log(error)
     }
   }
@@ -39,13 +69,42 @@ function Account() {
 
       const data = await res.json();
       if (data.success === true) {
+        toast.success("User deleted successfully!", {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px"
+          }
+        })
         dispatch(deleteUser());
         return;
       }
       else {
-        console.log("Something went wrong!")
+        toast.error("Something went wrong!", {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px"
+          }
+        })
       }
     } catch (error) {
+      toast.error(error, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px"
+        }
+      })
       console.log(error)
     }
   }
@@ -82,8 +141,8 @@ function Account() {
             />
             <button
               className={`p-3 rounded-xl bg-indie-400 ${user !== ""
-                  ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
-                  : ""
+                ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
+                : ""
                 }`}
               disabled={user === ""}
             >
@@ -126,6 +185,7 @@ function Account() {
       <div className="flex justify-end gap-4">
         <button onClick={handleDeleteClick} className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>
         <button onClick={handleLogOutClick} className="p-3 rounded-xl hover:bg-indie-400 cursor-pointer transition-colors duration-200">LOGOUT</button>
+        <ToastContainer limit={2} hideProgressBar />
       </div>
 
     </div>
