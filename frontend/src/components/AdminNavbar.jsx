@@ -4,7 +4,8 @@ function AdminNavbar() {
   return (
     <div className="flex justify-between bg-indie-700 p-4 font-poppins text-[18px] w-[95vw] m-auto rounded-xl mt-6">
       <ul className="flex gap-10 text-indie-100 font-semibold">
-        <NavLink to="page" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <NavLink to="page" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
           <span>
             <svg
               className="fill-white"
@@ -25,7 +26,8 @@ function AdminNavbar() {
           </span>
           PAGE
         </NavLink>
-        <NavLink to="styles" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <NavLink to="styles" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
           <span>
             <svg
               id="Capa_1"
@@ -50,7 +52,8 @@ function AdminNavbar() {
           </span>
           STYLE
         </NavLink>
-        <NavLink to="stats" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <NavLink to="stats" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
           <span>
             <svg
               width="15px"
@@ -68,7 +71,8 @@ function AdminNavbar() {
           </span>
           STATS
         </NavLink>
-        <NavLink to="settings" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200">
+        <NavLink to="settings" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
           <span>
             <svg
               width="15px"

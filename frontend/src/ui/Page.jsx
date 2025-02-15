@@ -15,6 +15,8 @@ import { PiReadCvLogo } from "react-icons/pi";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoLanguageSharp } from "react-icons/io5";
 import Techstack from "../components/Techstack";
+import ImageUpload from "../components/ImageUpload";
+import { PiCertificateFill } from "react-icons/pi";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
@@ -30,7 +32,8 @@ function Page() {
     Location: false,
     Languages: false,
     Resume: false,
-    Skills:false
+    Skills:false,
+    certificate:false,
   });
   const [, setPdfFile] = useState(null);
   const [pdfName, setPdfName] = useState("");
@@ -134,14 +137,14 @@ function Page() {
             type="text"
             placeholder="Your name"
             defaultValue={name}
-            className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
+            className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
         </form>
         <form className="px-6">
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
+            className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
         </form>
         <div className="flex gap-2 items-center mt-2 mb-2">
@@ -168,6 +171,12 @@ function Page() {
             setSelected={setSelected}
             Icon={PiReadCvLogo}
             text="Resume"
+          />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={PiCertificateFill}
+            text="certificate"
           />
         </div>
         {selected.Location && (
@@ -238,6 +247,39 @@ function Page() {
         {selected.Skills && (
           <Techstack/>
         )}
+        {selected.certificate && (
+        <div className="flex flex-col gap-1 px-4 border-indie-400">
+          <form className="flex gap-2 border-indie-400">
+            <input
+              type="text"
+              placeholder="Certification Name"
+              className="w-full border-2 border-indie-500 p-2 rounded-lg
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-2"
+            />
+            <button
+              className="bg-veronica-700 px-4 mt-2 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+        focus:ring focus:ring-offset-1 focus:ring-indie-400"
+            >
+              +
+            </button>
+          </form>
+          <form className="flex gap-2 border-indie-400">
+            <input
+              type="url"
+              placeholder="Certification Link"
+              className="w-full border-2 border-indie-500 p-2 rounded-lg
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-4"
+            />
+            <button
+              className="bg-veronica-700 px-4 mt-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+        focus:ring focus:ring-offset-1 focus:ring-indie-400"
+            >
+              +
+            </button>
+          </form>
+          <ImageUpload />
+        </div>
+      )}
       </div>
       <h1 className="text-xl">Your failures, successes and everything in between!</h1>
       <Project />
