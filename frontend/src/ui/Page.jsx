@@ -32,8 +32,8 @@ function Page() {
     Location: false,
     Languages: false,
     Resume: false,
-    Skills:false,
-    certificate:false,
+    Skills: false,
+    certificate: false,
   });
   const [, setPdfFile] = useState(null);
   const [pdfName, setPdfName] = useState("");
@@ -74,17 +74,19 @@ function Page() {
       reader.onload = () => {
         setPdfFile(file);
         setPdfName(file.name);
-        dispatch(addPdf({
-          file: reader.result,
-          name: file.name
-        }));
+        dispatch(
+          addPdf({
+            file: reader.result,
+            name: file.name,
+          })
+        );
       };
       reader.readAsDataURL(file);
     } else {
       alert("Please upload a PDF file");
     }
   }
-  
+
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
       {!submit && (
@@ -147,7 +149,7 @@ function Page() {
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
         </form>
-        <div className="flex gap-2 items-center mt-2 mb-2">
+        <div className="flex gap-2 items-center m-2">
           <UserDetails
             selected={selected}
             setSelected={setSelected}
@@ -184,7 +186,7 @@ function Page() {
             className="flex flex-col gap-3 text-start px-6 py-2"
             onSubmit={handleLocationSubmit}
           >
-            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
+            <div className="border-t-2 border-indie-300/10"></div>
             <label>Where are you based?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
@@ -205,7 +207,7 @@ function Page() {
             className="flex flex-col gap-3 text-start px-6 py-2"
             onSubmit={handleLanguageSubmit}
           >
-            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
+            <div className="border-t-2 border-indie-300/10"></div>
             <label>What Languages do you know?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
@@ -223,65 +225,72 @@ function Page() {
         )}
         {selected.Resume && (
           <div className="px-6 py-2">
-            <input 
-              type="file" 
+            <input
+              type="file"
               accept=".pdf"
               onChange={handleFileUpload}
               className="hidden"
               id="pdf-upload"
             />
             <div className="flex flex-col gap-2">
-              <button 
-                onClick={() => document.getElementById('pdf-upload').click()}
+              <button
+                onClick={() => document.getElementById("pdf-upload").click()}
                 className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
               >
-                <span><IoCloudUploadOutline style={{ color: '#22222A' }} size={28}/></span>
+                <span>
+                  <IoCloudUploadOutline
+                    style={{ color: "#22222A" }}
+                    size={28}
+                  />
+                </span>
                 {pdfName || "UPLOAD CV"}
               </button>
               {pdfName && (
-                <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
+                <p className="text-sm text-indie-300">
+                  Selected file: {pdfName}
+                </p>
               )}
             </div>
           </div>
         )}
-        {selected.Skills && (
-          <Techstack/>
-        )}
+        {selected.Skills && <Techstack />}
         {selected.certificate && (
-        <div className="flex flex-col gap-1 px-4 border-indie-400">
-          <form className="flex gap-2 border-indie-400">
-            <input
-              type="text"
-              placeholder="Certification Name"
-              className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-2"
-            />
-            <button
-              className="bg-veronica-700 px-4 mt-2 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+          <div className="flex flex-col gap-3 px-4 border-indie-400">
+            <form className="flex gap-2 mx-2 border-indie-400">
+              <input
+                type="text"
+                placeholder="Certification Name"
+                className="w-full border-2 border-indie-500 p-2 rounded-lg
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              />
+              <button
+                className="bg-veronica-700 px-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
         focus:ring focus:ring-offset-1 focus:ring-indie-400"
-            >
-              +
-            </button>
-          </form>
-          <form className="flex gap-2 border-indie-400">
-            <input
-              type="url"
-              placeholder="Certification Link"
-              className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-4"
-            />
-            <button
-              className="bg-veronica-700 px-4 mt-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+              >
+                +
+              </button>
+            </form>
+            <form className="flex gap-2 border-indie-400 mx-2">
+              <input
+                type="url"
+                placeholder="Certification Link"
+                className="w-full border-2 border-indie-500 p-2 rounded-lg
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              />
+              <button
+                className="bg-veronica-700 px-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
         focus:ring focus:ring-offset-1 focus:ring-indie-400"
-            >
-              +
-            </button>
-          </form>
-          <ImageUpload />
-        </div>
-      )}
+              >
+                +
+              </button>
+            </form>
+            <ImageUpload />
+          </div>
+        )}
       </div>
-      <h1 className="text-xl">Your failures, successes and everything in between!</h1>
+      <h1 className="text-xl">
+        Your failures, successes and everything in between!
+      </h1>
       <Project />
       <AdminIcons />
     </div>
