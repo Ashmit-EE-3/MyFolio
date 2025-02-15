@@ -256,30 +256,40 @@ function Page() {
         {selected.Skills && <Techstack />}
         {selected.certificate && (
           <div className="flex flex-col gap-3 px-4 border-indie-400">
-            <form className="flex gap-2 mx-2 border-indie-400">
-              <input
-                type="text"
-                placeholder="Certification Name"
-                className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              />
+            <form className="flex mx-2 border-indie-400 gap-2">
+              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                  <span className> 🏆 </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Certification Name"
+                  className="w-full p-2
+                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                />
+              </div>
               <button
-                className="bg-veronica-700 px-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-        focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+                focus:ring focus:ring-offset-1 focus:ring-indie-400"
               >
                 +
               </button>
             </form>
-            <form className="flex gap-2 border-indie-400 mx-2">
-              <input
-                type="url"
-                placeholder="Certification Link"
-                className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              />
+            <form className="flex mx-2 border-indie-400 gap-2">
+              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                  <span className> 🔗  </span>
+                </div>
+                <input
+                  type="url"
+                  placeholder="Certification Link"
+                  className="w-full p-2
+                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                />
+              </div>
               <button
-                className="bg-veronica-700 px-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-        focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+                focus:ring focus:ring-offset-1 focus:ring-indie-400"
               >
                 +
               </button>

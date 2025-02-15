@@ -112,9 +112,9 @@ function Techstack() {
   }
 
   return (
-    <div className="flex flex-col justify-start gap-4 mb-4 ml-4">
-      <label className="text-start ml-2">Tech Stack</label>
-      <div className="relative flex w-full gap-2 justify-center items-center">
+    <div className="flex flex-col justify-start">
+      <label className="text-start mx-4 border-t-1 border-indie-400 py-4">Tech Stack</label>
+      <div className="relative flex gap-2 justify-center items-center p-2">
         <div
           onClick={() => setIsOpen(!isOpen)}
           className="px-4 py-2.5 rounded-lg border-2 border-indie-600 text-start
@@ -129,7 +129,7 @@ function Techstack() {
               {techOptions.find(tech => tech.value === selectedSkill)?.label}
             </div>
           ) : (
-            "Select your Tech Stack"
+            "Select your Tech Stack 👨‍💻 "
           )}
         </div>
         
@@ -150,8 +150,8 @@ function Techstack() {
           </div>
         )}
         <button
-        className="bg-veronica-700 text-indie-500 px-4 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-700
-        hover:text-indie-100 focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12 mr-2"
+        className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-700
+        hover:text-indie-100 focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
         onClick={handleAdd}
       >
         +

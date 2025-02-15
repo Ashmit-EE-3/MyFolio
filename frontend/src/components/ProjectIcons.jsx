@@ -94,60 +94,66 @@ function ProjectIcons() {
       </div>
       {selected.link && (
         <form className="flex gap-2 border-t-1 border-indie-400">
+          <div className="my-4 flex gap-2 w-full">
           <input
             type="url"
             placeholder="Enter your Project Link 🔥 "
             className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-4"
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
           />
           <button
-            className="bg-veronica-700 px-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-        focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-4"
-          >
-            +
-          </button>
-        </form>
-      )}
-      {selected.repo && (
-        <form className="flex gap-2 border-t-1 border-indie-400">
-          <input
-            type="url"
-            placeholder="Enter your Github Repository Link 🔑 "
-            className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400 mt-4"
-          />
-          <button
-            className="bg-veronica-700 px-4 mt-4 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+            className="bg-veronica-700 h-12 w-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
         focus:ring focus:ring-offset-1 focus:ring-indie-400"
           >
             +
           </button>
+          </div>
+        </form>
+      )}
+      {selected.repo && (
+        <form className="flex gap-2 border-t-1 border-indie-400">
+          <div className="my-4 flex gap-2 w-full">
+          <input
+            type="url"
+            placeholder="Enter your Github Repository Link 🔑 "
+            className="w-full border-2 border-indie-500 p-2 rounded-lg
+        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+          />
+          <button
+            className="bg-veronica-700 h-12 w-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+        focus:ring focus:ring-offset-1 focus:ring-indie-400"
+          >
+            +
+          </button>
+          </div>
         </form>
       )}
       {selected.status && (
         <div className="flex flex-col gap-2 border-t-1 border-indie-400 border-b-1">
-          <label className="text-start mt-4 mb-1">Project Status</label>
-          <select
-            name="status"
-            defaultValue=""
-            className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
+          <div className="m-2 flex flex-start">
+            <label className="text-start">Project Status</label>
+          </div>
+          <div className="">
+            <select
+              name="status"
+              defaultValue=""
+              className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer
-      mb-4 text-start py-2 px-4 w-[98%]"
-          >
-            <option value="" disabled>
-              Pick One
-            </option>
-            <option value="Planning">🖖 Planning...</option>
-            <option value="InProgess">🔥 In Progess...</option>
-            <option value="Completed">✅ Completed</option>
-            <option value="Deployed">🚀 Deployed</option>
-          </select>
+      text-start w-[98%] p-2 mb-3"
+            >
+              <option value="" disabled>
+                Pick One
+              </option>
+              <option value="Planning">🖖 Planning...</option>
+              <option value="InProgess">🔥 In Progess...</option>
+              <option value="Completed">✅ Completed</option>
+              <option value="Deployed">🚀 Deployed</option>
+            </select>
+          </div>
         </div>
       )}
-      {selected.tools && (
-        <Techstack/>
-      )}
-      
+      {selected.tools && <Techstack />}
+
       {selected.image && <ImageUpload />}
     </>
   );
