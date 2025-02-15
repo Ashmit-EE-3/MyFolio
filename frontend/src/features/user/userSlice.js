@@ -12,13 +12,15 @@ const initialState = {
     languages: [],
     skills:[],
     pdfFile:null,
-    pdfName:""
+    pdfName:"",
+    isAuthenticated: false
 }
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         addLogInCredentials(state, action) {
+            state.isAuthenticated = true
             state.currentUser = {
                 displayName: action.payload.displayName || "",
                 avatar : action.payload.photoURL || "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
@@ -26,6 +28,15 @@ const userSlice = createSlice({
             }
         },
         logOutUser(state) {
+            state.isAuthenticated = false ; 
+            state.currentUser = {
+                displayName: "",
+                avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
+                email : ""
+            }
+        },
+        deleteUser(state){
+            state.isAuthenticated = false 
             state.currentUser = {
                 displayName: "",
                 avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
@@ -52,5 +63,5 @@ const userSlice = createSlice({
         }
     }
 })
-export const { addUsername, addLogInCredentials, logOutUser, addLocation, addLanguages,addPdf,addSkills} = userSlice.actions
+export const { addUsername, addLogInCredentials, logOutUser, addLocation, addLanguages,addPdf,addSkills,deleteUser} = userSlice.actions
 export default userSlice.reducer;
