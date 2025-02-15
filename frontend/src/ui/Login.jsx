@@ -47,7 +47,7 @@ function Login() {
                     <form onSubmit={handleClick} className="w-full text-indie-200 flex flex-col gap-2 mt-2">
                         <label htmlFor="email">Email</label>
                         <input type="email" placeholder="email@example.com" className="border-2 border-indie-200 rounded-sm p-2" onChange={handleChange} />
-                        <button className="bg-veronica-700 text-xl p-2 rounded-lg w-72 text-indie-100 h-16 mt-2 cursor-pointer">Sign in with Email</button>
+                        <button className="bg-veronica-700 text-xl p-2 rounded-lg w-full text-indie-100 h-16 mt-2 cursor-pointer">Sign in with Email</button>
                     </form>
                 </div>
             </div>
