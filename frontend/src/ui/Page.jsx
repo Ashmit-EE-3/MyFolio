@@ -22,12 +22,9 @@ import { PiCertificateFill } from "react-icons/pi";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
-  const imgURL = useSelector((state) => state.user.currentUser.avatar);
   const submit = useSelector((state) => state.user.submit);
-  const fileInput = useRef(null) ; 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
-  const [displayName, setDisplayName] = useState(name);
   const [formData, setFormData] = useState(currentUser);
   const typingTimeout = useRef(null);
   const [username, setUsername] = useState("");
@@ -56,12 +53,26 @@ function Page() {
 
     typingTimeout.current = setTimeout(() => {
       setFormData((prevData) => ({ ...prevData, displayName: newValue }));
-      handleDisplayNameSubmit({ ...formData, displayName: newValue });
+      handleUserSubmit({ ...formData, displayName: newValue });
     }, 2000)
 
   }
 
-  const handleDisplayNameSubmit = async (updatedFormData) => {
+  function handleProfileImageUpload(e) {
+    const file = e.target.files[0];
+    if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
+      console.log("Image uploaded:", file);
+    } else {
+      alert("Please upload a JPG, JPEG or PNG file");
+    }
+
+    const imageURL = URL.createObjectURL(file); // Convert file to URL
+    console.log("Image URL:", imageURL);
+    setFormData((prevData) => ({ ...prevData, photoURL: imageURL }));
+    handleUserSubmit({ ...formData, photoURL: imageURL });
+  }
+
+  const handleUserSubmit = async (updatedFormData) => {
     try {
       console.log("Form Data is : ", updatedFormData);
       const res = await fetch(`/api/v1/user/update/${currentUser._id}`, {
@@ -190,8 +201,17 @@ function Page() {
       )}
       <div className="flex flex-col w-[50vw] bg-indie-700 rounded-2xl font-poppins text-indie-100">
         <form className="flex gap-5 p-6 text-xl items-center">
-          <div className="relative h-14 w-14 group cursor-pointer">
-            <input type="file" accept="image/*" className="hidden" />
+          <div
+            onClick={() => document.getElementById('profile-upload').click()}
+            className="relative h-14 w-14 group cursor-pointer"
+          >
+            <input
+              type="file"
+              onChange={handleProfileImageUpload}
+              accept="image/jpeg, image/png, image/jpg"
+              className="hidden"
+              id="profile-upload"
+            />
             <svg
               className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +226,7 @@ function Page() {
               </g>
             </svg>
             <img
-              src={imgURL || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf4R5qPKHPNMyAqV-FjS_OTBB8pfUV29Phg&s"}
+              src={formData.photoURL}
               className="rounded-full group-hover:opacity-60"
               alt="avatar"
             />
@@ -215,7 +235,7 @@ function Page() {
             type="text"
             placeholder="Your name"
             onChange={handleDisplayNameChange}
-            defaultValue={name}
+            defaultValue={formData.displayName}
             className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
           <ToastContainer hideProgressBar limit={2} />
