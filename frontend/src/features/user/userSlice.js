@@ -9,7 +9,15 @@ const initialState = {
     skills:[],
     pdfFile:null,
     pdfName:"",
-    isAuthenticated: false
+    isAuthenticated: false,
+    project:{
+        link:[],
+        repo:[],
+        status:[],
+        images:[],
+        tools:[],
+        certifications:[]
+    }
 }
 const userSlice = createSlice({
     name: 'user',
@@ -47,8 +55,12 @@ const userSlice = createSlice({
         },
         addSkills(state,action){
             state.skills.push(action.payload)
+        },
+        addProjectDetails(state,action)
+        {
+
         }
     }
 })
-export const { addUsername, addLogInCredentials, updateUser, logOutUser, addLocation, addLanguages,addPdf,addSkills,deleteUser} = userSlice.actions
+export const { addUsername, addLogInCredentials, updateUser, logOutUser, addLocation, addLanguages,addPdf,addSkills,deleteUser,addProjectDetails} = userSlice.actions
 export default userSlice.reducer;

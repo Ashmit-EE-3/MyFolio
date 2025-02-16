@@ -17,6 +17,8 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoLanguageSharp } from "react-icons/io5";
 import Techstack from "../components/Techstack";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import ImageUpload from "../components/ImageUpload";
+import { PiCertificateFill } from "react-icons/pi";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
@@ -35,7 +37,8 @@ function Page() {
     Location: false,
     Languages: false,
     Resume: false,
-    Skills: false
+    Skills: false,
+    certificate: false,
   });
   const [, setPdfFile] = useState(null);
   const [pdfName, setPdfName] = useState("");
@@ -147,10 +150,12 @@ function Page() {
       reader.onload = () => {
         setPdfFile(file);
         setPdfName(file.name);
-        dispatch(addPdf({
-          file: reader.result,
-          name: file.name
-        }));
+        dispatch(
+          addPdf({
+            file: reader.result,
+            name: file.name,
+          })
+        );
       };
       reader.readAsDataURL(file);
     } else {
@@ -211,7 +216,7 @@ function Page() {
             placeholder="Your name"
             onChange={handleDisplayNameChange}
             defaultValue={name}
-            className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
+            className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
           <ToastContainer hideProgressBar limit={2} />
         </form>
@@ -219,10 +224,10 @@ function Page() {
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:ring focus:ring-indie-300 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
+            className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
         </form>
-        <div className="flex gap-2 items-center mt-2 mb-2">
+        <div className="flex gap-2 items-center m-2">
           <UserDetails
             selected={selected}
             setSelected={setSelected}
@@ -247,13 +252,19 @@ function Page() {
             Icon={PiReadCvLogo}
             text="Resume"
           />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={PiCertificateFill}
+            text="certificate"
+          />
         </div>
         {selected.Location && (
           <form
             className="flex flex-col gap-3 text-start px-6 py-2"
             onSubmit={handleLocationSubmit}
           >
-            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
+            <div className="border-t-2 border-indie-300/10"></div>
             <label>Where are you based?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
@@ -274,7 +285,7 @@ function Page() {
             className="flex flex-col gap-3 text-start px-6 py-2"
             onSubmit={handleLanguageSubmit}
           >
-            <div className="border-t-2 border-indie-300/10 ml-2 mr-2"></div>
+            <div className="border-t-2 border-indie-300/10"></div>
             <label>What Languages do you know?</label>
             <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
               <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
@@ -301,23 +312,73 @@ function Page() {
             />
             <div className="flex flex-col gap-2">
               <button
-                onClick={() => document.getElementById('pdf-upload').click()}
+                onClick={() => document.getElementById("pdf-upload").click()}
                 className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
               >
-                <span><IoCloudUploadOutline style={{ color: '#22222A' }} size={28} /></span>
+                <span>
+                  <IoCloudUploadOutline
+                    style={{ color: "#22222A" }}
+                    size={28}
+                  />
+                </span>
                 {pdfName || "UPLOAD CV"}
               </button>
               {pdfName && (
-                <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
+                <p className="text-sm text-indie-300">
+                  Selected file: {pdfName}
+                </p>
               )}
             </div>
           </div>
         )}
-        {selected.Skills && (
-          <Techstack />
+        {selected.Skills && <Techstack />}
+        {selected.certificate && (
+          <div className="flex flex-col gap-3 px-4 border-indie-400">
+            <form className="flex mx-2 border-indie-400 gap-2">
+              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                  <span className> 🏆 </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Certification Name"
+                  className="w-full p-2
+                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                />
+              </div>
+              <button
+                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+                focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              >
+                +
+              </button>
+            </form>
+            <form className="flex mx-2 border-indie-400 gap-2">
+              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                  <span className> 🔗  </span>
+                </div>
+                <input
+                  type="url"
+                  placeholder="Certification Link"
+                  className="w-full p-2
+                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+                />
+              </div>
+              <button
+                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
+                focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              >
+                +
+              </button>
+            </form>
+            <ImageUpload />
+          </div>
         )}
       </div>
-      <h1 className="text-xl">Your failures, successes and everything in between!</h1>
+      <h1 className="text-xl">
+        Your failures, successes and everything in between!
+      </h1>
       <Project />
       <AdminIcons />
     </div>

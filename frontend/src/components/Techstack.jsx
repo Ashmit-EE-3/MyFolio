@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addSkills } from "../features/user/userSlice";
+import StackIcon from "tech-stack-icons";
 
 const techOptions = [
   { value: "angular", label: "Angular" },
@@ -89,49 +90,74 @@ const techOptions = [
   { value: "elixir", label: "Elixir" },
   { value: "electron", label: "Electron" },
   { value: "copilotgithub", label: "GitHub Copilot" },
-  { value: "analytics", label: "Analytics" }
+  { value: "analytics", label: "Analytics" },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
-{/* <StackIcon name="vim"/> */}
+{
+  /* <StackIcon name="vim"/> */
+}
 
 function Techstack() {
   const [selectedSkill, setSelectedSkill] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  function handleChange(e) {
-    setSelectedSkill(e.target.value);
+  function handleSelect(value) {
+    setSelectedSkill(value);
+    setIsOpen(false);
   }
+
   function handleAdd() {
     dispatch(addSkills(selectedSkill));
   }
 
   return (
-    <div className="flex items-center w-full justify-center gap-4 mb-2">
-      <select
-        name="tech_stack"
-        className="p-2 text-indie-600 rounded-lg border-2 border-indie-600 bg-indie-300 text-center
-      focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer
-      "
-        value={selectedSkill}
-        onChange={handleChange}
-      >
-        <option value="" disabled>
-          Select your Skill
-        </option>
-        {techOptions.map((tech) => (
-          <option key={tech.value} value={tech.value}>
-            {tech.label}
-          </option>
-        ))}
-      </select>
-      <button
-        className="bg-indie-300 text-indie-600 p-2 w-16 rounded-lg border-2 border-indie-600 hover:cursor-pointer hover:bg-indie-400
-       hover:text-indie-200 focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent
-      "
+    <div className="flex flex-col justify-start">
+      <label className="text-start mx-4 border-t-1 border-indie-400 py-4">Tech Stack</label>
+      <div className="relative flex gap-2 justify-center items-center p-2">
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className="px-4 py-2.5 rounded-lg border-2 border-indie-600 text-start
+          focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer min-w-[200px]
+          bg-indie-700 text-indie-100 w-full h-12"
+        >
+          {selectedSkill ? (
+            <div className="flex gap-6 justify-center items-center">
+              <div className="w-8 h-8">
+                <StackIcon name={selectedSkill} />
+              </div>
+              {techOptions.find(tech => tech.value === selectedSkill)?.label}
+            </div>
+          ) : (
+            "Select your Tech Stack 👨‍💻 "
+          )}
+        </div>
+        
+        {isOpen && (
+          <div className="absolute top-full left-0 mt-1 w-full max-h-60 overflow-y-auto bg-indie-500 border-2 border-indie-600 rounded-lg">
+            {techOptions.map((tech) => (
+              <div
+                key={tech.value}
+                onClick={() => handleSelect(tech.value)}
+                className="flex items-center gap-8 w-full p-2 hover:bg-indie-400 cursor-pointer h-12"
+              >
+                <div className="w-6 h-6">
+                  <StackIcon name={tech.value} />
+                </div>
+                {tech.label}
+              </div>
+            ))}
+          </div>
+        )}
+        <button
+        className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-700
+        hover:text-indie-100 focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
         onClick={handleAdd}
       >
-        Add
+        +
       </button>
+      </div>
+      
     </div>
   );
 }
