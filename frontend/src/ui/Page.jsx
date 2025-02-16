@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import AdminIcons from "../components/AdminIcons";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   addLocation,
   addPdf,
   addLanguages,
   addUsername,
+  updateUser,
 } from "../features/user/userSlice";
 import Project from "../components/Project";
 import { CiLocationOn } from "react-icons/ci";
@@ -15,14 +16,18 @@ import { PiReadCvLogo } from "react-icons/pi";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoLanguageSharp } from "react-icons/io5";
 import Techstack from "../components/Techstack";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 function Page() {
   const name = useSelector((state) => state.user.currentUser.displayName);
   const imgURL = useSelector((state) => state.user.currentUser.avatar);
   const submit = useSelector((state) => state.user.submit);
-
+  const fileInput = useRef(null) ; 
   const dispatch = useDispatch();
-
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [displayName, setDisplayName] = useState(name);
+  const [formData, setFormData] = useState(currentUser);
+  const typingTimeout = useRef(null);
   const [username, setUsername] = useState("");
   const [Location, setLocation] = useState("");
   const [language, setLanguage] = useState("");
@@ -30,13 +35,84 @@ function Page() {
     Location: false,
     Languages: false,
     Resume: false,
-    Skills:false
+    Skills: false
   });
   const [, setPdfFile] = useState(null);
   const [pdfName, setPdfName] = useState("");
 
   function handleChange(e) {
     setUsername(e.target.value);
+  }
+
+  function handleDisplayNameChange(e) {
+    const newValue = e.target.value;
+
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
+    }
+
+    typingTimeout.current = setTimeout(() => {
+      setFormData((prevData) => ({ ...prevData, displayName: newValue }));
+      handleDisplayNameSubmit({ ...formData, displayName: newValue });
+    }, 2000)
+
+  }
+
+  const handleDisplayNameSubmit = async (updatedFormData) => {
+    try {
+      console.log("Form Data is : ", updatedFormData);
+      const res = await fetch(`/api/v1/user/update/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFormData)
+      })
+
+      console.log(res);
+      const data = await res.json();
+      if (data.success === false) {
+        toast.error(data.message, {
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins"
+          }
+        });
+        return;
+      }
+      console.log("Data is : ", data);
+      dispatch(updateUser(data));
+      toast.success("Saved!", {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+    }
+    catch (error) {
+      console.log(error)
+      toast.error(error, {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+    }
   }
 
   function handleSubmit(e) {
@@ -81,7 +157,7 @@ function Page() {
       alert("Please upload a PDF file");
     }
   }
-  
+
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
       {!submit && (
@@ -109,8 +185,8 @@ function Page() {
       )}
       <div className="flex flex-col w-[50vw] bg-indie-700 rounded-2xl font-poppins text-indie-100">
         <form className="flex gap-5 p-6 text-xl items-center">
-          <div className="relative h-14 w-14 group">
-            <input type="picture" className="hidden" />
+          <div className="relative h-14 w-14 group cursor-pointer">
+            <input type="file" accept="image/*" className="hidden" />
             <svg
               className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +201,7 @@ function Page() {
               </g>
             </svg>
             <img
-              src={imgURL}
+              src={imgURL || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf4R5qPKHPNMyAqV-FjS_OTBB8pfUV29Phg&s"}
               className="rounded-full group-hover:opacity-60"
               alt="avatar"
             />
@@ -133,9 +209,11 @@ function Page() {
           <input
             type="text"
             placeholder="Your name"
+            onChange={handleDisplayNameChange}
             defaultValue={name}
             className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
+          <ToastContainer hideProgressBar limit={2} />
         </form>
         <form className="px-6">
           <textarea
@@ -214,19 +292,19 @@ function Page() {
         )}
         {selected.Resume && (
           <div className="px-6 py-2">
-            <input 
-              type="file" 
+            <input
+              type="file"
               accept=".pdf"
               onChange={handleFileUpload}
               className="hidden"
               id="pdf-upload"
             />
             <div className="flex flex-col gap-2">
-              <button 
+              <button
                 onClick={() => document.getElementById('pdf-upload').click()}
                 className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
               >
-                <span><IoCloudUploadOutline style={{ color: '#22222A' }} size={28}/></span>
+                <span><IoCloudUploadOutline style={{ color: '#22222A' }} size={28} /></span>
                 {pdfName || "UPLOAD CV"}
               </button>
               {pdfName && (
@@ -236,7 +314,7 @@ function Page() {
           </div>
         )}
         {selected.Skills && (
-          <Techstack/>
+          <Techstack />
         )}
       </div>
       <h1 className="text-xl">Your failures, successes and everything in between!</h1>

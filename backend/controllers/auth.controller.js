@@ -16,7 +16,9 @@ const oAuth = async (req, res, next) => {
                 .json(validUser._doc)
         }
         else {
-            const newUser = await User.create({displayName, email, photoURL})
+            console.log(req.body) ; 
+            const newUser = await User.create(req.body) ; 
+            console.log(newUser) ; 
             const token = jwt.sign({id: newUser._id},process.env.JWT_SECRET) ;  
   
             res

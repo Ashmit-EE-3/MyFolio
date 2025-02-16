@@ -13,16 +13,19 @@ function OAuth({provider,Icon,name}) {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
             console.log('Result is : ',result.user.displayName,result.user.email,result.user.photoURL) ; 
+            const formData = {
+                displayName: result.user.displayName,
+                email: result.user.email,
+                photoURL: result.user.photoURL,
+            } ; 
+
+            console.log("Form Data is : ",formData) ; 
             const res = await fetch('api/v1/auth/oAuth',{
                 method : 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    displayName: result.user.displayName,
-                    email: result.user.email,
-                    photoURL: result.user.photoURL,
-                })
+                body: JSON.stringify(formData)
             })
             const data = res.json() ; 
             data
@@ -32,6 +35,7 @@ function OAuth({provider,Icon,name}) {
                 navigate('/admin') ; 
             })
             .catch((err)=>{
+                console.log('chutiya!!!')
                 console.log(err) ; 
             })
         }

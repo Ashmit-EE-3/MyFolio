@@ -1,11 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    currentUser: {
-        displayName: "",
-        avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
-        email: "",
-    },
+    currentUser: {},
     username: "",
     submit: false,
     location: "",
@@ -21,27 +17,18 @@ const userSlice = createSlice({
     reducers: {
         addLogInCredentials(state, action) {
             state.isAuthenticated = true
-            state.currentUser = {
-                displayName: action.payload.displayName || "",
-                avatar : action.payload.photoURL || "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
-                email : action.payload.email || ""
-            }
+            state.currentUser = action.payload 
         },
         logOutUser(state) {
             state.isAuthenticated = false ; 
-            state.currentUser = {
-                displayName: "",
-                avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
-                email : ""
-            }
+            state.currentUser = {}
+        },
+        updateUser(state,action){
+            state.currentUser = action.payload
         },
         deleteUser(state){
             state.isAuthenticated = false 
-            state.currentUser = {
-                displayName: "",
-                avatar: "https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/user-512.png",
-                email : ""
-            }
+            state.currentUser = {}
         },
         addUsername(state, action) {
             state.username = action.payload,
@@ -63,5 +50,5 @@ const userSlice = createSlice({
         }
     }
 })
-export const { addUsername, addLogInCredentials, logOutUser, addLocation, addLanguages,addPdf,addSkills,deleteUser} = userSlice.actions
+export const { addUsername, addLogInCredentials, updateUser, logOutUser, addLocation, addLanguages,addPdf,addSkills,deleteUser} = userSlice.actions
 export default userSlice.reducer;

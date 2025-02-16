@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import { FaFaceSmile } from "react-icons/fa6";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
   const [user, setUsername] = useState("");
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
-
+  const currentUser = useSelector((state) => state.user.currentUser) ;
   function handleChange(e) {
     setUsername(e.target.value);
   }
@@ -63,7 +64,8 @@ function Account() {
 
   const handleDeleteClick = async () => {
     try {
-      const res = await fetch('/api/v1/user/delete', {
+      console.log("Current User is : ",currentUser) ;
+      const res = await fetch(`/api/v1/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       })
 
