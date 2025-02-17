@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
 import { Slide, toast, ToastContainer } from "react-toastify";
-import { FaFaceSmile } from "react-icons/fa6";
 
 function Account() {
   const username = useSelector((state) => state.user.username);

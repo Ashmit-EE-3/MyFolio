@@ -223,7 +223,7 @@ function AdminIcons() {
       {social.length > 0 && (
         <form className="flex flex-col gap-3 text-start px-6 py-2 mb-6" onSubmit={handleSubmit}>
           <label>{social}</label>
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
             <input
               value={link}
               placeholder={`Link to your ${social} account`}
@@ -231,7 +231,7 @@ function AdminIcons() {
               className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full"
               onChange={handleLink}
             />
-            <button className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-100">
+            <button className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-700 cursor-pointer hover:bg-veronica-800">
               {" "}
               + ADD{" "}
             </button>

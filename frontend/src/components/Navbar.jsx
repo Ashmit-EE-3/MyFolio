@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-    <div className="w-[98%] mx-auto">
+    <div className="w-[90%] mx-auto">
       <div className="flex justify-between my-8 text-indie-100 font-poppins focus:outline-none focus:ring focus:ring-indie-500 focus:ring-offset-1">
         <div className="flex gap-18 text-xl mx-25">
           <Link to="/" className="cursor-pointer">

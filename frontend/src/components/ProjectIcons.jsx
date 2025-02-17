@@ -1,13 +1,15 @@
+/* eslint-disable react/prop-types */
 import { LuFlagTriangleRight } from "react-icons/lu";
 import { FaLink } from "react-icons/fa";
 import { CiImageOn } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import { RiToolsFill } from "react-icons/ri";
 import { useState } from "react";
+import { MdDelete } from "react-icons/md";
 import ImageUpload from "./ImageUpload";
-import Techstack from "./Techstack";
+import ProjectTechstack from "./ProjectTechStack";
 
-function ProjectIcons() {
+function ProjectIcons({ register, skills, setSkills }) {
   const [selected, setSelected] = useState({
     link: false,
     repo: false,
@@ -29,14 +31,14 @@ function ProjectIcons() {
   }
 
   return (
-    <>
-      <div className="flex gap-6">
+    <div className="w-full">
+      <div className="flex gap-6 mb-2">
         <span className="relative group">
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Project Link
           </div>
           <FaLink
-            size={40}
+            size={38}
             className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
               selected.link ? "bg-indie-400" : ""
             }`}
@@ -48,7 +50,7 @@ function ProjectIcons() {
             Repository Link
           </div>
           <FaGithub
-            size={40}
+            size={39}
             className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
               selected.repo ? "bg-indie-400" : ""
             }`}
@@ -91,42 +93,46 @@ function ProjectIcons() {
             onClick={() => handleSelect("tools")}
           />
         </span>
+        <span className="relative group">
+          <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+            Reset
+          </div>
+          <button
+            type="reset"
+            className="cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group
+             "
+          >
+            <span>
+              <MdDelete size={23} />
+            </span>
+          </button>
+        </span>
       </div>
       {selected.link && (
-        <form className="flex gap-2 border-t-1 border-indie-400">
+        <div className="flex gap-2 border-t-1 border-indie-400">
           <div className="my-4 flex gap-2 w-full">
-          <input
-            type="url"
-            placeholder="Enter your Project Link 🔥 "
-            className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-          />
-          <button
-            className="bg-veronica-700 h-12 w-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-        focus:ring focus:ring-offset-1 focus:ring-indie-400"
-          >
-            +
-          </button>
+            <input
+              type="url"
+              placeholder="Enter your Project Link 🔥 "
+              className="w-full border-2 border-indie-500 p-2 rounded-lg
+                focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              {...register("projectLink")}
+            />
           </div>
-        </form>
+        </div>
       )}
       {selected.repo && (
-        <form className="flex gap-2 border-t-1 border-indie-400">
+        <div className="flex gap-2 border-t-1 border-indie-400">
           <div className="my-4 flex gap-2 w-full">
-          <input
-            type="url"
-            placeholder="Enter your Github Repository Link 🔑 "
-            className="w-full border-2 border-indie-500 p-2 rounded-lg
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-          />
-          <button
-            className="bg-veronica-700 h-12 w-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-        focus:ring focus:ring-offset-1 focus:ring-indie-400"
-          >
-            +
-          </button>
+            <input
+              type="url"
+              placeholder="Enter your Github Repository Link 🔑 "
+              className="w-full border-2 border-indie-500 p-2 rounded-lg
+                focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              {...register("repoLink")}
+            />
           </div>
-        </form>
+        </div>
       )}
       {selected.status && (
         <div className="flex flex-col gap-2 border-t-1 border-indie-400 border-b-1">
@@ -140,6 +146,7 @@ function ProjectIcons() {
               className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer
       text-start w-[98%] p-2 mb-3"
+              {...register("status")}
             >
               <option value="" disabled>
                 Pick One
@@ -152,10 +159,12 @@ function ProjectIcons() {
           </div>
         </div>
       )}
-      {selected.tools && <Techstack />}
+      {selected.tools && (
+        <ProjectTechstack skills={skills} setSkills={setSkills} />
+      )}
 
-      {selected.image && <ImageUpload />}
-    </>
+      {selected.image && <ImageUpload register={register} />}
+    </div>
   );
 }
 

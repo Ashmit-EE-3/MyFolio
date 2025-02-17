@@ -1,9 +1,9 @@
 function HeroSection() {
   return (
     <>
-      <div className="flex font-poppins">
-        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] mx-auto"></div>
-        <div className="m-auto">
+      <div className="flex font-poppins gap-25 justify-center">
+        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] "></div>
+        <div className="my-auto">
           <div className="flex flex-col justify-center h-96 gap-12 w-[45rem]">
             <div className="text-indie-100 text-7xl font-extrabold font-poppins">
               Showcase and grow your startups
@@ -34,7 +34,7 @@ function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center bg-indie-400 text-indie-200 font-poppins text-center my-8 gap-16 h-96">
+      <div className="flex flex-col justify-center items-center bg-indie-400 text-indie-200 font-poppins text-center my-20 gap-16 h-96">
         <h1 className="text-6xl font-extrabold">
           Building in public is mainstream
         </h1>

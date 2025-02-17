@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import StackIcon from "tech-stack-icons";
 
@@ -91,17 +92,16 @@ const techOptions = [
   { value: "analytics", label: "Analytics" },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
-
-function Techstack() {
+function ProjectTechstack({skills,setSkills}) {
   const [selectedSkill, setSelectedSkill] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [skills, setSkills] = useState([]);
+  
 
   function handleSelect(value) {
     setSelectedSkill(value);
     setIsOpen(false);
   }
-  function handleAdd() {
+  function handleClick() {
     if (!selectedSkill) return;
     setSkills([...skills, selectedSkill]);
   }
@@ -113,7 +113,10 @@ function Techstack() {
 
   return (
     <div className="flex flex-col justify-start">
-      <label className="text-start mx-4 border-t-1 border-indie-400 py-4">Tech Stack</label>
+      <label className="text-start mx-4 border-t-1 border-indie-400 py-4">
+        Tech Stack 💻 
+      </label>
+
       <div className="relative flex gap-2 justify-center items-center p-2">
         <div
           onClick={() => setIsOpen(!isOpen)}
@@ -126,13 +129,13 @@ function Techstack() {
               <div className="w-8 h-8">
                 <StackIcon name={selectedSkill} />
               </div>
-              {techOptions.find(tech => tech.value === selectedSkill)?.label}
+              {techOptions.find((tech) => tech.value === selectedSkill)?.label}
             </div>
           ) : (
             "Select your Tech Stack 👨‍💻 "
           )}
         </div>
-        
+
         {isOpen && (
           <div className="absolute top-full left-0 mt-1 w-full max-h-60 overflow-y-auto bg-indie-500 border-2 border-indie-600 rounded-lg">
             {techOptions.map((tech) => (
@@ -150,12 +153,13 @@ function Techstack() {
           </div>
         )}
         <button
-        className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+          className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
        focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
-        onClick={handleAdd}
-      >
-        +
-      </button>
+          type="button"
+          onClick={handleClick}
+        >
+          +
+        </button>
       </div>
       {skills.length > 0 && (
         <ul className="flex gap-4 flex-wrap mx-2 my-3">
@@ -173,4 +177,4 @@ function Techstack() {
   );
 }
 
-export default Techstack;
+export default ProjectTechstack;
