@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 import tailwindcss from '@tailwindcss/vite' 
 
 export default defineConfig({
-  server:{
+  server: {
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
@@ -12,7 +12,20 @@ export default defineConfig({
     },
   },
   plugins: [
-    react(),
+    react({
+      include: "**/*.{jsx,tsx}",
+      babel: {
+        plugins: [],
+        babelrc: false,
+        configFile: false,
+      }
+    }),
     tailwindcss(),
   ],
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-hook-form']
+  }
 })
