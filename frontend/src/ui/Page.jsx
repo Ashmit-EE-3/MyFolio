@@ -392,7 +392,7 @@ function Page() {
                 +
               </button>
             </form>
-            <ImageUpload />
+            <ImageUpload/>
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
 import {toast,Slide} from "react-toastify"
-const ImageUpload = () => {
+const ProjectImage = ({ register }) => {
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
       if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
@@ -36,6 +36,9 @@ const ImageUpload = () => {
           onChange={handleImageUpload}
           className="hidden"
           id="image-upload"
+          {...register("image",{
+            onChange:(e)=>handleImageUpload(e)
+          })}
         />
         <div className="flex flex-col gap-2">
           <button 
@@ -51,4 +54,4 @@ const ImageUpload = () => {
     );
   };
 
-export default ImageUpload;
+export default ProjectImage;

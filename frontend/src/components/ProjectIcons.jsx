@@ -6,8 +6,8 @@ import { FaGithub } from "react-icons/fa";
 import { RiToolsFill } from "react-icons/ri";
 import { useState } from "react";
 import { MdDelete } from "react-icons/md";
-import ImageUpload from "./ImageUpload";
 import ProjectTechstack from "./ProjectTechStack";
+import ProjectImage from "./ProjectImage";
 
 function ProjectIcons({ register, skills, setSkills }) {
   const [selected, setSelected] = useState({
@@ -163,7 +163,7 @@ function ProjectIcons({ register, skills, setSkills }) {
         <ProjectTechstack skills={skills} setSkills={setSkills} />
       )}
 
-      {selected.image && <ImageUpload register={register} />}
+      {selected.image && <ProjectImage register={register} />}
     </div>
   );
 }

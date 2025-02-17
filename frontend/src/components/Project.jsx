@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProjectIcons from "./ProjectIcons";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addProject, addTechstack } from "../features/project/projectSlice";
+import { addProject } from "../features/project/projectSlice";
 function Project() {
   const [showForm, setShowForm] = useState(false);
   const { register, handleSubmit } = useForm();
@@ -11,8 +11,8 @@ function Project() {
   function onSubmit(data) {
     console.log(data);
     setShowForm(false);
-    dispatch(addProject(data));
-    dispatch(addTechstack(skills));
+    const newObject={...data,techstack:skills};
+    dispatch(addProject(newObject))
   }
   return (
     <>
