@@ -9,7 +9,7 @@ import { MdDelete } from "react-icons/md";
 import ProjectTechstack from "./ProjectTechStack";
 import ProjectImage from "./ProjectImage";
 
-function ProjectIcons({ register, skills, setSkills }) {
+function ProjectIcons({ register, skills, setSkills, images, setImages }) {
   const [selected, setSelected] = useState({
     link: false,
     repo: false,
@@ -163,7 +163,7 @@ function ProjectIcons({ register, skills, setSkills }) {
         <ProjectTechstack skills={skills} setSkills={setSkills} />
       )}
 
-      {selected.image && <ProjectImage register={register} />}
+      {selected.image && <ProjectImage images={images} setImages={setImages} />}
     </div>
   );
 }

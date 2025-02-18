@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addSocial } from "../features/socials/socialSlice";
+import { addSocial } from "../socials/socialSlice";
 
 function AdminIcons() {
   const [selected, setSelected] = useState({
