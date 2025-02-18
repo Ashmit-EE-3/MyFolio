@@ -19,8 +19,30 @@ import Techstack from "../components/Techstack";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import ImageUpload from "../components/ImageUpload";
 import { PiCertificateFill } from "react-icons/pi";
+import { MdDelete } from "react-icons/md";
 
 function Page() {
+  const languageOptions = ["English","Hindi","Spanish","German","Mandarin","Arabic", "Polish","Portugese","French","Japanese"].sort() ; 
+  const [lang, setLang] = useState([]);
+  const handleLanguageAdd = () => {
+    setLang([...lang, { id: Date.now() }])
+  }
+
+  const handleLanguageRemove = (id) => {
+    setLang(lang.filter((div) => div.id !== id));
+  };
+  const levels = [{
+    value: 'Basic',
+    size: 42.38
+  },
+  {
+    value: 'Intermediate',
+    size: 102.06
+  },
+  {
+    value: 'Proficient',
+    size: 73.31
+  }];
   const name = useSelector((state) => state.user.currentUser.displayName);
   const submit = useSelector((state) => state.user.submit);
   const dispatch = useDispatch();
@@ -144,9 +166,6 @@ function Page() {
     setSelected((prev) => ({ ...prev, Location: !prev.Location }));
   }
 
-  function handleLanguage(e) {
-    setLanguage(e.target.value);
-  }
 
   function handleLanguageSubmit(e) {
     e.preventDefault();
@@ -173,6 +192,7 @@ function Page() {
       alert("Please upload a PDF file");
     }
   }
+
 
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
@@ -307,18 +327,39 @@ function Page() {
           >
             <div className="border-t-2 border-indie-300/10"></div>
             <label>What Languages do you know?</label>
-            <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
-              <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
-                <span className> 🧠 </span>
-              </div>
-              <input
-                placeholder="Add Language"
-                type="text"
-                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={language}
-                onChange={handleLanguage}
-              />
-            </div>
+            {lang.length>0 &&
+              (<>
+                <div className="flex justify-end">
+                  <div className="flex w-[50%] justify-evenly">
+                    {levels.map((level) => (
+                      <div>{level.value}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className="border-t-2 border-indie-300/10"></div>
+              </>
+              )}
+            {lang.map((div) => (
+              <div key={div.id} className="flex items-center justify-between">
+                <MdDelete className="cursor-pointer hover:rounded-full hover:bg-indie-400 h-10 w-10 p-2 " onClick={() => handleLanguageRemove(div.id)} />
+                <select className="cursor-pointer w-[270px] p-2 border-2 border-indie-100/10 rounded-sm bg-indie-500" name="" id="">
+                  {languageOptions.map((language)=>(
+                    <option className="cursor-pointer bg-indie-500" value={language}>{language}</option>
+                  ))}
+                </select>
+                <div className="flex w-[50%] justify-evenly">
+                  {levels.map((level) => (
+                    <label className="flex items-center justify-center" key={level.value} style={{ width: level.size }}>
+                      <input type="radio" name="languageProficiency" className="cursor-pointer accent-veronica-700 w-4 h-4" />
+                    </label>
+                  ))}
+                </div>
+              </div>)
+            )}
+            <button onClick={handleLanguageAdd} className="bg-veronica-700 p-2 max-w-max rounded-lg text-indie-700 text-xs cursor-pointer hover:bg-veronica-800">
+              {" "}
+              + ADD{" "}
+            </button>
           </form>
         )}
         {selected.Resume && (
@@ -392,7 +433,7 @@ function Page() {
                 +
               </button>
             </form>
-            <ImageUpload/>
+            <ImageUpload />
           </div>
         )}
       </div>

@@ -233,7 +233,7 @@ function AdminIcons() {
             />
             <button className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-700 cursor-pointer hover:bg-veronica-800">
               {" "}
-              + ADD{" "}
+              + ADD{" "}  
             </button>
           </div>
         </form>
