@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import AdminIcons from "../components/AdminIcons";
+import SocialIcons from "../features/socials/SocialIcons";
 import { useRef, useState } from "react";
 import {
   addLocation,
@@ -8,20 +8,21 @@ import {
   addUsername,
   updateUser,
 } from "../features/user/userSlice";
-import Project from "../components/Project";
+import Project from "../features/project/Project";
 import { CiLocationOn } from "react-icons/ci";
-import UserDetails from "../components/UserDetails";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoLanguageSharp } from "react-icons/io5";
-import Techstack from "../components/Techstack";
 import { Slide, toast, ToastContainer } from "react-toastify";
-import ImageUpload from "../components/ImageUpload";
 import { PiCertificateFill } from "react-icons/pi";
 
+import ImageUpload from "../components/ImageUpload";
+import Techstack from "../components/Techstack";
+import UserDetails from "../features/user/UserDetails";
+
 function Page() {
-  const name = useSelector((state) => state.user.currentUser.displayName);
+  // const name = useSelector((state) => state.user.currentUser.displayName);
   const submit = useSelector((state) => state.user.submit);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -400,7 +401,7 @@ function Page() {
         Your failures, successes and everything in between!
       </h1>
       <Project />
-      <AdminIcons />
+      <SocialIcons />
     </div>
   );
 }
