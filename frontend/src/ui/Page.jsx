@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SocialIcons from "../features/socials/SocialIcons";
 import { useRef, useState } from "react";
 import {
+  addUserDetails,
   addUsername,
   updateUser,
 } from "../features/user/userSlice";
@@ -13,19 +14,20 @@ import { IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
 import UserCertificate from "../features/user/UserCertificate"
-import Techstack from "../components/Techstack";
+import Techstack from "../features/user/Techstack";
 import UserDetails from "../features/user/UserDetails";
 import UserLanguages from "../features/user/UserLanguages";
-import PdfUpload from "../components/PdfUpload";
+import CVUpload from "../features/user/CVUpload";
 
 function Page() {
   const submit = useSelector((state) => state.user.submit);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
+  const userDetails=useSelector((state)=>state.user.userDetails)
   const [formData, setFormData] = useState(currentUser);
+  const [userData, setUserData] = useState(userDetails);
   const typingTimeout = useRef(null);
   const [username, setUsername] = useState("");
-  const [Location, setLocation] = useState("");
   const [selected, setSelected] = useState({
     Location: false,
     Languages: false,
@@ -39,7 +41,8 @@ function Page() {
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
   const [skills, setSkills] = useState([]);
-  const [about, setAbout] = useState("");
+  const [location,setLocation]=useState("")
+  const [about,setAbout]=useState("")
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -123,9 +126,22 @@ function Page() {
       });
     }
   };
-  async function handleAbout(e)
+  function handleAbout(e)
   {
     setAbout(e.target.value)
+    const newAbout = (e.target.value)
+    setUserData((prev)=>({...prev,about:newAbout}))
+    handleUserDetails({...userData,about:newAbout})
+  }
+  function handleLocation(e){
+    setLocation(e.target.value)
+    const newLocation = e.target.value
+    setUserData((prev)=>({...prev,location:newLocation}))
+    handleUserDetails({...userData,location:newLocation})
+  }
+  function handleUserDetails(data)
+  {
+    dispatch(addUserDetails(data))
   }
 
   function handleUSubmit(e) {
@@ -212,6 +228,7 @@ function Page() {
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
+            value={about}
             onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
@@ -262,18 +279,18 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={Location}
-                onChange={(e)=>setLocation(e.target.value)}
+                value={location}
+                onChange={handleLocation}
               />
             </div>
           </div>
         )}
         {selected.Languages && (
-          <UserLanguages setLanguageData={setLanguageData} languageData={languageData}/>
+          <UserLanguages setLanguageData={setLanguageData} languageData={languageData} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>
         )}
-        {selected.Resume && <PdfUpload file={cv} setPdfFile={setCv}/>}
-        {selected.Skills && <Techstack skills={skills} setSkills={setSkills}/>}
-        {selected.certificate && <UserCertificate setCname={setCname} setClink={setClink} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink}/>}
+        {selected.Resume && <CVUpload file={cv} setPdfFile={setCv}  handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>}
+        {selected.Skills && <Techstack skills={skills} setSkills={setSkills}  handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>}
+        {selected.certificate && <UserCertificate  handleUserDetails={handleUserDetails} userData={userData} setCname={setCname} setClink={setClink} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink}/>}
       </div>
       <h1 className="text-xl">
         Your failures, successes and everything in between!

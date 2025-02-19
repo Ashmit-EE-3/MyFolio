@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { Slide, toast } from "react-toastify";
 
-function UserLanguages({languageData,setLanguageData}) {
+function UserLanguages({languageData,setLanguageData,handleUserDetails,userData,setUserData}) {
 
   const {register,handleSubmit,watch} = useForm({
     defaultValues:{
@@ -32,7 +32,10 @@ function UserLanguages({languageData,setLanguageData}) {
       });
       return
     }
-    setLanguageData((prev)=>[...prev,{language:data.language,proficiency:data.proficiency}])
+    const newLanguageData=[...languageData,{language:data.language,proficiency:data.proficiency}]
+    setLanguageData(newLanguageData)
+    setUserData((prev)=>({...prev,language:newLanguageData}))
+    handleUserDetails({...userData,language:newLanguageData})
   }
 
   function handleDelete(language)
@@ -130,7 +133,7 @@ function UserLanguages({languageData,setLanguageData}) {
         <ul className="flex gap-4 flex-wrap mx-2 my-2">
           {languageData.map((language) => (
             <div key={language} className="bg-indie-400 h-10 gap-4 flex justify-center px-3 items-center rounded-xl ">
-              <li  className="w-12"><span>{language.language}</span></li>
+              <li><span>{language.language}</span></li>
               <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 flex justify-center items-center
               hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent"
               onClick={()=>handleDelete(language.language)}> x </button>

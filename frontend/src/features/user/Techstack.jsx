@@ -94,7 +94,7 @@ const techOptions = [
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 
-function Techstack({skills,setSkills}) {
+function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
   const [selectedSkill, setSelectedSkill] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -123,7 +123,10 @@ function Techstack({skills,setSkills}) {
       });
       return
     }
+    const updatedSkill=[...skills,selectedSkill]
     setSkills([...skills, selectedSkill]);
+    setUserData((prev)=>({...prev,skills:updatedSkill}))
+    handleUserDetails({...userData,skills:updatedSkill})
   }
   function handleDelete(skill)
   {

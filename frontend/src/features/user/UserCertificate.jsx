@@ -1,7 +1,21 @@
 /* eslint-disable react/prop-types */
-import PdfUpload from "../../components/PdfUpload";
+import CertificatePdf from "./CertificatePdf";
 
-function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink }) {
+function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,setUserData,userData,handleUserDetails }) {
+  function handleName(e)
+  {
+    const name=e.target.value
+    setCname(e.target.value)
+    setUserData((prev)=>({...prev,cname:name}))
+    handleUserDetails({...userData,cname:name})
+  }
+  function handleLink(e)
+  {
+    const link=e.target.value
+    setClink(e.target.value)
+    setUserData((prev)=>({...prev,clink:link}))
+    handleUserDetails({...userData,clink:link})
+  }
 
   return (
     <>
@@ -17,7 +31,7 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink 
               placeholder="Certification Name"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              onChange={(e) => setCname(e.target.value)}
+              onChange={handleName}
             />
           </div>
         </div>
@@ -32,12 +46,12 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink 
               placeholder="Certification Link"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              onChange={(e) => setClink(e.target.value)}
+              onChange={handleLink}
             />
           </div>
         </div>
       </div>
-      <PdfUpload file={pdfFile} setPdfFile={setPdfFile} />
+      <CertificatePdf file={pdfFile} setPdfFile={setPdfFile} setUserData={setUserData} userData={userData} handleUserDetails={handleUserDetails}  />
     </>
   );
 }
