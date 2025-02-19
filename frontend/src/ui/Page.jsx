@@ -2,9 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import SocialIcons from "../features/socials/SocialIcons";
 import { useRef, useState } from "react";
 import {
-  addLocation,
-  addPdf,
-  addLanguages,
   addUsername,
   updateUser,
 } from "../features/user/userSlice";
@@ -12,38 +9,16 @@ import Project from "../features/project/Project";
 import { CiLocationOn } from "react-icons/ci";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
-import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
-import { MdDelete } from "react-icons/md";
-
-import ImageUpload from "../components/ImageUpload";
+import UserCertificate from "../features/user/UserCertificate"
 import Techstack from "../components/Techstack";
 import UserDetails from "../features/user/UserDetails";
+import UserLanguages from "../features/user/UserLanguages";
+import PdfUpload from "../components/PdfUpload";
 
 function Page() {
-  const languageOptions = ["English","Hindi","Spanish","German","Mandarin","Arabic", "Polish","Portugese","French","Japanese"].sort() ; 
-  const [lang, setLang] = useState([]);
-  const handleLanguageAdd = () => {
-    setLang([...lang, { id: Date.now() }])
-  }
-
-  const handleLanguageRemove = (id) => {
-    setLang(lang.filter((div) => div.id !== id));
-  };
-  const levels = [{
-    value: 'Basic',
-    size: 42.38
-  },
-  {
-    value: 'Intermediate',
-    size: 102.06
-  },
-  {
-    value: 'Proficient',
-    size: 73.31
-  }];
   const submit = useSelector((state) => state.user.submit);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -51,7 +26,6 @@ function Page() {
   const typingTimeout = useRef(null);
   const [username, setUsername] = useState("");
   const [Location, setLocation] = useState("");
-  const [language, setLanguage] = useState("");
   const [selected, setSelected] = useState({
     Location: false,
     Languages: false,
@@ -59,8 +33,13 @@ function Page() {
     Skills: false,
     certificate: false,
   });
-  const [, setPdfFile] = useState(null);
-  const [pdfName, setPdfName] = useState("");
+  const [languageData, setLanguageData] = useState([]);
+  const [cname,setCname]=useState("")
+  const [clink,setClink]=useState("")
+  const [cpdf, setCpdf] = useState(null);
+  const [cv, setCv] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [about, setAbout] = useState("");
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -76,8 +55,7 @@ function Page() {
     typingTimeout.current = setTimeout(() => {
       setFormData((prevData) => ({ ...prevData, displayName: newValue }));
       handleUserSubmit({ ...formData, displayName: newValue });
-    }, 2000)
-
+    }, 2000);
   }
 
   function handleProfileImageUpload(e) {
@@ -89,7 +67,6 @@ function Page() {
     }
 
     const imageURL = URL.createObjectURL(file); // Convert file to URL
-    console.log("Image URL:", imageURL);
     setFormData((prevData) => ({ ...prevData, photoURL: imageURL }));
     handleUserSubmit({ ...formData, photoURL: imageURL });
   }
@@ -98,14 +75,12 @@ function Page() {
     try {
       console.log("Form Data is : ", updatedFormData);
       const res = await fetch(`/api/v1/user/update/${currentUser._id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedFormData)
-      })
-
-      console.log(res);
+        body: JSON.stringify(updatedFormData),
+      });
       const data = await res.json();
       if (data.success === false) {
         toast.error(data.message, {
@@ -116,12 +91,11 @@ function Page() {
             width: "auto",
             whiteSpace: "nowrap",
             padding: "12px 20px",
-            fontFamily: "Poppins"
-          }
+            fontFamily: "Poppins",
+          },
         });
         return;
       }
-      console.log("Data is : ", data);
       dispatch(updateUser(data));
       toast.success("Saved!", {
         position: "top-center",
@@ -131,12 +105,11 @@ function Page() {
           width: "auto",
           whiteSpace: "nowrap",
           padding: "12px 20px",
-          fontFamily: "Poppins"
-        }
+          fontFamily: "Poppins",
+        },
       });
-    }
-    catch (error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       toast.error(error, {
         position: "top-center",
         autoClose: 1000,
@@ -145,55 +118,30 @@ function Page() {
           width: "auto",
           whiteSpace: "nowrap",
           padding: "12px 20px",
-          fontFamily: "Poppins"
-        }
+          fontFamily: "Poppins",
+        },
       });
     }
+  };
+  async function handleAbout(e)
+  {
+    setAbout(e.target.value)
   }
 
-  function handleSubmit(e) {
+  function handleUSubmit(e) {
     e.preventDefault();
+    toast.success("Username Created",{
+      position: 'top-center',
+      autoClose: 1000,
+      transition: Slide,
+      style: {
+        width: "auto",
+        whiteSpace: "nowrap",
+        padding: "12px 20px"
+      }
+    });
     dispatch(addUsername(username));
   }
-
-  function handleLocation(e) {
-    setLocation(e.target.value);
-  }
-
-  function handleLocationSubmit(e) {
-    e.preventDefault();
-    dispatch(addLocation(Location));
-    setSelected((prev) => ({ ...prev, Location: !prev.Location }));
-  }
-
-
-  function handleLanguageSubmit(e) {
-    e.preventDefault();
-    dispatch(addLanguages(language));
-    setLanguage("");
-  }
-
-  function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPdfFile(file);
-        setPdfName(file.name);
-        dispatch(
-          addPdf({
-            file: reader.result,
-            name: file.name,
-          })
-        );
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("Please upload a PDF file");
-    }
-  }
-
-
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
       {!submit && (
@@ -201,7 +149,7 @@ function Page() {
           <h1 className="text-yellow-200">
             ⚠ Create a username to get a public page
           </h1>
-          <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+          <form className="w-full flex flex-col gap-4" onSubmit={handleUSubmit}>
             <input
               placeholder="username"
               type="text"
@@ -222,7 +170,7 @@ function Page() {
       <div className="flex flex-col w-[50vw] bg-indie-700 rounded-2xl font-poppins text-indie-100">
         <form className="flex gap-5 p-6 text-xl items-center">
           <div
-            onClick={() => document.getElementById('profile-upload').click()}
+            onClick={() => document.getElementById("profile-upload").click()}
             className="relative h-14 w-14 group cursor-pointer"
           >
             <input
@@ -264,6 +212,7 @@ function Page() {
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
+            onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
         </form>
@@ -300,9 +249,8 @@ function Page() {
           />
         </div>
         {selected.Location && (
-          <form
+          <div
             className="flex flex-col gap-3 text-start px-6 py-2"
-            onSubmit={handleLocationSubmit}
           >
             <div className="border-t-2 border-indie-300/10"></div>
             <label>Where are you based?</label>
@@ -315,127 +263,17 @@ function Page() {
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 value={Location}
-                onChange={handleLocation}
+                onChange={(e)=>setLocation(e.target.value)}
               />
             </div>
-          </form>
+          </div>
         )}
         {selected.Languages && (
-          <form
-            className="flex flex-col gap-3 text-start px-6 py-2"
-            onSubmit={handleLanguageSubmit}
-          >
-            <div className="border-t-2 border-indie-300/10"></div>
-            <label>What Languages do you know?</label>
-            {lang.length>0 &&
-              (<>
-                <div className="flex justify-end">
-                  <div className="flex w-[50%] justify-evenly">
-                    {levels.map((level) => (
-                      <div>{level.value}</div>
-                    ))}
-                  </div>
-                </div>
-                <div className="border-t-2 border-indie-300/10"></div>
-              </>
-              )}
-            {lang.map((div) => (
-              <div key={div.id} className="flex items-center justify-between">
-                <MdDelete className="cursor-pointer hover:rounded-full hover:bg-indie-400 h-10 w-10 p-2 " onClick={() => handleLanguageRemove(div.id)} />
-                <select className="cursor-pointer w-[270px] p-2 border-2 border-indie-100/10 rounded-sm bg-indie-500" name="" id="">
-                  {languageOptions.map((language)=>(
-                    <option className="cursor-pointer bg-indie-500" value={language}>{language}</option>
-                  ))}
-                </select>
-                <div className="flex w-[50%] justify-evenly">
-                  {levels.map((level) => (
-                    <label className="flex items-center justify-center" key={level.value} style={{ width: level.size }}>
-                      <input type="radio" name="languageProficiency" className="cursor-pointer accent-veronica-700 w-4 h-4" />
-                    </label>
-                  ))}
-                </div>
-              </div>)
-            )}
-            <button onClick={handleLanguageAdd} className="bg-veronica-700 p-2 max-w-max rounded-lg text-indie-700 text-xs cursor-pointer hover:bg-veronica-800">
-              {" "}
-              + ADD{" "}
-            </button>
-          </form>
+          <UserLanguages setLanguageData={setLanguageData} languageData={languageData}/>
         )}
-        {selected.Resume && (
-          <div className="px-6 py-2">
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={handleFileUpload}
-              className="hidden"
-              id="pdf-upload"
-            />
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => document.getElementById("pdf-upload").click()}
-                className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
-              >
-                <span>
-                  <IoCloudUploadOutline
-                    style={{ color: "#22222A" }}
-                    size={28}
-                  />
-                </span>
-                {pdfName || "UPLOAD CV"}
-              </button>
-              {pdfName && (
-                <p className="text-sm text-indie-300">
-                  Selected file: {pdfName}
-                </p>
-              )}
-            </div>
-          </div>
-        )}
-        {selected.Skills && <Techstack />}
-        {selected.certificate && (
-          <div className="flex flex-col gap-3 px-4 border-indie-400">
-            <form className="flex mx-2 border-indie-400 gap-2">
-              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
-                  <span className> 🏆 </span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Certification Name"
-                  className="w-full p-2
-                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-                />
-              </div>
-              <button
-                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-                focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              >
-                +
-              </button>
-            </form>
-            <form className="flex mx-2 border-indie-400 gap-2">
-              <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-                <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
-                  <span className> 🔗  </span>
-                </div>
-                <input
-                  type="url"
-                  placeholder="Certification Link"
-                  className="w-full p-2
-                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-                />
-              </div>
-              <button
-                className="bg-veronica-700 w-12 h-12 rounded-full text-indie-700 cursor-pointer hover:bg-veronica-800 focus:outline-none
-                focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              >
-                +
-              </button>
-            </form>
-            <ImageUpload />
-          </div>
-        )}
+        {selected.Resume && <PdfUpload file={cv} setPdfFile={setCv}/>}
+        {selected.Skills && <Techstack skills={skills} setSkills={setSkills}/>}
+        {selected.certificate && <UserCertificate setCname={setCname} setClink={setClink} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink}/>}
       </div>
       <h1 className="text-xl">
         Your failures, successes and everything in between!

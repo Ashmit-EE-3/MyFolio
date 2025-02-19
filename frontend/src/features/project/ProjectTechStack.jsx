@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 
 const techOptions = [
@@ -103,6 +104,25 @@ function ProjectTechstack({skills,setSkills}) {
   }
   function handleClick() {
     if (!selectedSkill) return;
+    var present=false;
+    skills.map((skill)=>
+    {
+      if(skill===selectedSkill)
+        present=true;
+    })
+    if(present){
+      toast.error("Skill Already Present",{
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px"
+        }
+      });
+      return
+    }
     setSkills([...skills, selectedSkill]);
   }
   function handleDelete(skill)

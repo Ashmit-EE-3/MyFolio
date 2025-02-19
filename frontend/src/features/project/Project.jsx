@@ -3,6 +3,7 @@ import ProjectIcons from "../project/ProjectIcons";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { addProject } from "./projectSlice";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
 import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 
@@ -32,8 +33,8 @@ function Project() {
     <>
       {showForm && (
         <div className="bg-indie-700 rounded-2xl">
-        <button onClick={()=>setShowForm(false)} className="bg-veronica-700 text-indie-500 w-6 h-6 rounded-full
-        float-right mx-2 my-1 cursor-pointer hover:bg-veronica-800">x</button>
+        <button onClick={()=>setShowForm(false)} className="w-6 h-6 rounded-full
+        float-right mx-2 my-1 cursor-pointer"><span><IoIosArrowDropdownCircle size={24}/></span></button>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className=" p-4 flex flex-col gap-4 w-[50vw]">
               <div className="w-full justify-center">
