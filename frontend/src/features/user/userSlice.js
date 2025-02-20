@@ -5,6 +5,7 @@ const initialState = {
     username: "",
     submit: false,
     isAuthenticated: false,
+    userDetails: {}
 }
 const userSlice = createSlice({
     name: 'user',
@@ -29,7 +30,10 @@ const userSlice = createSlice({
             state.username = action.payload,
             state.submit = true
         },
+        addUserDetails(state,action){
+            state.userDetails=action.payload
+        }
     }
 })
-export const { addUsername, addLogInCredentials, updateUser, logOutUser,deleteUser} = userSlice.actions
+export const { addUsername, addLogInCredentials, updateUser, logOutUser,deleteUser,addUserDetails} = userSlice.actions
 export default userSlice.reducer;

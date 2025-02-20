@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-function PdfUpload({ file, setPdfFile }) {
+function CertificatePdf({ file, setPdfFile,handleUserDetails,userData ,setUserData}) {
   const pdfName = file ? file.name : "";
   function handleFileUpload(e) {
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
     }
+    const certificateURL = URL.createObjectURL(file);
+    setUserData((prev)=>({...prev,certificate:certificateURL}))
+    handleUserDetails({...userData,certificate:certificateURL})
+    
   }
   return (
     <div className="px-6 py-2">
@@ -35,4 +39,4 @@ function PdfUpload({ file, setPdfFile }) {
   );
 }
 
-export default PdfUpload;
+export default CertificatePdf;
