@@ -6,27 +6,27 @@ const projectSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    projectName: {
+    name: {
         type: String,
         required: true,
     },
-    projectDescription: {
+    description: {
         type: String,
     },
     projectLink: {
         type: String,
     },
-    githubLink: {
+    repoLink: {
         type: String
     },
-    projectStatus: {
+    status: {
         type: String,
         enum: ['Planning...','In Progress...','Completed','Deployed']
     },
-    projectImages: [{
+    images: [{
         type: String,
     }],
-    projectTechStack: [{
+    techstack: [{
         type: String,
     }]
 },{timestamps: true})

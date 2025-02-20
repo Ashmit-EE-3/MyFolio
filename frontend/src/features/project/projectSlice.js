@@ -10,7 +10,6 @@ const projectSlice = createSlice({
     reducers: {
         addProject(state, action) {
             state.project.push(action.payload)
-
         },
     }
 })

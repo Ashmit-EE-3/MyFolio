@@ -27,7 +27,7 @@ const userSlice = createSlice({
         },
         addUsername(state, action) {
             state.username = action.payload,
-                state.submit = true
+            state.submit = true
         },
     }
 })
