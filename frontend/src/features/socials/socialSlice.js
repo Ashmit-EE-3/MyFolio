@@ -8,8 +8,7 @@ const socialSlice = createSlice({
     initialState,
     reducers:{
         addSocial(state,action){
-            const {platform,link}=action.payload
-            state.socials[platform]=link
+            state.socials = action.payload  
         }
     }
 })

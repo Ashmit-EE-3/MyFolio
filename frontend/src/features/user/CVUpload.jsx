@@ -8,15 +8,38 @@ function PdfUpload({
   setUserData,
 }) {
   const pdfName = file ? file.name : "";
-  function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      setPdfFile(file);
-    }
+  async function handleFileUpload(e) {
+    try {
+      const file = e.target.files[0];
+      if (file && file.type === "application/pdf") {
+        setPdfFile(file);
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tch_image_upload");
 
-    const cvURL = URL.createObjectURL(file);
-    setUserData((prev) => ({ ...prev, cv: cvURL }));
-    handleUserDetails({ ...userData, cv: cvURL });
+      const response = await fetch("https://api.cloudinary.com/v1_1/dn17alkhg/raw/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Cloudinary Upload Error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Cloudinary Response Data: ", data);
+      const resumeURL = data.secure_url;
+      setUserData((prev) => ({
+        ...prev, resume: resumeURL
+      }))
+      handleUserDetails({
+        ...userData, resume: resumeURL
+      })
+    }
+    catch (error) {
+      console.log("Error uploading PDF: ", error);
+    }
   }
   return (
     <div className="px-6 py-2">

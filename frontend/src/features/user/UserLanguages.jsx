@@ -34,16 +34,16 @@ function UserLanguages({languageData,setLanguageData,handleUserDetails,userData,
     }
     const newLanguageData=[...languageData,{language:data.language,proficiency:data.proficiency}]
     setLanguageData(newLanguageData)
-    setUserData((prev)=>({...prev,language:newLanguageData}))
-    handleUserDetails({...userData,language:newLanguageData})
+    setUserData((prev)=>({...prev,languages:newLanguageData}))
+    handleUserDetails({...userData,languages:newLanguageData})
   }
 
   function handleDelete(language)
   {
-    setLanguageData((prev)=>(
-      prev.filter((data)=>data.language!==language)
-    ))
-    
+    const updatedLanguageData = (languageData).filter((lang)=> lang.language !== language)
+    setLanguageData(updatedLanguageData)
+    setUserData((prev)=>({...prev,languages:updatedLanguageData})) 
+    handleUserDetails({...userData, languages:updatedLanguageData}) 
   }
   const languageOptions = [
     "English",

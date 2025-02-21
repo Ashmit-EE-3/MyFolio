@@ -125,13 +125,15 @@ function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
     }
     const updatedSkill=[...skills,selectedSkill]
     setSkills([...skills, selectedSkill]);
-    setUserData((prev)=>({...prev,skills:updatedSkill}))
-    handleUserDetails({...userData,skills:updatedSkill})
+    setUserData((prev)=>({...prev,techStack:updatedSkill}))
+    handleUserDetails({...userData,techStack:updatedSkill})
   }
   function handleDelete(skill)
   {
-    setSkills((prev)=>
-    prev.filter((s)=>s!==skill))
+      const updatedSkills = skills.filter((s) => s !== skill);
+      setSkills(updatedSkills);
+      setUserData((prev) => ({ ...prev, techStack: updatedSkills }));
+      handleUserDetails({ ...userData, techStack: updatedSkills });
   }
 
   return (

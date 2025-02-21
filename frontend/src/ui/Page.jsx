@@ -23,7 +23,7 @@ function Page() {
   const submit = useSelector((state) => state.user.submit);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
-  const userDetails=useSelector((state)=>state.user.userDetails)
+  const userDetails = useSelector((state) => state.user.userDetails)
   const [formData, setFormData] = useState(currentUser);
   const [userData, setUserData] = useState(userDetails);
   const typingTimeout = useRef(null);
@@ -36,13 +36,13 @@ function Page() {
     certificate: false,
   });
   const [languageData, setLanguageData] = useState([]);
-  const [cname,setCname]=useState("")
-  const [clink,setClink]=useState("")
+  const [cname, setCname] = useState("")
+  const [clink, setClink] = useState("")
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
   const [skills, setSkills] = useState([]);
-  const [location,setLocation]=useState("")
-  const [about,setAbout]=useState("")
+  const [location, setLocation] = useState("")
+  const [about, setAbout] = useState("")
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -126,27 +126,69 @@ function Page() {
       });
     }
   };
-  function handleAbout(e)
-  {
-    setAbout(e.target.value)
-    const newAbout = (e.target.value)
-    setUserData((prev)=>({...prev,about:newAbout}))
-    handleUserDetails({...userData,about:newAbout})
+
+  function handleAbout(e) {
+    const newAbout = e.target.value;
+
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
+    }
+
+    typingTimeout.current = setTimeout(() => {
+      setUserData((prevData) => ({ ...prevData, about: newAbout }));
+      handleUserDetails({ ...userData, about: newAbout });
+    }, 2000);
+    // setAbout(e.target.value)
+    // const newAbout = (e.target.value)
+    // setUserData((prev)=>({...prev,about:newAbout}))
+    // handleUserDetails({...userData,about:newAbout})
   }
-  function handleLocation(e){
-    setLocation(e.target.value)
-    const newLocation = e.target.value
-    setUserData((prev)=>({...prev,location:newLocation}))
-    handleUserDetails({...userData,location:newLocation})
+
+  function handleLocation(e) {
+
+    const newLocation = e.target.value;
+
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
+    }
+
+    typingTimeout.current = setTimeout(() => {
+      setUserData((prevData) => ({ ...prevData, location: newLocation }));
+      handleUserDetails({ ...userData, location: newLocation });
+    }, 2000);
   }
-  function handleUserDetails(data)
-  {
-    dispatch(addUserDetails(data))
+
+  async function handleUserDetails(data) {
+    const updatedUserDetails = {
+      ...data,
+      userId: currentUser._id
+    }
+    setUserData(updatedUserDetails)
+    try {
+      console.log("Updated User Details : ", updatedUserDetails)
+      const res = await fetch('/api/v1/profile/create', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedUserDetails)
+      })
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        toast.error(data.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+      }
+
+      toast.success("Saved", { position: 'top-center', autoClose: 1000, transition: Slide });
+      console.log("Data is : ", data);
+      dispatch(addUserDetails(data))
+    } catch (error) {
+      toast.error(error.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+    }
   }
 
   function handleUSubmit(e) {
     e.preventDefault();
-    toast.success("Username Created",{
+    toast.success("Username Created", {
       position: 'top-center',
       autoClose: 1000,
       transition: Slide,
@@ -228,7 +270,7 @@ function Page() {
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            value={about}
+            defaultValue={about}
             onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
@@ -279,18 +321,18 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                value={location}
+                defaultValuealue={location}
                 onChange={handleLocation}
               />
             </div>
           </div>
         )}
         {selected.Languages && (
-          <UserLanguages setLanguageData={setLanguageData} languageData={languageData} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>
+          <UserLanguages setLanguageData={setLanguageData} languageData={languageData} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />
         )}
-        {selected.Resume && <CVUpload file={cv} setPdfFile={setCv}  handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>}
-        {selected.Skills && <Techstack skills={skills} setSkills={setSkills}  handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData}/>}
-        {selected.certificate && <UserCertificate  handleUserDetails={handleUserDetails} userData={userData} setCname={setCname} setClink={setClink} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink}/>}
+        {selected.Resume && <CVUpload file={cv} setPdfFile={setCv} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
+        {selected.Skills && <Techstack skills={skills} setSkills={setSkills} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
+        {selected.certificate && <UserCertificate handleUserDetails={handleUserDetails} userData={userData} setCname={setCname} setClink={setClink} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink} />}
       </div>
       <h1 className="text-xl">
         Your failures, successes and everything in between!

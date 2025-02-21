@@ -1,16 +1,46 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-function CertificatePdf({ file, setPdfFile,handleUserDetails,userData ,setUserData}) {
+function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUserData }) {
   const pdfName = file ? file.name : "";
-  function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (file && file.type === "application/pdf") {
-      setPdfFile(file);
+  
+  async function handleFileUpload(e) {
+    try {
+      const file = e.target.files[0];
+      if (file && file.type === "application/pdf") {
+        setPdfFile(file);
+      }
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tch_image_upload");
+
+      const response = await fetch("https://api.cloudinary.com/v1_1/dn17alkhg/raw/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Cloudinary Upload Error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Cloudinary Response Data: ", data);
+      const certificateURL = data.secure_url;
+      setUserData((prev) => ({
+        ...prev, certificate: {
+          ...prev.certificate,
+          certificatePDF: certificateURL
+        }
+      }))
+      handleUserDetails({
+        ...userData, certificate: {
+          ...userData.certificate,
+          certificatePDF: certificateURL
+        }
+      })
     }
-    const certificateURL = URL.createObjectURL(file);
-    setUserData((prev)=>({...prev,certificate:certificateURL}))
-    handleUserDetails({...userData,certificate:certificateURL})
-    
+    catch (error) {
+      console.log("Error uploading images: ", error);
+    }
   }
   return (
     <div className="px-6 py-2">
