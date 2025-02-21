@@ -13,11 +13,12 @@ import { PiReadCvLogo } from "react-icons/pi";
 import { IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
-import UserCertificate from "../features/user/UserCertificate"
+import UserCertificate from "../features/user/UserCertificate";
 import Techstack from "../features/user/Techstack";
 import UserDetails from "../features/user/UserDetails";
 import UserLanguages from "../features/user/UserLanguages";
 import CVUpload from "../features/user/CVUpload";
+import Mobile from "./Mobile";
 
 function Page() {
   const submit = useSelector((state) => state.user.submit);
@@ -195,29 +196,33 @@ function Page() {
       style: {
         width: "auto",
         whiteSpace: "nowrap",
-        padding: "12px 20px"
-      }
+        padding: "12px 20px",
+      },
     });
     dispatch(addUsername(username));
   }
   return (
-    <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
-      {!submit && (
-        <div className="flex flex-col w-[50vw] m-auto bg-indie-700 rounded-2xl text-start p-6 gap-4">
-          <h1 className="text-yellow-200">
-            ⚠ Create a username to get a public page
-          </h1>
-          <form className="w-full flex flex-col gap-4" onSubmit={handleUSubmit}>
-            <input
-              placeholder="username"
-              type="text"
-              value={username}
-              className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-              required
-              onChange={handleChange}
-            />
-            <button
-              className="bg-veronica-700 text-indie-600 p-2 rounded-lg h-12 tracking-wide font-semibold hover:bg-veronica-800
+    <div className="flex mx-auto gap-20 h-screen overflow-hidden">
+      <div className="flex flex-col gap-10 font-poppins overflow-y-scroll h-full">
+        {!submit && (
+          <div className="flex flex-col w-[50vw] m-auto bg-indie-700 rounded-2xl text-start p-6 gap-4">
+            <h1 className="text-yellow-200">
+              ⚠ Create a username to get a public page
+            </h1>
+            <form
+              className="w-full flex flex-col gap-4"
+              onSubmit={handleUSubmit}
+            >
+              <input
+                placeholder="username"
+                type="text"
+                value={username}
+                className="p-4 border-[1px] rounded-lg h-12 placeholder:opacity-30 bg-indie-500 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+                required
+                onChange={handleChange}
+              />
+              <button
+                className="bg-veronica-700 text-indie-600 p-2 rounded-lg h-12 tracking-wide font-semibold hover:bg-veronica-800
             transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer"
             >
               CREATE USERNAME

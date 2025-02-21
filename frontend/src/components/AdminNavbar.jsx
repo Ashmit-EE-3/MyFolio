@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function AdminNavbar() {
   return (
-    <div className="flex justify-between bg-indie-700 p-4 font-poppins text-[18px] m-auto rounded-xl my-6 w-[98%]">
+    <div className="flex justify-between bg-indie-700 p-4 font-poppins text-[18px] m-auto rounded-xl my-3 w-[98%]">
       <ul className="flex gap-10 text-indie-100 font-semibold">
         <NavLink to="page" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
         focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">

@@ -140,7 +140,7 @@ function Project() {
       )}
       {!showForm && (
         <button
-          className="bg-veronica-700 text-indie-600 p-3 rounded-lg m-auto w-[48vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
+          className="bg-veronica-700 text-indie-600 p-3 rounded-lg w-[48vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
           onClick={() => setShowForm(!showForm)}
         >
           <ToastContainer limit={2} hideProgressBar />
