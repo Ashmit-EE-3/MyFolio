@@ -1,5 +1,16 @@
 const Profile = require("../models/profile.model")
 
+
+const getProfile = async(req,res,next) => {
+    try{
+        const profileData = await Profile.findOne({userId: req.params.id})
+        res.status(200).json(profileData)
+    }
+    catch(error){
+        next(error)
+    }
+}
+
 const createProfile = async(req,res,next) => {
     try{
         const profileData = await Profile.findOne({userId: req.body.userId}) ;
@@ -21,4 +32,4 @@ const createProfile = async(req,res,next) => {
     }
 }
 
-module.exports = {createProfile}
+module.exports = {createProfile, getProfile}

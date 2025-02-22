@@ -1,18 +1,83 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { addLogInCredentials } from '../features/user/userSlice';
+import { addLogInCredentials, addUserDetails, addUsername } from '../features/user/userSlice';
 import app from '../firebase';
-import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail } from "firebase/auth";
+import { getAuth, signInWithPopup} from "firebase/auth";
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { addSocial } from '../features/socials/socialSlice';
 
 function OAuth({provider,Icon,name}) {
     const navigate = useNavigate() ; 
     const dispatch = useDispatch() ;
+
+    const fetchProfile = async(id) => {
+        try{
+            const res = await fetch(`/api/v1/profile/get/${id}`, {
+                method: "GET"
+            })
+            const data = await res.json() ; 
+            if (!res.ok) {
+                toast.error(data.message) ; 
+            }
+            dispatch(addUserDetails(data))
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+    const fetchProjects = async(id) => {
+        try{
+            const res = await fetch(`/api/v1/project/get/${id}`,{
+                method: "GET",
+            })
+            const data = await res.json() ; 
+
+            if (!res.ok){
+                toast.error(data.message)
+            }
+            dispatch(addProject(data))
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+    const fetchUsername = async(id) => {
+        try{
+            const res = await fetch(`/api/v1/username/get/${id}`,{
+                method: "GET"
+            })
+            const data = await res.json() ; 
+
+            if (!res.ok){
+                toast.error(data.message)
+            }
+            dispatch(addUsername(data.username)) 
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+    const fetchSocials = async (id)=>{
+        try{
+            const res = await fetch(`api/v1/social/get/${id}`,{
+                method: "GET"
+            })
+            const data = await res.json() ;
+
+            if (!res.ok){
+                toast.error(data.message)
+            }
+            dispatch(addSocial(data)) ; 
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     const handleClick = async () => {
         try {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
-            console.log('Result is : ',result.user.displayName,result.user.email,result.user.photoURL) ; 
             const formData = {
                 displayName: result.user.displayName,
                 email: result.user.email,
@@ -32,10 +97,13 @@ function OAuth({provider,Icon,name}) {
             .then((dataResult)=>{
                 console.log(dataResult) ; 
                 dispatch(addLogInCredentials(dataResult)) ;
+                fetchProfile(dataResult._id) ;
+                fetchProjects(dataResult._id) ;
+                fetchUsername(dataResult._id) ;
+                fetchSocials(dataResult._id) ; 
                 navigate('/admin') ; 
             })
             .catch((err)=>{
-                console.log('chutiya!!!')
                 console.log(err) ; 
             })
         }

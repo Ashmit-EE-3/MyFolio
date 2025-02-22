@@ -1,5 +1,15 @@
 const Project = require("../models/project.model")
 
+
+const getProject = async(req,res,next)=>{
+    try{
+        const project = await Project.find({userId: req.params.id})
+        return res.status(200).json(project) 
+    }
+    catch(error){
+        next(error)
+    }
+}
 const createProject = async(req,res,next) => {
     try{
         const project = await Project.create(req.body) 
@@ -10,4 +20,4 @@ const createProject = async(req,res,next) => {
     }
 }
 
-module.exports = {createProject}
+module.exports = {getProject, createProject}

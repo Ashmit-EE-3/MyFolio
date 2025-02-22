@@ -1,5 +1,16 @@
 const Username = require("../models/username.model");
 
+
+const getUsername = async(req,res,next)=>{
+    try{
+        const username = await Username.findOne({userId: req.params.id})
+        res.status(200).json(username)
+    }
+    catch(error){
+        next(error)
+    }
+}
+
 const createUsername = async(req,res,next)=>{
     try{
         const username = await Username.findOne({username: req.body.username})
@@ -35,4 +46,4 @@ const createUsername = async(req,res,next)=>{
 const updateUsername = (req,res,next) => {
 
 }
-module.exports = {updateUsername, createUsername}
+module.exports = {getUsername, updateUsername, createUsername}
