@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
 import { Slide, toast} from "react-toastify";
+import {persistor} from '../store' ; 
 
 function Account() {
   const username = useSelector((state) => state.user.username);
@@ -21,6 +22,8 @@ function Account() {
 
       const data = await res.json();
       if (data.success === true) {
+        persistor.pause() ; 
+        await persistor.purge() ;
         toast.success("Logged out successfully!", {
           position: 'top-center',
           autoClose: 1000,
@@ -70,6 +73,8 @@ function Account() {
 
       const data = await res.json();
       if (data.success === true) {
+        persistor.pause() ; 
+        await persistor.purge() ; 
         toast.success("User deleted successfully!", {
           position: 'top-center',
           autoClose: 1000,

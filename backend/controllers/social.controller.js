@@ -1,5 +1,14 @@
 const Social = require("../models/social.model")
 
+const getSocial = async (req,res,next)=>{
+    try{
+        const socialData = await Social.findOne({userId: req.params.id}) ; 
+        res.status(201).json(socialData)
+    }
+    catch(error){
+        next(error)
+    }
+}
 const createSocial = async (req, res, next) => {
     try {
         const socialData = await Social.findOne({userId: req.body.userId}) ; 
@@ -20,4 +29,4 @@ const createSocial = async (req, res, next) => {
     }
 }
 
-module.exports = { createSocial }
+module.exports = {getSocial, createSocial }

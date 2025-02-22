@@ -310,7 +310,7 @@ function Page() {
         <form className="flex gap-5 p-6 text-xl items-center">
           <div
             onClick={() => document.getElementById("profile-upload").click()}
-            className="relative h-14 w-14 group cursor-pointer !h-14 !w-14 aspect-square block p-0 m-0 object-cover"
+            className="relative h-14 w-14 group cursor-pointer aspect-square block p-0 m-0 object-cover"
           >
             <input
               type="file"
@@ -334,7 +334,7 @@ function Page() {
             </svg>
             <img
               src={formData.photoURL}
-              className="rounded-full h-13 w-13 !h-13 !w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
+              className="rounded-full h-13 w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
               alt="avatar"
             />
           </div>
