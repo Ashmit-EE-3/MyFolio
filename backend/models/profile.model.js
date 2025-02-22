@@ -12,6 +12,9 @@ const profileSchema = new mongoose.Schema({
     location: {
         type: String,
     },
+    college:{
+        type: String,
+    },
     languages: [{
         language: {
             type: String

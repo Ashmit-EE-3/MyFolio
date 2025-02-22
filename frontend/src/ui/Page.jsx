@@ -13,6 +13,7 @@ import { PiReadCvLogo } from "react-icons/pi";
 import { IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
+import { IoMdSchool } from "react-icons/io";
 import UserCertificate from "../features/user/UserCertificate";
 import Techstack from "../features/user/Techstack";
 import UserDetails from "../features/user/UserDetails";
@@ -35,6 +36,7 @@ function Page() {
     Resume: false,
     Skills: false,
     certificate: false,
+    College:false
   });
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
@@ -160,6 +162,19 @@ function Page() {
     typingTimeout.current = setTimeout(() => {
       setUserData((prevData) => ({ ...prevData, location: newLocation }));
       handleUserDetails({ ...userData, location: newLocation });
+    }, 2000);
+  }
+  function handleCollege(e) {
+
+    const newCollege = e.target.value;
+
+    if (typingTimeout.current) {
+      clearTimeout(typingTimeout.current);
+    }
+
+    typingTimeout.current = setTimeout(() => {
+      setUserData((prevData) => ({ ...prevData, college: newCollege }));
+      handleUserDetails({ ...userData, college: newCollege });
     }, 2000);
   }
 
@@ -315,7 +330,7 @@ function Page() {
         <form className="flex gap-5 p-6 text-xl items-center">
           <div
             onClick={() => document.getElementById("profile-upload").click()}
-            className="relative h-14 w-14 group cursor-pointer !h-14 !w-14 aspect-square block p-0 m-0 object-cover"
+            className="relative h-14 w-14 group cursor-pointer aspect-square block p-0 m-0 object-cover"
           >
             <input
               type="file"
@@ -339,7 +354,7 @@ function Page() {
             </svg>
             <img
               src={formData.photoURL}
-              className="rounded-full h-13 w-13 !h-13 !w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
+              className="rounded-full h-13 w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
               alt="avatar"
             />
           </div>
@@ -355,7 +370,7 @@ function Page() {
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            defaultValue={userData.about}
+            defaultValue={userData.about||""}
             onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
@@ -366,6 +381,12 @@ function Page() {
             setSelected={setSelected}
             Icon={CiLocationOn}
             text="Location"
+          />
+          <UserDetails
+            selected={selected}
+            setSelected={setSelected}
+            Icon={IoMdSchool}
+            text="College"
           />
           <UserDetails
             selected={selected}
@@ -406,8 +427,28 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                defaultValue={userData.location}
+                defaultValue={userData.location||""}
                 onChange={handleLocation}
+              />
+            </div>
+          </div>
+        )}
+        {selected.College && (
+          <div
+            className="flex flex-col gap-3 text-start px-6 py-2"
+          >
+            <div className="border-t-2 border-indie-300/10"></div>
+            <label>Which College are you in?</label>
+            <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
+              <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+                <span className> 🎓  </span>
+              </div>
+              <input
+                placeholder="College"
+                type="text"
+                className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+                defaultValue={userData.college||""}
+                onChange={handleCollege}
               />
             </div>
           </div>
@@ -425,6 +466,7 @@ function Page() {
       <Project />
       <SocialIcons />
     </div>
+    {submit&&<Mobile/>}
     </div>
   );
 }

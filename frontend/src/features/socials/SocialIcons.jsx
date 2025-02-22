@@ -12,17 +12,38 @@ function AdminIcons() {
     Twitter: false,
     Youtube: false,
   });
+  const socialdetails=useSelector((state)=>state.social.socials)
   const [link,setLink]=useState("")
   const social = Object.keys(selected).filter((key) => selected[key]); 
   const socialForm = useSelector((state) => state.social.socials)
   const [formData,setFormData] = useState(socialForm) ;
   const currentUser = useSelector((state)=>state.user.currentUser) 
   const dispatch=useDispatch()
+  // console.log(socialdetails.Github);
+  
     
   function handleLink(e)
   {
     setLink(e.target.value)
   }
+
+  // Create a helper function to handle icon clicks
+  const handleIconClick = (socialType) => {
+    setLink(""); // Reset link state when switching
+    setSelected((prev) => {
+      const newState = {
+        Github: false,
+        Instagram: false,
+        LinkedIn: false,
+        Email: false,
+        Twitter: false,
+        Youtube: false,
+      };
+      newState[socialType] = !prev[socialType];
+      return newState;
+    });
+  };
+
   async function handleSubmit(e)
   {
     const updatedFormData = {
@@ -56,7 +77,7 @@ function AdminIcons() {
         });
       }
 
-      toast.error("Socials Saved!", {
+      toast.success("Socials Saved!", {
         position: 'top-center',
         autoClose: 1000,
         transition: Slide,
@@ -100,16 +121,7 @@ function AdminIcons() {
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("Github") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Instagram: false,
-              Github: !prev.Github,
-              LinkedIn: false,
-              Email: false,
-              Twitter: false,
-              Youtube: false,
-            }))
-          }
+          onClick={() => handleIconClick("Github")}
         >
           <svg
             height="30px"
@@ -128,16 +140,7 @@ function AdminIcons() {
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("Instagram") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Github: false,
-              Instagram: !prev.Instagram,
-              LinkedIn: false,
-              Email: false,
-              Twitter: false,
-              Youtube: false,
-            }))
-          }
+          onClick={() => handleIconClick("Instagram")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -166,16 +169,7 @@ function AdminIcons() {
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("LinkedIn") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Github: false,
-              LinkedIn: !prev.LinkedIn,
-              Instagram: false,
-              Email: false,
-              Twitter: false,
-              Youtube: false,
-            }))
-          }
+          onClick={() => handleIconClick("LinkedIn")}
         >
           <svg
             viewBox="0 0 56.693 56.693"
@@ -195,16 +189,7 @@ function AdminIcons() {
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("Email") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Github: false,
-              Email: !prev.Email,
-              LinkedIn: false,
-              Instagram: false,
-              Twitter: false,
-              Youtube: false,
-            }))
-          }
+          onClick={() => handleIconClick("Email")}
         >
           <svg
             height="30px"
@@ -228,16 +213,7 @@ function AdminIcons() {
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("Twitter") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Github: false,
-              Twitter: !prev.Twitter,
-              LinkedIn: false,
-              Email: false,
-              Instagram: false,
-              Youtube: false,
-            }))
-          }
+          onClick={() => handleIconClick("Twitter")}
         >
           <svg
             enableBackground="new 0 0 56.693 56.693"
@@ -248,23 +224,14 @@ function AdminIcons() {
             xmlns="http://www.w3.org/2000/svg"
             fill="#FFF"
           >
-            <path d="M52.837,15.065c-1.811,0.805-3.76,1.348-5.805,1.591c2.088-1.25,3.689-3.23,4.444-5.592c-1.953,1.159-4.115,2-6.418,2.454  c-1.843-1.964-4.47-3.192-7.377-3.192c-5.581,0-10.106,4.525-10.106,10.107c0,0.791,0.089,1.562,0.262,2.303  c-8.4-0.422-15.848-4.445-20.833-10.56c-0.87,1.492-1.368,3.228-1.368,5.082c0,3.506,1.784,6.6,4.496,8.412  c-1.656-0.053-3.215-0.508-4.578-1.265c-0.001,0.042-0.001,0.085-0.001,0.128c0,4.896,3.484,8.98,8.108,9.91  c-0.848,0.23-1.741,0.354-2.663,0.354c-0.652,0-1.285-0.063-1.902-0.182c1.287,4.015,5.019,6.938,9.441,7.019  c-3.459,2.711-7.816,4.327-12.552,4.327c-0.815,0-1.62-0.048-2.411-0.142c4.474,2.869,9.786,4.541,15.493,4.541  c18.591,0,28.756-15.4,28.756-28.756c0-0.438-0.009-0.875-0.028-1.309C49.769,18.873,51.483,17.092,52.837,15.065z" />
+            <path d="M52.837,15.065c-1.811,0.805-3.76,1.348-5.805,1.591c2.088-1.25,3.689-3.23,4.444-5.592c-1.953,1.159-4.115,2-6.418,2.454  c2.088-1.25,3.689-3.23,4.444-5.592c-1.953,1.159-4.115,2-6.418,2.454  c-1.843-1.964-4.47-3.192-7.377-3.192c-5.581,0-10.106,4.525-10.106,10.107c0,0.791,0.089,1.562,0.262,2.303  c-8.4-0.422-15.848-4.445-20.833-10.56c-0.87,1.492-1.368,3.228-1.368,5.082c0,3.506,1.784,6.6,4.496,8.412  c-1.656-0.053-3.215-0.508-4.578-1.265c-0.001,0.042-0.001,0.085-0.001,0.128c0,4.896,3.484,8.98,8.108,9.91  c-0.848,0.23-1.741,0.354-2.663,0.354c-0.652,0-1.285-0.063-1.902-0.182c1.287,4.015,5.019,6.938,9.441,7.019  c-3.459,2.711-7.816,4.327-12.552,4.327c-0.815,0-1.62-0.048-2.411-0.142c4.474,2.869,9.786,4.541,15.493,4.541  c18.591,0,28.756-15.4,28.756-28.756c0-0.438-0.009-0.875-0.028-1.309C49.769,18.873,51.483,17.092,52.837,15.065z" />
           </svg>
         </span>
         <span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
             social.includes("Youtube") ? `bg-indie-400` : ``
           }`}
-          onClick={() =>
-            setSelected((prev)=>({
-              Github: false,
-              Youtube: !prev.Youtube,
-              LinkedIn: false,
-              Email: false,
-              Twitter: false,
-              Instagram: false,
-            }))
-          }
+          onClick={() => handleIconClick("Youtube")}
         >
           <svg
             height="30px"
@@ -283,7 +250,7 @@ function AdminIcons() {
           <label>{social}</label>
           <div className="flex items-center gap-2">
             <input
-              value={link}
+              value={link || socialdetails[social[0]] || ""}
               placeholder={`Link to your ${social} account`}
               type="text"
               className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full"

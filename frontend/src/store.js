@@ -8,7 +8,7 @@ import projectReducer from './features/project/projectSlice' ;
 
 const rootReducer = combineReducers({
     user : userReducer,
-    socials: socialReducer ,
+    social: socialReducer ,
     project: projectReducer
 })
 
