@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addSocial } from "../socials/socialSlice";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import { Slide, toast} from "react-toastify";
 
 function AdminIcons() {
   const [selected, setSelected] = useState({
@@ -81,7 +81,6 @@ function AdminIcons() {
             }))
           }
         >
-          <ToastContainer hideProgressBar limit={2}/>
           <svg
             height="30px"
             width="30px"

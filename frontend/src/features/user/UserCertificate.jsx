@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import CertificatePdf from "./CertificatePdf";
 
-function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,setUserData,userData,handleUserDetails }) {
+function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDetails }) {
   const typingTimeout = useRef(null);
   function handleName(e)
   {
@@ -13,7 +13,6 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
     }
 
     typingTimeout.current = setTimeout(()=>{
-      setCname(name)
       setUserData((prev)=>({
         ...prev,
         certificate:{
@@ -40,7 +39,6 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
     }
 
     typingTimeout.current = setTimeout(()=>{
-      setClink(link)
       setUserData((prev)=>({
         ...prev,
         certificate:{
@@ -68,7 +66,7 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
             </div>
             <input
               type="text"
-              defaultValue={cname}
+              defaultValue={userData.certificate.certificateName}
               placeholder="Certification Name"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
@@ -83,7 +81,7 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
             </div>
             <input
               type="url"
-              defaultValue={clink}
+              defaultValue={userData.certificate.certificateLink}
               placeholder="Certification Link"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"

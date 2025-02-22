@@ -13,9 +13,10 @@ import SignInRedirect from './ui/SignInRedirect';
 import Account from './components/Account';
 import Billing from './components/Billing';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const {isAuthenticated} = useSelector(state => state.user) ; 
+  const { isAuthenticated } = useSelector(state => state.user);
   const router = createBrowserRouter([
     {
       path: '/',
@@ -75,7 +76,10 @@ function App() {
     }
   ])
   return (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer limit={2} hideProgressBar />
+    </>
   )
 }
 

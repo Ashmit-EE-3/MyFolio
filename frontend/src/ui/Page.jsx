@@ -11,7 +11,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
 import { IoLanguageSharp } from "react-icons/io5";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
 import UserCertificate from "../features/user/UserCertificate"
 import Techstack from "../features/user/Techstack";
@@ -35,14 +35,8 @@ function Page() {
     Skills: false,
     certificate: false,
   });
-  const [languageData, setLanguageData] = useState([]);
-  const [cname, setCname] = useState("")
-  const [clink, setClink] = useState("")
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [location, setLocation] = useState("")
-  const [about, setAbout] = useState("")
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -138,10 +132,6 @@ function Page() {
       setUserData((prevData) => ({ ...prevData, about: newAbout }));
       handleUserDetails({ ...userData, about: newAbout });
     }, 2000);
-    // setAbout(e.target.value)
-    // const newAbout = (e.target.value)
-    // setUserData((prev)=>({...prev,about:newAbout}))
-    // handleUserDetails({...userData,about:newAbout})
   }
 
   function handleLocation(e) {
@@ -175,14 +165,45 @@ function Page() {
       const data = await res.json();
 
       if (data.success === false) {
-        toast.error(data.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        });
       }
 
-      toast.success("Saved", { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.success("Saved!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
+    
       console.log("Data is : ", data);
       dispatch(addUserDetails(data))
     } catch (error) {
-      toast.error(error.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
     }
   }
 
@@ -264,13 +285,12 @@ function Page() {
             defaultValue={formData.displayName}
             className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
-          <ToastContainer hideProgressBar limit={2} />
         </form>
         <form className="px-6">
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            defaultValue={about}
+            defaultValue={userData.about}
             onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
@@ -321,18 +341,18 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                defaultValuealue={location}
+                defaultValue={userData.location}
                 onChange={handleLocation}
               />
             </div>
           </div>
         )}
         {selected.Languages && (
-          <UserLanguages setLanguageData={setLanguageData} languageData={languageData} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />
+          <UserLanguages handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />
         )}
         {selected.Resume && <CVUpload file={cv} setPdfFile={setCv} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
-        {selected.Skills && <Techstack skills={skills} setSkills={setSkills} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
-        {selected.certificate && <UserCertificate handleUserDetails={handleUserDetails} userData={userData} setCname={setCname} setClink={setClink} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink} />}
+        {selected.Skills && <Techstack handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
+        {selected.certificate && <UserCertificate handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} />}
       </div>
       <h1 className="text-xl">
         Your failures, successes and everything in between!

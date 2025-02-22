@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials } from '../features/user/userSlice';
 import app from '../firebase';
-import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail, TwitterAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail, TwitterAuthProvider } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import OAuth from '../components/OAuth';
 import { FcGoogle } from 'react-icons/fc' ; 

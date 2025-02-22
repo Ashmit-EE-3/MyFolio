@@ -6,25 +6,27 @@ const ProjectImage = ({ images, setImages }) => {
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       setImages([...images, file]);
-      toast.success("Image uploaded successfully", {
-        position: "top-center",
-        autoClose: 2000,
+      toast.success("Image uploaded successfully!", {
+        position: 'top-center',
+        autoClose: 1000,
         transition: Slide,
         style: {
           width: "auto",
           whiteSpace: "nowrap",
           padding: "12px 20px",
+          fontFamily: "Poppins",
         },
       });
     } else {
-      toast.error("Please upload a JPG, JPEG or PNG file", {
-        position: "top-center",
-        autoClose: 2000,
+      toast.error("Please upload a JPG, JPEG, or PNG file", {
+        position: 'top-center',
+        autoClose: 1000,
         transition: Slide,
         style: {
           width: "auto",
           whiteSpace: "nowrap",
           padding: "12px 20px",
+          fontFamily: "Poppins",
         },
       });
     }

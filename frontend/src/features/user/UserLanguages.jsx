@@ -4,9 +4,9 @@ import { Slide, toast } from "react-toastify";
 import Select from "react-select"
 import { useState } from "react";
 
-function UserLanguages({ languageData, setLanguageData, handleUserDetails, userData, setUserData }) {
+function UserLanguages({ handleUserDetails, userData, setUserData }) {
 
-  const [language, setLanguage] = useState("")
+  const [lang, setLang] = useState("")
   const languageOptions = [
     { language: "English", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg" },
     { language: "Hindi", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/IN.svg" },
@@ -67,8 +67,8 @@ function UserLanguages({ languageData, setLanguageData, handleUserDetails, userD
 
   function onSubmit(data) {
     var present = false;
-    languageData.map((language) => {
-      if (language.language === language)
+    userData.languages.map((language) => {
+      if (language.language === lang)
         present = true;
     })
     if (present) {
@@ -84,16 +84,13 @@ function UserLanguages({ languageData, setLanguageData, handleUserDetails, userD
       });
       return
     }
-    const newLanguageData = [...languageData, { language: language, proficiency: data.proficiency }]
-    console.log("New Language Data : ", newLanguageData)
-    setLanguageData(newLanguageData)
+    const newLanguageData = [...userData.languages, { language: lang, proficiency: data.proficiency }]
     setUserData((prev) => ({ ...prev, languages: newLanguageData }))
     handleUserDetails({ ...userData, languages: newLanguageData })
   }
 
   function handleDelete(language) {
-    const newLanguageData = languageData.filter((data) => data.language !== language);
-    setLanguageData(newLanguageData)
+    const newLanguageData = userData.languages.filter((data) => data.language !== language);
     setUserData((prev) => ({ ...prev, languages: newLanguageData }))
     handleUserDetails({ ...userData, languages: newLanguageData })
     // setLanguageData((prev) => (
@@ -138,7 +135,7 @@ function UserLanguages({ languageData, setLanguageData, handleUserDetails, userD
             isSearchable={false}
             onChange={(selected) => {
               console.log("selected is : ", selected);
-              setLanguage(selected.value)
+              setLang(selected.value)
             }}
           />
           <div className="flex w-[50%] justify-evenly">
@@ -166,9 +163,9 @@ function UserLanguages({ languageData, setLanguageData, handleUserDetails, userD
           + ADD{" "}
         </button>
       </form>
-      {languageData.length > 0 && (
+      {userData.languages.length > 0 && (
         <ul className="flex gap-4 flex-wrap mx-2 my-2">
-          {languageData.map((language) => (
+          {userData.languages.map((language) => (
             <div key={language.language} className="bg-indie-400 h-10 gap-4 flex justify-center px-3 items-center rounded-xl ">
               <li><span>{language.language}</span></li>
               <span className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 flex justify-center items-center
