@@ -4,24 +4,25 @@ const socialSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: true,
+        unique: true
     },
-    github: {
+    Github: {
         type: String,
     },
-    linkedin: {
+    LinkedIn: {
         type: String,
     },
-    instagram: {
+    Instagram: {
         type: String,
     },
-    email: {
+    Email: {
         type: String,
     },
-    twitter: {
+    Twitter: {
         type: String,
     },
-    youtube:{
+    Youtube:{
         type: String,
     }
 },{timestamps: true})

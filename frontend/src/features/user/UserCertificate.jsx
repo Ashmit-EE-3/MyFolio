@@ -1,20 +1,61 @@
 /* eslint-disable react/prop-types */
+import { useRef } from "react";
 import CertificatePdf from "./CertificatePdf";
 
 function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,setUserData,userData,handleUserDetails }) {
+  const typingTimeout = useRef(null);
   function handleName(e)
   {
     const name=e.target.value
-    setCname(e.target.value)
-    setUserData((prev)=>({...prev,cname:name}))
-    handleUserDetails({...userData,cname:name})
+    
+    if (typingTimeout.current){
+      clearTimeout(typingTimeout.current) ; 
+    }
+
+    typingTimeout.current = setTimeout(()=>{
+      setCname(name)
+      setUserData((prev)=>({
+        ...prev,
+        certificate:{
+          ...prev.certificate,
+          certificateName:name,
+        },
+      }))
+      handleUserDetails({
+        ...userData,
+        certificate: {
+          ...userData.certificate,
+          certificateName:name,
+        },
+      })
+    }, 2000)
   }
+
   function handleLink(e)
   {
     const link=e.target.value
-    setClink(e.target.value)
-    setUserData((prev)=>({...prev,clink:link}))
-    handleUserDetails({...userData,clink:link})
+    
+    if (typingTimeout.current){
+      clearTimeout(typingTimeout.current) ; 
+    }
+
+    typingTimeout.current = setTimeout(()=>{
+      setClink(link)
+      setUserData((prev)=>({
+        ...prev,
+        certificate:{
+          ...prev.certificate,
+          certificateLink:link,
+        },
+      }))
+      handleUserDetails({
+        ...userData,
+        certificate: {
+          ...userData.certificate,
+          certificateLink:link,
+        },
+      })
+    }, 2000)
   }
 
   return (
@@ -27,7 +68,7 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
             </div>
             <input
               type="text"
-              value={cname}
+              defaultValue={cname}
               placeholder="Certification Name"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
@@ -42,7 +83,7 @@ function UserCertificate({ setClink, setCname, pdfFile,setPdfFile, cname, clink,
             </div>
             <input
               type="url"
-              value={clink}
+              defaultValue={clink}
               placeholder="Certification Link"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"

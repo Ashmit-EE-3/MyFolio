@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addSocial } from "../socials/socialSlice";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 function AdminIcons() {
   const [selected, setSelected] = useState({
@@ -12,18 +13,45 @@ function AdminIcons() {
     Youtube: false,
   });
   const [link,setLink]=useState("")
-  const social = Object.keys(selected).filter((key) => selected[key]);
-
+  const social = Object.keys(selected).filter((key) => selected[key]); 
+  const socialForm = useSelector((state) => state.social.socials)
+  const [formData,setFormData] = useState(socialForm) ;
+  const currentUser = useSelector((state)=>state.user.currentUser) 
   const dispatch=useDispatch()
-
+    
   function handleLink(e)
   {
     setLink(e.target.value)
   }
-  function handleSubmit(e)
+  async function handleSubmit(e)
   {
+    const updatedFormData = {
+      ...formData,
+      [social[0]]: link,
+      userId: currentUser._id
+    }
+    setFormData(updatedFormData)
     e.preventDefault();
-    dispatch(addSocial({platform:social[0],link}))
+    try{
+      console.log("Form Data is : ",updatedFormData) ; 
+      const res = await fetch('/api/v1/social/create', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(updatedFormData)
+      })
+
+      const data = await res.json() ; 
+
+      if (data.success === false){
+        toast.error(data.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+      }
+
+      toast.success("Socials Saved", { position: 'top-center', autoClose: 1000, transition: Slide });
+      console.log("Data is : ",data) ; 
+      dispatch(addSocial(data))
+    }catch(error){
+      toast.error(error.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+    }
     setSelected({
       Github: false,
       Instagram: false,
@@ -53,6 +81,7 @@ function AdminIcons() {
             }))
           }
         >
+          <ToastContainer hideProgressBar limit={2}/>
           <svg
             height="30px"
             width="30px"

@@ -2,38 +2,44 @@ const mongoose = require('mongoose')
 
 const profileSchema = new mongoose.Schema({
     userId: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "User", 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
-    username: {
-        type: String,
-        required: true,
-        unique: true 
-    },
-    description: {
+    about: {
         type: String,
     },
     location: {
-        type: String, 
+        type: String,
     },
     languages: [{
         language: {
-            type: String,
-            required: true
+            type: String
         },
         proficiency: {
-            type: String
-        }  
+            type: String,
+            enum: ["Basic","Intermediate","Proficient"],
+        }
     }],
     techStack: [{
         type: String
     }],
     resume: {
         type: String,
+    },
+    certificate: {
+        certificateName: {
+            type: String,
+        },
+        certificateLink: {
+            type: String,
+        },
+        certificatePDF: {
+            type: String,
+        }
     }
-},{timestamps: true})
+}, { timestamps: true })
 
-const Profile = mongoose.model('Profile',profileSchema)
+const Profile = mongoose.model('Profile', profileSchema)
 
 module.exports = Profile
