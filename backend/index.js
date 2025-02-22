@@ -4,8 +4,9 @@ const userRouter = require('./routes/user.route') ;
 const authRouter = require('./routes/auth.route') ; 
 const profileRouter = require('./routes/profile.route') ;
 const projectRouter = require('./routes/project.route') ;
-const certificateRouter = require('./routes/certificate.route') ;
 const socialRouter = require('./routes/social.route') ;
+const usernameRouter = require('./routes/username.route') ; 
+
 const app = express() ;
  
 const dotenv = require('dotenv') ; 
@@ -32,8 +33,8 @@ app.use('/api/v1/user',userRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/profile',profileRouter)
 app.use('/api/v1/project',projectRouter)
-app.use('/api/v1/certificate',certificateRouter)
 app.use('/api/v1/social',socialRouter)
+app.use('/api/v1/username',usernameRouter)
 
 app.listen(port, ()=>{
     console.log(`Server is listening on port ${port}!!!`) ; 

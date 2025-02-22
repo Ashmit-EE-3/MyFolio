@@ -77,7 +77,8 @@ function Account() {
           style: {
             width: "auto",
             whiteSpace: "nowrap",
-            padding: "12px 20px"
+            padding: "12px 20px",
+            fontFamily: "Poppins"
           }
         })
         dispatch(deleteUser());
@@ -91,7 +92,8 @@ function Account() {
           style: {
             width: "auto",
             whiteSpace: "nowrap",
-            padding: "12px 20px"
+            padding: "12px 20px",
+            fontFamily: "Poppins"
           }
         })
       }
@@ -103,7 +105,8 @@ function Account() {
         style: {
           width: "auto",
           whiteSpace: "nowrap",
-          padding: "12px 20px"
+          padding: "12px 20px",
+          fontFamily: "Poppins"
         }
       })
       console.log(error)

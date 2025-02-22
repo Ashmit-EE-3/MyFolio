@@ -55,7 +55,7 @@ function Page() {
     }, 2000);
   }
 
-  function handleProfileImageUpload(e) {
+  async function handleProfileImageUpload(e) {
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       console.log("Image uploaded:", file);
@@ -63,7 +63,21 @@ function Page() {
       alert("Please upload a JPG, JPEG or PNG file");
     }
 
-    const imageURL = URL.createObjectURL(file); // Convert file to URL
+    const formData = new FormData() ; 
+    formData.append("file",file)
+    formData.append("upload_preset","tch_image_upload") ;
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",{
+      method: "POST",
+      body: formData,
+    }) ; 
+    
+    if (!res.ok){
+      throw new Error("Cloudinary Upload Error!")
+    }
+
+    const data = await res.json() ; 
+    const imageURL = data.secure_url // Convert file to URL
     setFormData((prevData) => ({ ...prevData, photoURL: imageURL }));
     handleUserSubmit({ ...formData, photoURL: imageURL });
   }
@@ -207,19 +221,65 @@ function Page() {
     }
   }
 
-  function handleUSubmit(e) {
+  async function handleUSubmit(e) {
     e.preventDefault();
-    toast.success("Username Created", {
-      position: 'top-center',
-      autoClose: 1000,
-      transition: Slide,
-      style: {
-        width: "auto",
-        whiteSpace: "nowrap",
-        padding: "12px 20px"
+    try{
+      const usernameData = {
+        username: username, 
+        userId: currentUser._id
       }
-    });
-    dispatch(addUsername(username));
+      const res = await fetch('/api/v1/username/create' ,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(usernameData) 
+      })
+      console.log("Response from error is : ", res) 
+
+      const data = await res.json()
+
+      if (res.ok === false){
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins"
+          }
+        });
+        return ; 
+      }
+      
+      toast.success("Username Created!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+
+      dispatch(addUsername(data.username));
+    }
+    catch(error){
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+    }
+    
   }
   return (
     <div className="flex flex-col gap-4 font-poppins m-auto overflow-y-scroll h-full">
@@ -250,7 +310,7 @@ function Page() {
         <form className="flex gap-5 p-6 text-xl items-center">
           <div
             onClick={() => document.getElementById("profile-upload").click()}
-            className="relative h-14 w-14 group cursor-pointer"
+            className="relative h-14 w-14 group cursor-pointer !h-14 !w-14 aspect-square block p-0 m-0 object-cover"
           >
             <input
               type="file"
@@ -260,7 +320,7 @@ function Page() {
               id="profile-upload"
             />
             <svg
-              className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+              className="absolute top-0 left-0 h-8 w-8 z-20 translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               fill="white"
@@ -274,7 +334,7 @@ function Page() {
             </svg>
             <img
               src={formData.photoURL}
-              className="rounded-full group-hover:opacity-60"
+              className="rounded-full h-13 w-13 !h-13 !w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
               alt="avatar"
             />
           </div>

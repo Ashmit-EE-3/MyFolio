@@ -43,14 +43,44 @@ function AdminIcons() {
       const data = await res.json() ; 
 
       if (data.success === false){
-        toast.error(data.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        });
       }
 
-      toast.success("Socials Saved", { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.error("Socials Saved!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
       console.log("Data is : ",data) ; 
       dispatch(addSocial(data))
     }catch(error){
-      toast.error(error.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
     }
     setSelected({
       Github: false,
