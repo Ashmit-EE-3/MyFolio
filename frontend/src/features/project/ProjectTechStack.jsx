@@ -111,15 +111,16 @@ function ProjectTechstack({skills,setSkills}) {
         present=true;
     })
     if(present){
-      toast.error("Skill Already Present",{
+      toast.error("Skill already present!", {
         position: 'top-center',
         autoClose: 1000,
         transition: Slide,
         style: {
           width: "auto",
           whiteSpace: "nowrap",
-          padding: "12px 20px"
-        }
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
       });
       return
     }

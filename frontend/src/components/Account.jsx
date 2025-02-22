@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import { Slide, toast} from "react-toastify";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
@@ -77,7 +77,8 @@ function Account() {
           style: {
             width: "auto",
             whiteSpace: "nowrap",
-            padding: "12px 20px"
+            padding: "12px 20px",
+            fontFamily: "Poppins"
           }
         })
         dispatch(deleteUser());
@@ -91,7 +92,8 @@ function Account() {
           style: {
             width: "auto",
             whiteSpace: "nowrap",
-            padding: "12px 20px"
+            padding: "12px 20px",
+            fontFamily: "Poppins"
           }
         })
       }
@@ -103,7 +105,8 @@ function Account() {
         style: {
           width: "auto",
           whiteSpace: "nowrap",
-          padding: "12px 20px"
+          padding: "12px 20px",
+          fontFamily: "Poppins"
         }
       })
       console.log(error)
@@ -186,9 +189,7 @@ function Account() {
       <div className="flex justify-end gap-4">
         <button onClick={handleDeleteClick} className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>
         <button onClick={handleLogOutClick} className="p-3 rounded-xl hover:bg-indie-400 cursor-pointer transition-colors duration-200">LOGOUT</button>
-        <ToastContainer limit={2} hideProgressBar />
       </div>
-
     </div>
   );
 }

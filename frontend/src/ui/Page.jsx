@@ -11,7 +11,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
 import { IoLanguageSharp } from "react-icons/io5";
-import { Slide, toast, ToastContainer } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
 import UserCertificate from "../features/user/UserCertificate";
 import Techstack from "../features/user/Techstack";
@@ -36,14 +36,8 @@ function Page() {
     Skills: false,
     certificate: false,
   });
-  const [languageData, setLanguageData] = useState([]);
-  const [cname, setCname] = useState("")
-  const [clink, setClink] = useState("")
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [location, setLocation] = useState("")
-  const [about, setAbout] = useState("")
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -62,7 +56,7 @@ function Page() {
     }, 2000);
   }
 
-  function handleProfileImageUpload(e) {
+  async function handleProfileImageUpload(e) {
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       console.log("Image uploaded:", file);
@@ -70,7 +64,21 @@ function Page() {
       alert("Please upload a JPG, JPEG or PNG file");
     }
 
-    const imageURL = URL.createObjectURL(file); // Convert file to URL
+    const formData = new FormData() ; 
+    formData.append("file",file)
+    formData.append("upload_preset","tch_image_upload") ;
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",{
+      method: "POST",
+      body: formData,
+    }) ; 
+    
+    if (!res.ok){
+      throw new Error("Cloudinary Upload Error!")
+    }
+
+    const data = await res.json() ; 
+    const imageURL = data.secure_url // Convert file to URL
     setFormData((prevData) => ({ ...prevData, photoURL: imageURL }));
     handleUserSubmit({ ...formData, photoURL: imageURL });
   }
@@ -139,10 +147,6 @@ function Page() {
       setUserData((prevData) => ({ ...prevData, about: newAbout }));
       handleUserDetails({ ...userData, about: newAbout });
     }, 2000);
-    // setAbout(e.target.value)
-    // const newAbout = (e.target.value)
-    // setUserData((prev)=>({...prev,about:newAbout}))
-    // handleUserDetails({...userData,about:newAbout})
   }
 
   function handleLocation(e) {
@@ -176,30 +180,107 @@ function Page() {
       const data = await res.json();
 
       if (data.success === false) {
-        toast.error(data.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        });
       }
 
-      toast.success("Saved", { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.success("Saved!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
+    
       console.log("Data is : ", data);
       dispatch(addUserDetails(data))
     } catch (error) {
-      toast.error(error.message, { position: 'top-center', autoClose: 1000, transition: Slide });
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
     }
   }
 
-  function handleUSubmit(e) {
+  async function handleUSubmit(e) {
     e.preventDefault();
-    toast.success("Username Created", {
-      position: 'top-center',
-      autoClose: 1000,
-      transition: Slide,
-      style: {
-        width: "auto",
-        whiteSpace: "nowrap",
-        padding: "12px 20px",
-      },
-    });
-    dispatch(addUsername(username));
+    try{
+      const usernameData = {
+        username: username, 
+        userId: currentUser._id
+      }
+      const res = await fetch('/api/v1/username/create' ,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(usernameData) 
+      })
+      console.log("Response from error is : ", res) 
+
+      const data = await res.json()
+
+      if (res.ok === false){
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins"
+          }
+        });
+        return ; 
+      }
+      
+      toast.success("Username Created!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+
+      dispatch(addUsername(data.username));
+    }
+    catch(error){
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      });
+    }
+    
   }
   return (
     <div className="flex mx-auto gap-20 h-screen overflow-hidden">
@@ -234,7 +315,7 @@ function Page() {
         <form className="flex gap-5 p-6 text-xl items-center">
           <div
             onClick={() => document.getElementById("profile-upload").click()}
-            className="relative h-14 w-14 group cursor-pointer"
+            className="relative h-14 w-14 group cursor-pointer !h-14 !w-14 aspect-square block p-0 m-0 object-cover"
           >
             <input
               type="file"
@@ -244,7 +325,7 @@ function Page() {
               id="profile-upload"
             />
             <svg
-              className="absolute top-0 left-0 h-8 w-8 z-20  translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+              className="absolute top-0 left-0 h-8 w-8 z-20 translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               fill="white"
@@ -258,7 +339,7 @@ function Page() {
             </svg>
             <img
               src={formData.photoURL}
-              className="rounded-full group-hover:opacity-60"
+              className="rounded-full h-13 w-13 !h-13 !w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
               alt="avatar"
             />
           </div>
@@ -269,13 +350,12 @@ function Page() {
             defaultValue={formData.displayName}
             className="w-full p-2 rounded-lg focus:outline-none focus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 placeholder:text-base"
           />
-          <ToastContainer hideProgressBar limit={2} />
         </form>
         <form className="px-6">
           <textarea
             placeholder="I quit my 9-5 job to work 24/7 on my startup"
             type="text"
-            defaultValue={about}
+            defaultValue={userData.about}
             onChange={handleAbout}
             className="h-28 w-full placeholder:text-base p-4 rounded-lg focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-50 bg-indie-500"
           ></textarea>
@@ -326,24 +406,25 @@ function Page() {
                 placeholder="Location"
                 type="text"
                 className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
-                defaultValuealue={location}
+                defaultValue={userData.location}
                 onChange={handleLocation}
               />
             </div>
           </div>
         )}
         {selected.Languages && (
-          <UserLanguages setLanguageData={setLanguageData} languageData={languageData} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />
+          <UserLanguages handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />
         )}
         {selected.Resume && <CVUpload file={cv} setPdfFile={setCv} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
-        {selected.Skills && <Techstack skills={skills} setSkills={setSkills} handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
-        {selected.certificate && <UserCertificate handleUserDetails={handleUserDetails} userData={userData} setCname={setCname} setClink={setClink} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} cname={cname} clink={clink} />}
+        {selected.Skills && <Techstack handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} />}
+        {selected.certificate && <UserCertificate handleUserDetails={handleUserDetails} userData={userData} setUserData={setUserData} pdfFile={cpdf} setPdfFile={setCpdf} />}
       </div>
       <h1 className="text-xl">
         Your failures, successes and everything in between!
       </h1>
       <Project />
       <SocialIcons />
+    </div>
     </div>
   );
 }

@@ -94,7 +94,7 @@ const techOptions = [
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 
-function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
+function Techstack({setUserData,handleUserDetails,userData}) {
   const [selectedSkill, setSelectedSkill] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -105,7 +105,7 @@ function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
   function handleAdd() {
     if (!selectedSkill) return;
     var present=false;
-    skills.map((skill)=>
+    userData.techStack.map((skill)=>
     {
       if(skill===selectedSkill)
         present=true;
@@ -123,15 +123,13 @@ function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
       });
       return
     }
-    const updatedSkill=[...skills,selectedSkill]
-    setSkills([...skills, selectedSkill]);
+    const updatedSkill=[...userData.techStack,selectedSkill]
     setUserData((prev)=>({...prev,techStack:updatedSkill}))
     handleUserDetails({...userData,techStack:updatedSkill})
   }
   function handleDelete(skill)
   {
-      const updatedSkills = skills.filter((s) => s !== skill);
-      setSkills(updatedSkills);
+      const updatedSkills = userData.techStack.filter((s) => s !== skill);
       setUserData((prev) => ({ ...prev, techStack: updatedSkills }));
       handleUserDetails({ ...userData, techStack: updatedSkills });
   }
@@ -182,9 +180,9 @@ function Techstack({skills,setSkills,setUserData,handleUserDetails,userData}) {
         +
       </button>
       </div>
-      {skills.length > 0 && (
+      {userData.techStack.length > 0 && (
         <ul className="flex gap-4 flex-wrap mx-2 my-3">
-          {skills.map((skill) => (
+          {userData.techStack.map((skill) => (
             <div key={skill} className="bg-indie-400 h-12 gap-4 flex justify-between px-3 items-center rounded-xl ">
               <li  className="w-7 h-7"><span><StackIcon name={skill}/></span></li>
               <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center

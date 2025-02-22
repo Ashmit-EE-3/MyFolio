@@ -25,6 +25,7 @@ const userSlice = createSlice({
         deleteUser(state){
             state.isAuthenticated = false 
             state.currentUser = {}
+            state.submit = false 
         },
         addUsername(state, action) {
             state.username = action.payload,
