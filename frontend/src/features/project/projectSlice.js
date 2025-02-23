@@ -18,9 +18,12 @@ const projectSlice = createSlice({
         updateProject(state,action)
         {
             state.project=action.payload
+        },
+        addProjectLogin(state,action){
+            state.project = action.payload
         }
     }
 })
 
 export default projectSlice.reducer;
-export const { addProject,deleteProject,updateProject } = projectSlice.actions;
+export const { addProject, addProjectLogin, deleteProject, updateProject } = projectSlice.actions;

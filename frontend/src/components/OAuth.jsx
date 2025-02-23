@@ -6,6 +6,7 @@ import { getAuth, signInWithPopup} from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
+import { addProjectLogin } from '../features/project/projectSlice';
 
 function OAuth({provider,Icon,name}) {
     const navigate = useNavigate() ; 
@@ -20,7 +21,10 @@ function OAuth({provider,Icon,name}) {
             if (!res.ok) {
                 toast.error(data.message) ; 
             }
-            dispatch(addUserDetails(data))
+            console.log("Profile is : ",data) ; 
+            if (data){
+                dispatch(addUserDetails(data)) ; 
+            }
         }
         catch(error){
             console.log(error)
@@ -36,7 +40,10 @@ function OAuth({provider,Icon,name}) {
             if (!res.ok){
                 toast.error(data.message)
             }
-            dispatch(addProject(data))
+            console.log("Projects are : ",data) ; 
+            if (data){
+                dispatch(addProjectLogin(data))
+            }
         }
         catch(error){
             console.log(error)
@@ -52,7 +59,10 @@ function OAuth({provider,Icon,name}) {
             if (!res.ok){
                 toast.error(data.message)
             }
-            dispatch(addUsername(data.username)) 
+            console.log("Username is : ",data) ;
+            if (data){
+                dispatch(addUsername(data.username))
+            }  
         }
         catch(error){
             console.log(error)
@@ -68,7 +78,10 @@ function OAuth({provider,Icon,name}) {
             if (!res.ok){
                 toast.error(data.message)
             }
-            dispatch(addSocial(data)) ; 
+            console.log("Socials are : ",data) ; 
+            if (data){
+                dispatch(addSocial(data)) ;
+            } 
         }
         catch(error){
             console.log(error)

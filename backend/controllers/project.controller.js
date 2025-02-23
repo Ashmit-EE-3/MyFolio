@@ -4,6 +4,7 @@ const Project = require("../models/project.model")
 const getProject = async(req,res,next)=>{
     try{
         const project = await Project.find({userId: req.params.id})
+        console.log("Project is : ",project)
         return res.status(200).json(project) 
     }
     catch(error){
