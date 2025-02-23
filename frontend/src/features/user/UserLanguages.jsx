@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form";
 import { Slide, toast } from "react-toastify";
 import Select from "react-select"
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function UserLanguages({ handleUserDetails, userData, setUserData }) {
+  const userlanguages=useSelector(state=>state.user.userDetails?.languages)
 
   const [lang, setLang] = useState("")
   const languageOptions = [
@@ -67,6 +69,14 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
 
   function onSubmit(data) {
     var present = false;
+    if (!userData.languages) {
+      const language = lang;
+      const prof=data.proficiency
+      const newObj={language:language,proficiency:prof}
+      setUserData((prev) => ({ ...prev, languages: newObj }));
+      handleUserDetails({ ...userData, languages: newObj });
+      return;
+    }
     userData.languages.map((language) => {
       if (language.language === lang)
         present = true;
@@ -93,9 +103,6 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
     const newLanguageData = userData.languages.filter((data) => data.language !== language);
     setUserData((prev) => ({ ...prev, languages: newLanguageData }))
     handleUserDetails({ ...userData, languages: newLanguageData })
-    // setLanguageData((prev) => (
-    //   prev.filter((data) => data.language !== language)
-    // ))
   }
 
   const levels = [
@@ -163,9 +170,9 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
           + ADD{" "}
         </button>
       </form>
-      {userData.languages.length > 0 && (
+      {userlanguages && (
         <ul className="flex gap-4 flex-wrap mx-2 my-2">
-          {userData.languages.map((language) => (
+          {userlanguages.map((language) => (
             <div key={language.language} className="bg-indie-400 h-10 gap-4 flex justify-center px-3 items-center rounded-xl ">
               <li><span>{language.language}</span></li>
               <span className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 flex justify-center items-center

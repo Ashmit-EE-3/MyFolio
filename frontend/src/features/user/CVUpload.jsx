@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 function PdfUpload({
   file,
   setPdfFile,
@@ -8,6 +9,7 @@ function PdfUpload({
   setUserData,
 }) {
   const pdfName = file ? file.name : "";
+  const cv=useSelector(state=>state.user.userDetails?.resume)
   async function handleFileUpload(e) {
     try {
       const file = e.target.files[0];
@@ -58,7 +60,7 @@ function PdfUpload({
           <span>
             <IoCloudUploadOutline style={{ color: "#22222A" }} size={28} />
           </span>
-          {pdfName || "UPLOAD PDF"}
+          {pdfName || (cv && "UPLOADED CV ✔ ") || "UPLOAD PDF"}
         </button>
         {pdfName && (
           <p className="text-sm text-indie-300">Selected file: {pdfName}</p>

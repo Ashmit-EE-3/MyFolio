@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 
@@ -95,6 +96,8 @@ const techOptions = [
 
 
 function Techstack({setUserData,handleUserDetails,userData}) {
+
+  const tc=useSelector(state=>state.user.userDetails?.techStack)
   const [selectedSkill, setSelectedSkill] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -104,14 +107,14 @@ function Techstack({setUserData,handleUserDetails,userData}) {
   }
   function handleAdd() {
     if (!selectedSkill) return;
-    var present=false;
-    userData.techStack.map((skill)=>
-    {
-      if(skill===selectedSkill)
-        present=true;
-    })
-    if(present){
-      toast.error("Skill Already Present",{
+    if (!userData.techStack) {
+      const updatedSkill = [selectedSkill];
+      setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
+      handleUserDetails({ ...userData, techStack: updatedSkill });
+      return;
+    }
+    if (userData.techStack.includes(selectedSkill)) {
+      toast.error("Skill Already Present", {
         position: 'top-center',
         autoClose: 1000,
         transition: Slide,
@@ -121,11 +124,12 @@ function Techstack({setUserData,handleUserDetails,userData}) {
           padding: "12px 20px"
         }
       });
-      return
+      return;
     }
-    const updatedSkill=[...userData.techStack,selectedSkill]
-    setUserData((prev)=>({...prev,techStack:updatedSkill}))
-    handleUserDetails({...userData,techStack:updatedSkill})
+
+    const updatedSkill = [...userData.techStack, selectedSkill];
+    setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
+    handleUserDetails({ ...userData, techStack: updatedSkill });
   }
   function handleDelete(skill)
   {
@@ -180,9 +184,9 @@ function Techstack({setUserData,handleUserDetails,userData}) {
         +
       </button>
       </div>
-      {userData.techStack.length > 0 && (
+      {tc && (
         <ul className="flex gap-4 flex-wrap mx-2 my-3">
-          {userData.techStack.map((skill) => (
+          {tc.map((skill) => (
             <div key={skill} className="bg-indie-400 h-12 gap-4 flex justify-between px-3 items-center rounded-xl ">
               <li  className="w-7 h-7"><span><StackIcon name={skill}/></span></li>
               <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center

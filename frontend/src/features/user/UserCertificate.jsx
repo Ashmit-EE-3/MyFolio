@@ -66,7 +66,7 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
             </div>
             <input
               type="text"
-              defaultValue={userData.certificate?.certificateName||""}    
+              defaultValue={userData?.certificate?.certificateName||""}    
               placeholder="Certification Name"
               className="w-full p-2 h-full
                   focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"

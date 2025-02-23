@@ -19,17 +19,14 @@ function AdminIcons() {
   const [formData,setFormData] = useState(socialForm) ;
   const currentUser = useSelector((state)=>state.user.currentUser) 
   const dispatch=useDispatch()
-  // console.log(socialdetails.Github);
   
     
   function handleLink(e)
   {
     setLink(e.target.value)
   }
-
-  // Create a helper function to handle icon clicks
   const handleIconClick = (socialType) => {
-    setLink(""); // Reset link state when switching
+    setLink("");
     setSelected((prev) => {
       const newState = {
         Github: false,
@@ -46,6 +43,11 @@ function AdminIcons() {
 
   async function handleSubmit(e)
   {
+    e.preventDefault();
+  if (!link && socialdetails?.[social[0]]) {
+    setLink(socialdetails[social[0]]); // YAHA DELETE KARANA HOGA.
+    return;
+  }
     const updatedFormData = {
       ...formData,
       [social[0]]: link,
@@ -250,15 +252,14 @@ function AdminIcons() {
           <label>{social}</label>
           <div className="flex items-center gap-2">
             <input
-              value={link || socialdetails[social[0]] || ""}
+              value={socialdetails?.[social[0]] || link}
               placeholder={`Link to your ${social} account`}
               type="text"
-              className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full"
+              className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none"
               onChange={handleLink}
             />
             <button className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-700 cursor-pointer hover:bg-veronica-800">
-              {" "}
-              + ADD{" "}  
+              {socialdetails?.[social[0]]? "DELETE":"+ ADD"}
             </button>
           </div>
         </form>

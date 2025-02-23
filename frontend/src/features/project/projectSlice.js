@@ -11,8 +11,16 @@ const projectSlice = createSlice({
         addProject(state, action) {
             state.project.push(action.payload)
         },
+        deleteProject(state,action){
+            state.project=state.project.filter((project)=>
+            project.name!==action.payload)
+        },
+        updateProject(state,action)
+        {
+            state.project=action.payload
+        }
     }
 })
 
 export default projectSlice.reducer;
-export const { addProject } = projectSlice.actions;
+export const { addProject,deleteProject,updateProject } = projectSlice.actions;

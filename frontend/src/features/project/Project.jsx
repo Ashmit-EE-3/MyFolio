@@ -11,7 +11,12 @@ import { Slide, toast} from "react-toastify";
 function Project() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [showForm, setShowForm] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,reset } = useForm({
+    defaultValues:{
+      name:"",
+      description:""
+    }
+  });
   const [skills, setSkills] = useState([]);
   const [confetti, setConfetti] = useState(false);
   const [images, setImages] = useState([]);
@@ -39,7 +44,6 @@ function Project() {
         return data.secure_url;
       });
   
-      // Wait for all uploads to complete
       const uploadedUrls = await Promise.all(upload);
       return uploadedUrls;
     } catch (error) {
@@ -62,6 +66,7 @@ function Project() {
       };
 
       console.log("Submitting project data: ", newObject);
+      reset()
   
       const res = await fetch('/api/v1/project/create', {
         method: 'POST',
@@ -157,7 +162,7 @@ function Project() {
               />
             </div>
             <button
-              className="bg-veronica-700 text-indie-600 p-3 rounded-lg mx-auto my-4  w-[48vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
+              className="bg-veronica-700 text-indie-600 p-3 rounded-lg mx-auto my-4 w-[49.5vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
               type="submit"
             >
               <span className="transition-transform duration-500 delay-200 group-hover:rotate-90 inline-block">
@@ -170,7 +175,7 @@ function Project() {
       )}
       {!showForm && (
         <button
-          className="bg-veronica-700 text-indie-600 p-3 rounded-lg w-[48vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
+          className="bg-veronica-700 text-indie-600 p-3 rounded-lg w-[49.5vw] tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 group flex justify-center gap-2"
           onClick={() => setShowForm(!showForm)}
         >
           <span className="transition-transform duration-500 delay-200 group-hover:rotate-90 inline-block">

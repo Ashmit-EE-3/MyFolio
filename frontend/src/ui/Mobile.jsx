@@ -32,12 +32,12 @@ function Mobile() {
   );
   const userImage = useSelector((state) => state.user.currentUser.photoURL);
   const username = useSelector((state) => state.user.username);
-  const about = useSelector((state) => state.user.userDetails.about);
-  const college = useSelector((state) => state.user.userDetails.college);
-  const location = useSelector((state) => state.user.userDetails.location);
-  const skills = useSelector((state) => state.user.userDetails.techStack);
-  const languages = useSelector((state) => state.user.userDetails.languages);
-  const socials = useSelector((state) => state.social.socials);
+  const about = useSelector((state) => state.user.userDetails?.about);
+  const college = useSelector((state) => state.user.userDetails?.college);
+  const location = useSelector((state) => state.user.userDetails?.location);
+  const skills = useSelector((state) => state.user.userDetails?.techStack);
+  const languages = useSelector((state) => state.user.userDetails?.languages);
+  const socials = useSelector((state) => state.social?.socials);
   const [share,setShare]=useState(false)
 
   function handleShare()
@@ -60,10 +60,10 @@ function Mobile() {
             <div className={`flex flex-col justify-center items-center gap-4 ${share ? "opacity-25" : ""}`}>
               <img
                 src={userImage}
-                className="rounded-full w-30 h-30 border-6 border-purple-600 translate-y-15"
+                className="rounded-full w-30 h-30 border-6 border-purple-600 absolute top-10"
               />
-              <div className="bg-indie-100 w-[96%] mx-auto rounded-lg flex flex-col gap-2">
-                <div className="mt-12">
+              <div className="bg-indie-100 w-[96%] mx-auto my-18 rounded-lg flex flex-col gap-2">
+                <div className="mt-16">
                   {location && (
                     <div className="text-sm flex justify-center items-center">
                       <span>
@@ -83,9 +83,9 @@ function Mobile() {
                   <h2 className="text-md bg-purple-600 text-stone-200 w-fit px-3 py-0.5 rounded-xl mx-auto italic">
                     @{username}
                   </h2>
-                  <p className="text-sm my-1">{about}</p>
+                  <p className="text-md my-1">{about}</p>
                 </div>
-                {skills.length > 0 && (
+                {skills && skills.length > 0 && (
                   <>
                     <div className="w-[90%] h-0.5 bg-indie-100 mx-auto my-2">
                       <hr />
@@ -105,7 +105,7 @@ function Mobile() {
                     </div>
                   </>
                 )}
-                {languages.length > 0 && (
+                {languages && languages.length > 0 && (
                   <>
                     <div className="w-[90%] h-0.5 bg-indie-100 mx-auto my-2">
                       <hr />
@@ -130,7 +130,7 @@ function Mobile() {
                     </div>
                   </>
                 )}
-                {socials.length > 0 && (
+                {socials && Object.keys(socials).length>=6 && (
                   <>
                     <div className="w-[90%] h-0.5 bg-indie-100 mx-auto my-2">
                       <hr />
