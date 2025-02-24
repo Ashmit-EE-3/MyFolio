@@ -87,7 +87,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       handleUserDetails({ ...userData, languages: newObj });
       return;
     }
-    userData.languages.map((language) => {
+    userlanguages.map((language) => {
       if (language.language === lang)
         present = true;
     })
@@ -105,7 +105,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       });
       return
     }
-    const newLanguageData = [...userData.languages, { language: lang, proficiency: data.proficiency }]
+    const newLanguageData = [...userlanguages, { language: lang, proficiency: data.proficiency }]
     setUserData((prev) => ({ ...prev, languages: newLanguageData }))
     handleUserDetails({ ...userData, languages: newLanguageData })
   }

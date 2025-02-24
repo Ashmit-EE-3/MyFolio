@@ -6,6 +6,8 @@ import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { GiGraduateCap } from "react-icons/gi";
+import { FaLocationDot } from "react-icons/fa6";
 import StackIcon from "tech-stack-icons";
 import { useState } from "react";
 import Share from "../components/Share";
@@ -65,22 +67,25 @@ function Mobile() {
               <div className="bg-indie-100 w-[96%] mx-auto my-18 rounded-lg flex flex-col gap-2">
                 <div className="mt-16">
                   {location && (
-                    <div className="text-sm flex justify-center items-center">
+                    <div className="text-sm gap-1 flex justify-center items-center">
                       <span>
-                        <IoLocationOutline color="black" />
+                        <FaLocationDot color="#414558" />
                       </span>
-                      <p>{location}</p>
+                      <p className="capitalize">{location}</p>
                     </div>
                   )}
                   {college && (
-                    <div className="text-sm flex justify-center items-center">
-                      <p>🎓 {college}</p>
+                    <div className="text-sm flex gap-1 justify-center items-center">
+                      <span>
+                        <GiGraduateCap color="#414558" />
+                      </span>
+                      <p className="uppercase">{college}</p>
                     </div>
                   )}
                   <h1 className="font-semibold uppercase text-[28px]">
                     {displayName}
                   </h1>
-                  <h2 className="text-md bg-purple-600 text-stone-200 w-fit px-3 py-0.5 rounded-xl mx-auto italic">
+                  <h2 className="text-md bg-purple-600 text-white w-fit px-3 py-0.5 rounded-xl mx-auto italic">
                     @{username}
                   </h2>
                   <p className="text-md my-1">{about}</p>
@@ -141,32 +146,32 @@ function Mobile() {
                     <div className="flex gap-2 justify-center items-center my-3">
                       {socials["Github"] && (
                         <a target="_blank" href={socials["Github"]}>
-                          <FaGithub size={30} color="purple" />
+                          <FaGithub size={30} color="#9810fa"/>
                         </a>
                       )}
                       {socials["Instagram"] && (
                         <a target="_blank" href={socials["Instagram"]}>
-                          <FaInstagram size={30} color="purple" />
+                          <FaInstagram size={30} color="#9810fa" />
                         </a>
                       )}
                       {socials["LinkedIn"] && (
                         <a target="_blank" href={socials["LinkedIn"]}>
-                          <FaLinkedin size={30} color="purple" />
+                          <FaLinkedin size={30} color="#9810fa" />
                         </a>
                       )}
                       {socials["Email"] && (
                         <a target="_blank" href={socials["Email"]}>
-                          <MdEmail size={30} color="purple" />
+                          <MdEmail size={30} color="#9810fa" />
                         </a>
                       )}
                       {socials["Twitter"] && (
                         <a target="_blank" href={socials["Twitter"]}>
-                          <FaXTwitter size={30} color="purple" />
+                          <FaXTwitter size={30} color="#9810fa" />
                         </a>
                       )}
                       {socials["Youtube"] && (
                         <a target="_blank" href={socials["Youtube"]}>
-                          <FaYoutube size={30} color="purple" />
+                          <FaYoutube size={30} color="#9810fa" />
                         </a>
                       )}
                     </div>

@@ -12,8 +12,9 @@ const getSocial = async (req, res, next) => {
 const createSocial = async (req, res, next) => {
     try {
         const socialData = await Social.findOne({ userId: req.body.userId });
+        console.log("Social Data is : ", socialData) 
         if (socialData) {
-            await Social.findByIdAndDelete(req.body._id);
+            await Social.findByIdAndDelete(socialData._id);
         }
         const newSocial = await Social.create(req.body)
         res.status(201).json(newSocial)

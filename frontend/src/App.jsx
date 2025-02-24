@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const { isAuthenticated } = useSelector(state => state.user);
+  const  isAuthenticated  = useSelector((state) => state.user.isAuthenticated);
   const router = createBrowserRouter([
     {
       path: '/',

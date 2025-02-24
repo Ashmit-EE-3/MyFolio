@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials, addUserDetails, addUsername } from '../features/user/userSlice';
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
@@ -11,7 +11,12 @@ import { addProjectLogin } from '../features/project/projectSlice';
 function OAuth({ provider, Icon, name }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const isAuthenticated = useSelector((state)=>state.user.isAuthenticated) ; 
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/admin');
+        }
+    }, [isAuthenticated]); 
     const fetchProfile = async (id) => {
         try {
             const res = await fetch(`/api/v1/profile/get/${id}`, {
@@ -22,7 +27,6 @@ function OAuth({ provider, Icon, name }) {
                 toast.error(data.message);
             }
             console.log("Profile is : ", data);
-
             dispatch(addUserDetails(data));
 
         }
@@ -55,9 +59,13 @@ function OAuth({ provider, Icon, name }) {
                 method: "GET"
             })
             const data = await res.json();
-
+            console.log("User Response is : ", res)
             if (!res.ok) {
                 toast.error(data.message)
+            }
+
+            if (!data || !data.username){
+                return ; 
             }
             console.log("Username is : ", data);
 
@@ -105,20 +113,20 @@ function OAuth({ provider, Icon, name }) {
                 },
                 body: JSON.stringify(formData)
             })
-            const data = res.json();
-            data
-                .then((dataResult) => {
-                    console.log(dataResult);
-                    dispatch(addLogInCredentials(dataResult));
-                    fetchProfile(dataResult._id);
-                    fetchProjects(dataResult._id);
-                    fetchUsername(dataResult._id);
-                    fetchSocials(dataResult._id);
-                    navigate('/admin');
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.message);
+            }
+            console.log(data);
+            dispatch(addLogInCredentials(data));
+
+            await Promise.all([
+                fetchProfile(data._id),
+                fetchProjects(data._id),
+                fetchUsername(data._id),
+                fetchSocials(data._id)
+            ]);
         }
         catch (error) {
             console.log(error);

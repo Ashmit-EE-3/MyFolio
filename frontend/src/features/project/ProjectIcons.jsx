@@ -152,7 +152,7 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
                 Pick One
               </option>
               <option value="Planning">🖖 Planning...</option>
-              <option value="InProgess">🔥 In Progess...</option>
+              <option value="In Progress">🔥 In Progess...</option>
               <option value="Completed">✅ Completed</option>
               <option value="Deployed">🚀 Deployed</option>
             </select>
