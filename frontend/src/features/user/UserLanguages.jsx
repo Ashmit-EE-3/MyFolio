@@ -27,26 +27,36 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       ...provided,
       width: "270px",
       padding: "4px",
-      border: "2px solid rgba(255, 255, 255, 0.1)", // Equivalent to border-indie-100/10
-      backgroundColor: "#282A36", // Equivalent to bg-indie-500
+      border: "2px solid rgba(255, 255, 255, 0.1)",
+      backgroundColor: "#282A36",
       color: "white",
-      cursor: "pointer"
+      cursor: "pointer",
+      alignItems: "left"
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#374151" : "#1e293b", // Highlight on hover
+      backgroundColor: state.isFocused ? "#414558" : "#282A36", // Highlight on hover
       color: "white",
       display: "flex",
-      alignItems: "center",
       padding: "10px",
-      cursor: "pointer"
+      cursor: "pointer",
+      alignItems: "left"
     }),
     singleValue: (provided) => ({
       ...provided,
       display: "flex",
-      alignItems: "center",
+      alignItems: "left",
       color: "white",
     }),
+    input: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    placeholder: (provided) => ({
+      ...provided, 
+      textAlign: "left", 
+    width: "100%",
+    })
   };
 
   const options = languageOptions.map(({ language, url }) => ({
@@ -89,7 +99,8 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
         style: {
           width: "auto",
           whiteSpace: "nowrap",
-          padding: "12px 20px"
+          padding: "12px 20px",
+          fontFamily: "Poppins",
         }
       });
       return
@@ -120,8 +131,8 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
     },
   ];
   return (
-    <>
-      <form className="flex flex-col gap-3 text-start px-6 py-2" onSubmit={handleSubmit(onSubmit)}>
+    <div className="p-6">
+      <form className="flex flex-col gap-3 text-start py-2" onSubmit={handleSubmit(onSubmit)}>
         <div className="border-t-2 border-indie-300/10"></div>
         <label>What Languages do you know?</label>
         <>
@@ -139,7 +150,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
           <Select
             options={options}
             styles={customStyles}
-            isSearchable={false}
+            isSearchable={true}
             onChange={(selected) => {
               console.log("selected is : ", selected);
               setLang(selected.value)
@@ -171,7 +182,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
         </button>
       </form>
       {userlanguages && (
-        <ul className="flex gap-4 flex-wrap mx-2 my-2">
+        <ul className="flex gap-4 flex-wrap my-2">
           {userlanguages.map((language) => (
             <div key={language.language} className="bg-indie-400 h-10 gap-4 flex justify-center px-3 items-center rounded-xl ">
               <li><span>{language.language}</span></li>
@@ -182,7 +193,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

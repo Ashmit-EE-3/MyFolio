@@ -3,9 +3,10 @@ import { RxDragHandleDots2 } from "react-icons/rx";
 import { GoProjectRoadmap } from "react-icons/go";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { MdDeleteForever } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProject, updateProject } from "./projectSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Slide, toast } from "react-toastify";
 
 const obj = {
   Planning: "🖖",
@@ -14,12 +15,64 @@ const obj = {
   Deployed: "🚀",
 };
 
-function ShowProject({ projects }) {
+function ShowProject() {
   const dispatch = useDispatch();
-  const [projectList, setProjectList] = useState(projects);
+  const projects = useSelector((state) => state.project.project);
+  const [projectList, setProjectList] = useState([]);
+  useEffect(() => {
+    setProjectList(projects);
+  }, [projects]);
 
-  function deleteProj(name) {
-    dispatch(deleteProject(name));
+
+  async function deleteProj(id) {
+    try {
+      const res = await fetch(`/api/v1/project/delete/${id}`, {
+        method: "DELETE"
+      })
+
+      const data = await res.json() ; 
+
+      if (!res.ok){
+        toast.error(data.message, {
+          position: 'top-center',
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins"
+          }
+        })
+      }
+      
+      toast.success("Project deleted!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      })
+      setProjectList((prevList) => prevList.filter(project => project._id !== id));
+      dispatch(deleteProject(id));
+    }
+    catch(error){
+      toast.error(error.message, {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      })
+    }
   }
 
   function handleDND(result) {
@@ -85,7 +138,7 @@ function ShowProject({ projects }) {
                               </h1>
                               <button
                                 className="cursor-pointer"
-                                onClick={() => deleteProj(project.name)}
+                                onClick={() => deleteProj(project._id)}
                               >
                                 <MdDeleteForever size={30} />
                               </button>

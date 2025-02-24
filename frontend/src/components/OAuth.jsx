@@ -2,88 +2,88 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials, addUserDetails, addUsername } from '../features/user/userSlice';
 import app from '../firebase';
-import { getAuth, signInWithPopup} from "firebase/auth";
+import { getAuth, signInWithPopup } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 
-function OAuth({provider,Icon,name}) {
-    const navigate = useNavigate() ; 
-    const dispatch = useDispatch() ;
+function OAuth({ provider, Icon, name }) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const fetchProfile = async(id) => {
-        try{
+    const fetchProfile = async (id) => {
+        try {
             const res = await fetch(`/api/v1/profile/get/${id}`, {
                 method: "GET"
             })
-            const data = await res.json() ; 
+            const data = await res.json();
             if (!res.ok) {
-                toast.error(data.message) ; 
+                toast.error(data.message);
             }
-            console.log("Profile is : ",data) ; 
-            if (data){
-                dispatch(addUserDetails(data)) ; 
-            }
+            console.log("Profile is : ", data);
+
+            dispatch(addUserDetails(data));
+
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
-    const fetchProjects = async(id) => {
-        try{
-            const res = await fetch(`/api/v1/project/get/${id}`,{
+    const fetchProjects = async (id) => {
+        try {
+            const res = await fetch(`/api/v1/project/get/${id}`, {
                 method: "GET",
             })
-            const data = await res.json() ; 
+            const data = await res.json();
 
-            if (!res.ok){
+            if (!res.ok) {
                 toast.error(data.message)
             }
-            console.log("Projects are : ",data) ; 
-            if (data){
-                dispatch(addProjectLogin(data))
-            }
+            console.log("Projects are : ", data);
+
+            dispatch(addProjectLogin(data))
+
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
-    const fetchUsername = async(id) => {
-        try{
-            const res = await fetch(`/api/v1/username/get/${id}`,{
+    const fetchUsername = async (id) => {
+        try {
+            const res = await fetch(`/api/v1/username/get/${id}`, {
                 method: "GET"
             })
-            const data = await res.json() ; 
+            const data = await res.json();
 
-            if (!res.ok){
+            if (!res.ok) {
                 toast.error(data.message)
             }
-            console.log("Username is : ",data) ;
-            if (data){
-                dispatch(addUsername(data.username))
-            }  
+            console.log("Username is : ", data);
+
+            dispatch(addUsername(data.username))
+
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
-    const fetchSocials = async (id)=>{
-        try{
-            const res = await fetch(`api/v1/social/get/${id}`,{
+    const fetchSocials = async (id) => {
+        try {
+            const res = await fetch(`api/v1/social/get/${id}`, {
                 method: "GET"
             })
-            const data = await res.json() ;
+            const data = await res.json();
 
-            if (!res.ok){
+            if (!res.ok) {
                 toast.error(data.message)
             }
-            console.log("Socials are : ",data) ; 
-            if (data){
-                dispatch(addSocial(data)) ;
-            } 
+            console.log("Socials are : ", data);
+
+            dispatch(addSocial(data));
+
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
@@ -95,36 +95,36 @@ function OAuth({provider,Icon,name}) {
                 displayName: result.user.displayName,
                 email: result.user.email,
                 photoURL: result.user.photoURL,
-            } ; 
+            };
 
-            console.log("Form Data is : ",formData) ; 
-            const res = await fetch('api/v1/auth/oAuth',{
-                method : 'POST',
+            console.log("Form Data is : ", formData);
+            const res = await fetch('api/v1/auth/oAuth', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             })
-            const data = res.json() ; 
+            const data = res.json();
             data
-            .then((dataResult)=>{
-                console.log(dataResult) ; 
-                dispatch(addLogInCredentials(dataResult)) ;
-                fetchProfile(dataResult._id) ;
-                fetchProjects(dataResult._id) ;
-                fetchUsername(dataResult._id) ;
-                fetchSocials(dataResult._id) ; 
-                navigate('/admin') ; 
-            })
-            .catch((err)=>{
-                console.log(err) ; 
-            })
+                .then((dataResult) => {
+                    console.log(dataResult);
+                    dispatch(addLogInCredentials(dataResult));
+                    fetchProfile(dataResult._id);
+                    fetchProjects(dataResult._id);
+                    fetchUsername(dataResult._id);
+                    fetchSocials(dataResult._id);
+                    navigate('/admin');
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         }
         catch (error) {
             console.log(error);
         }
     }
-    
+
     return (
         <button onClick={handleClick} className="bg-indie-100 flex text-xl p-2 rounded-lg w-72 items-center justify-evenly h-16 cursor-pointer">
             <Icon className='h-10 w-10' color='Black' />
@@ -133,4 +133,4 @@ function OAuth({provider,Icon,name}) {
     )
 }
 
-export default OAuth ; 
+export default OAuth; 

@@ -13,7 +13,7 @@ const projectSlice = createSlice({
         },
         deleteProject(state,action){
             state.project=state.project.filter((project)=>
-            project.name!==action.payload)
+            project._id!==action.payload)
         },
         updateProject(state,action)
         {

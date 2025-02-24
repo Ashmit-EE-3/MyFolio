@@ -76,7 +76,7 @@ function Project() {
   
       const resData = await res.json();
       console.log("Res Data is : ",resData) ; 
-      if (resData.success === false) {
+      if (!res.ok) {
         toast.error(resData.message, {
           position: 'top-center',
           autoClose: 1000,
@@ -103,7 +103,7 @@ function Project() {
         },
       });
 
-      dispatch(addProject(newObject));
+      dispatch(addProject(resData));
       handleConfetti();
     } catch (error) {
       console.error("Error submitting project:", error);

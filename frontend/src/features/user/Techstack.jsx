@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
+import Select from 'react-select';
 
 const techOptions = [
   { value: "angular", label: "Angular" },
@@ -95,19 +96,63 @@ const techOptions = [
 ].sort((a, b) => a.label.localeCompare(b.label));
 
 
-function Techstack({setUserData,handleUserDetails,userData}) {
+function Techstack({ setUserData, handleUserDetails, userData }) {
 
-  const tc=useSelector(state=>state.user.userDetails?.techStack)
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: "100%",
+      padding: "4px",
+      border: "2px solid rgba(255, 255, 255, 0.1)",
+      backgroundColor: "#282A36",
+      color: "white",
+      cursor: "pointer",
+      alignItems: "left"
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? "#414558" : "#282A36", // Highlight on hover
+      color: "white",
+      display: "flex",
+      padding: "10px",
+      cursor: "pointer",
+      alignItems: "left"
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      display: "flex",
+      alignItems: "left",
+      color: "white",
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: "white",
+    }),
+    placeholder: (provided) => ({
+      ...provided, 
+      textAlign: "left", 
+    width: "100%",
+    })
+  };
+
+  const options = techOptions.map(({ value, label }) => ({
+    value: value,
+    label: (
+      <div className="flex gap-6 justify-start items-center">
+        <div className="w-8 h-8">
+          <StackIcon name={value} />
+        </div>
+        {label}
+      </div>
+    ),
+  }));
+
+  const tc = useSelector(state => state.user.userDetails?.techStack)
   const [selectedSkill, setSelectedSkill] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
 
-  function handleSelect(value) {
-    setSelectedSkill(value);
-    setIsOpen(false);
-  }
   function handleAdd() {
     if (!selectedSkill) return;
-    if (!userData.techStack) {
+    if (!userData?.techStack) {
       const updatedSkill = [selectedSkill];
       setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
       handleUserDetails({ ...userData, techStack: updatedSkill });
@@ -131,67 +176,42 @@ function Techstack({setUserData,handleUserDetails,userData}) {
     setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
     handleUserDetails({ ...userData, techStack: updatedSkill });
   }
-  function handleDelete(skill)
-  {
-      const updatedSkills = userData.techStack.filter((s) => s !== skill);
-      setUserData((prev) => ({ ...prev, techStack: updatedSkills }));
-      handleUserDetails({ ...userData, techStack: updatedSkills });
+
+  function handleDelete(skill) {
+    const updatedSkills = userData.techStack.filter((s) => s !== skill);
+    setUserData((prev) => ({ ...prev, techStack: updatedSkills }));
+    handleUserDetails({ ...userData, techStack: updatedSkills });
   }
 
   return (
-    <div className="flex flex-col justify-start">
-      <label className="text-start mx-4 border-t-1 border-indie-400 py-4">Tech Stack</label>
-      <div className="relative flex gap-2 justify-center items-center p-2">
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className="px-4 py-2.5 rounded-lg border-2 border-indie-600 text-start
-          focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer min-w-[200px]
-          bg-indie-700 text-indie-100 w-full h-12"
-        >
-          {selectedSkill ? (
-            <div className="flex gap-6 justify-start items-center">
-              <div className="w-8 h-8">
-                <StackIcon name={selectedSkill} />
-              </div>
-              {techOptions.find(tech => tech.value === selectedSkill)?.label}
-            </div>
-          ) : (
-            "Select your Tech Stack 👨‍💻 "
-          )}
-        </div>
-        
-        {isOpen && (
-          <div className="absolute top-full left-0 mt-1 w-full max-h-60 overflow-y-auto bg-indie-500 border-2 border-indie-600 rounded-lg">
-            {techOptions.map((tech) => (
-              <div
-                key={tech.value}
-                onClick={() => handleSelect(tech.value)}
-                className="flex items-center gap-8 w-full p-2 hover:bg-indie-400 cursor-pointer h-12"
-              >
-                <div className="w-6 h-6">
-                  <StackIcon name={tech.value} />
-                </div>
-                {tech.label}
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="flex flex-col p-5 w-full justify-start">
+      <label className="text-start border-t-1 border-indie-400 py-4">Tech Stack</label>
+      <div className="relative py-2 w-full flex gap-2 justify-items-start items-start">
+        <Select className="w-full placeholder:text-center"
+          options={options}
+          styles={customStyles}
+          isSearchable={true}
+          placeholder="Select your Tech Stack 👨‍💻"
+          onChange={(selected) => {
+            setSelectedSkill(selected.value);
+          }}
+        />
         <button
-        className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+          className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
        focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
-        onClick={handleAdd}
-      >
-        +
-      </button>
+          onClick={handleAdd}
+        >
+          +
+        </button>
       </div>
       {tc && (
-        <ul className="flex gap-4 flex-wrap mx-2 my-3">
+        <ul className="flex gap-4 flex-wrap my-3">
           {tc.map((skill) => (
             <div key={skill} className="bg-indie-400 h-12 gap-4 flex justify-between px-3 items-center rounded-xl ">
-              <li  className="w-7 h-7"><span><StackIcon name={skill}/></span></li>
+              <li className="w-7 h-7"><span><StackIcon name={skill} /></span></li>
               <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
               hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent"
-              onClick={()=>handleDelete(skill)}> x </button>
+                onClick={() => handleDelete(skill)}> x </button>
             </div>
           ))}
         </ul>

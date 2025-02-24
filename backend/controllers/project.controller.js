@@ -20,5 +20,12 @@ const createProject = async(req,res,next) => {
         next(error)
     }
 }
-
-module.exports = {getProject, createProject}
+const deleteProject = async(req,res,next)=>{
+    try{
+        await Project.findByIdAndDelete(req.params.id) ; 
+        return res.status(200).json({success: true, msg: "User has been deleted successfully !"}) ; 
+    }catch(error){
+        next(error)
+    }
+}
+module.exports = {getProject, createProject, deleteProject}
