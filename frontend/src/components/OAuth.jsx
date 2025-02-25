@@ -115,7 +115,11 @@ function OAuth({ provider, Icon, name }) {
             }
             console.log(data);
             dispatch(addLogInCredentials(data));
-
+            fetchProjects(data._id) ; 
+            fetchProfile(data._id) ; 
+            fetchUsername(data._id) ;
+            fetchSocials(data._id) ; 
+            navigate('/admin') ; 
         }
         catch (error) {
             console.log(error);

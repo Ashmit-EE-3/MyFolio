@@ -52,25 +52,6 @@ function AdminNavbar() {
           </span>
           STYLE
         </NavLink>
-        <NavLink to="stats" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
-        focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
-          <span>
-            <svg
-              width="15px"
-              height="15px"
-              viewBox="0 0 512 512"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="white"
-            >
-              <title />
-              <path d="M104,496H72a24,24,0,0,1-24-24V328a24,24,0,0,1,24-24h32a24,24,0,0,1,24,24V472A24,24,0,0,1,104,496Z" />
-              <path d="M328,496H296a24,24,0,0,1-24-24V232a24,24,0,0,1,24-24h32a24,24,0,0,1,24,24V472A24,24,0,0,1,328,496Z" />
-              <path d="M440,496H408a24,24,0,0,1-24-24V120a24,24,0,0,1,24-24h32a24,24,0,0,1,24,24V472A24,24,0,0,1,440,496Z" />
-              <path d="M216,496H184a24,24,0,0,1-24-24V40a24,24,0,0,1,24-24h32a24,24,0,0,1,24,24V472A24,24,0,0,1,216,496Z" />
-            </svg>
-          </span>
-          STATS
-        </NavLink>
         <NavLink to="settings" className="flex gap-3 justify-center items-center hover:cursor-pointer hover:bg-indie-400 rounded-lg p-2 transition duration-200
         focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400">
           <span>

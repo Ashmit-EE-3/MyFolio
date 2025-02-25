@@ -6,7 +6,6 @@ import Error from './ui/error';
 import Login from './ui/Login';
 import Admin from './ui/Admin';
 import Page from './ui/Page';
-import Stats from './ui/Stats';
 import Styles from './ui/Styles';
 import Settings from './ui/Settings';
 import SignInRedirect from './ui/SignInRedirect';
@@ -49,10 +48,6 @@ function App() {
         {
           path: 'styles',
           element: <Styles />
-        },
-        {
-          path: 'stats',
-          element: <Stats />
         },
         {
           path: 'settings',
