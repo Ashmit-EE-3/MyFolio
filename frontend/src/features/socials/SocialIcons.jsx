@@ -13,8 +13,8 @@ function AdminIcons() {
     Youtube: false,
   });
   const socialdetails = useSelector((state) => state.social.socials)
-  const [link, setLink] = useState("")
   const social = Object.keys(selected).filter((key) => selected[key]);
+  const [link, setLink] = useState(socialdetails?.[social[0]])
   const socialForm = useSelector((state) => state.social.socials)
   const [formData, setFormData] = useState(socialForm);
   const currentUser = useSelector((state) => state.user.currentUser)
@@ -255,13 +255,13 @@ function AdminIcons() {
           <label>{social}</label>
           <div className="flex items-center gap-2">
             <input
-              defaultValue={socialdetails?.[social[0]] || link}
+              value={socialdetails?.[social[0]] || link}
               placeholder={`Link to your ${social} account`}
               type="url"
               className="p-4 h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none"
               onChange={handleLink}
             />
-            {((!link && socialdetails?.[social[0]]) ? 
+            {((socialdetails?.[social[0]]) ? 
             <button onClick={handleDelete} className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-700 cursor-pointer hover:bg-veronica-800">DELETE</button> 
             : <button onClick={handleAdd} className="bg-veronica-700 p-3 rounded-lg w-24 mr-1 text-indie-700 cursor-pointer hover:bg-veronica-800">ADD</button>)}
           </div>

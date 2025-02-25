@@ -9,10 +9,10 @@ import { useEffect, useState } from "react";
 import { Slide, toast } from "react-toastify";
 
 const obj = {
-  Planning: "🖖",
-  InProgress: "🔥",
-  Completed: "✅",
-  Deployed: "🚀",
+  "Planning": "🖖",
+  "In Progress": "🔥",
+  "Completed": "✅",
+  "Deployed": "🚀",
 };
 
 function ShowProject() {

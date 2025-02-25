@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
 import { Slide, toast} from "react-toastify";
 import {persistor} from '../store' ; 
+import { useNavigate } from "react-router-dom";
 
 function Account() {
   const username = useSelector((state) => state.user.username);
   const [user, setUsername] = useState("");
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate() ; 
   const currentUser = useSelector((state) => state.user.currentUser) ;
   function handleChange(e) {
     setUsername(e.target.value);
@@ -35,6 +37,7 @@ function Account() {
           }
         })
         dispatch(logOutUser());
+        navigate('/') ; 
         return;
       }
       else {
@@ -87,6 +90,7 @@ function Account() {
           }
         })
         dispatch(deleteUser());
+        navigate('/') ; 
         return;
       }
       else {

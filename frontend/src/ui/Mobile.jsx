@@ -51,7 +51,7 @@ function Mobile() {
     <>
       {displayName && (
         <div className="relative overflow-y-scroll w-100 font-poppins">
-          <div className={`h-screen bg-stone-300 rounded-[3rem] border-12 border-black w-[95%] text-indie-400 relative`}>
+          <div className={`h-screen overflow-y-scroll no-scrollbar bg-stone-300 rounded-[3rem] border-12 border-black w-[95%] text-indie-400 relative`}>
             <div className="w-[95%] flex justify-end my-2">
               <span className={`bg-purple-600 p-0.5 rounded-md cursor-pointer ${share ? "opacity-50" : ""}`}
               onClick={handleShare}>

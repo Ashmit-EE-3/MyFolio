@@ -11,12 +11,7 @@ import { addProjectLogin } from '../features/project/projectSlice';
 function OAuth({ provider, Icon, name }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const isAuthenticated = useSelector((state)=>state.user.isAuthenticated) ; 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/admin');
-        }
-    }, [isAuthenticated]); 
+
     const fetchProfile = async (id) => {
         try {
             const res = await fetch(`/api/v1/profile/get/${id}`, {
@@ -64,8 +59,8 @@ function OAuth({ provider, Icon, name }) {
                 toast.error(data.message)
             }
 
-            if (!data || !data.username){
-                return ; 
+            if (!data || !data.username) {
+                return;
             }
             console.log("Username is : ", data);
 
@@ -121,12 +116,6 @@ function OAuth({ provider, Icon, name }) {
             console.log(data);
             dispatch(addLogInCredentials(data));
 
-            await Promise.all([
-                fetchProfile(data._id),
-                fetchProjects(data._id),
-                fetchUsername(data._id),
-                fetchSocials(data._id)
-            ]);
         }
         catch (error) {
             console.log(error);
