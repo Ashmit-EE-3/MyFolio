@@ -31,8 +31,8 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
   }
 
   return (
-    <div className="w-full">
-      <div className="flex gap-6 mb-2">
+    <div className="w-full space-y-4">
+      <div className="flex gap-6">
         <span className="relative group">
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Project Link
@@ -108,62 +108,69 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
           </button>
         </span>
       </div>
-      {selected.link && (
-        <div className="flex gap-2 border-t-1 border-indie-400">
-          <div className="my-4 flex gap-2 w-full">
-            <input
-              type="url"
-              placeholder="Enter your Project Link 🔥 "
-              className="w-full border-2 border-indie-500 p-2 rounded-lg
-                focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              {...register("projectLink")}
-            />
+      <div>
+        {selected.link && (
+          <div className="flex gap-4 flex-col">
+            <div className="border-t-2 border-indie-300/30"></div>
+            <div className="flex gap-2 w-full">
+              <input
+                type="url"
+                placeholder="Enter your Project Link 🔥 "
+                className="w-full border-1 placeholder:opacity-30 border-indie-500 p-2 rounded-md
+                focus:outline-none"
+                {...register("projectLink")}
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {selected.repo && (
-        <div className="flex gap-2 border-t-1 border-indie-400">
-          <div className="my-4 flex gap-2 w-full">
-            <input
-              type="url"
-              placeholder="Enter your Github Repository Link 🔑 "
-              className="w-full border-2 border-indie-500 p-2 rounded-lg
-                focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
-              {...register("repoLink")}
-            />
+        )}
+        {selected.repo && (
+          <div className="flex gap-4 flex-col">
+            <div className="border-t-2 border-indie-300/30"></div>
+            <div className="flex gap-2 w-full">
+              <input
+                type="url"
+                placeholder="Enter your Github Repository Link 🔑 "
+                className="w-full border-1 placeholder:opacity-30 border-indie-500 p-2 rounded-md
+                focus:outline-none"
+                {...register("repoLink")}
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {selected.status && (
-        <div className="flex flex-col gap-2 border-t-1 border-indie-400 border-b-1">
-          <div className="m-2 flex flex-start">
-            <label className="text-start">Project Status</label>
-          </div>
-          <div className="">
-            <select
-              name="status"
-              defaultValue=""
-              className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
+        )}
+        {selected.status && (
+          <div className="flex gap-4 flex-col">
+            <div className="border-t-2 border-indie-300/30"></div>
+            <div className="flex gap-2 w-full">
+              <label className="text-start">Project Status</label>
+            </div>
+            <div className="">
+              <select
+                name="status"
+                defaultValue=""
+                className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer
-      text-start w-[98%] p-2 mb-3"
-              {...register("status")}
-            >
-              <option value="" disabled>
-                Pick One
-              </option>
-              <option value="Planning">🖖 Planning...</option>
-              <option value="In Progress">🔥 In Progess...</option>
-              <option value="Completed">✅ Completed</option>
-              <option value="Deployed">🚀 Deployed</option>
-            </select>
+      text-start w-full px-2 h-12"
+                {...register("status")}
+              >
+                <option value="" disabled>
+                  Pick One
+                </option>
+                <option value="Planning">🖖 Planning...</option>
+                <option value="In Progress">🔥 In Progess...</option>
+                <option value="Completed">✅ Completed</option>
+                <option value="Deployed">🚀 Deployed</option>
+              </select>
+            </div>
           </div>
-        </div>
-      )}
-      {selected.tools && (
-        <ProjectTechstack skills={skills} setSkills={setSkills} />
-      )}
+        )}
+        {selected.tools && (
+          <ProjectTechstack skills={skills} setSkills={setSkills} />
+        )}
 
-      {selected.image && <ProjectImage images={images} setImages={setImages} />}
+        {selected.image && (
+          <ProjectImage images={images} setImages={setImages} />
+        )}
+      </div>
     </div>
   );
 }

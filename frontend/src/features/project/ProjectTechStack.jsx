@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
-import Select from "react-select" ; 
+import Select from "react-select";
+import { motion } from "motion/react";
 const techOptions = [
   { value: "angular", label: "Angular" },
   { value: "ai", label: "Adobe Illustrator" },
@@ -93,10 +94,9 @@ const techOptions = [
   { value: "analytics", label: "Analytics" },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
-function ProjectTechstack({skills,setSkills}) {
+function ProjectTechstack({ skills, setSkills }) {
   const [selectedSkill, setSelectedSkill] = useState("");
 
-  
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -106,7 +106,7 @@ function ProjectTechstack({skills,setSkills}) {
       backgroundColor: "#282A36",
       color: "white",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -115,7 +115,7 @@ function ProjectTechstack({skills,setSkills}) {
       display: "flex",
       padding: "10px",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -128,10 +128,10 @@ function ProjectTechstack({skills,setSkills}) {
       color: "white",
     }),
     placeholder: (provided) => ({
-      ...provided, 
-      textAlign: "left", 
-    width: "100%",
-    })
+      ...provided,
+      textAlign: "left",
+      width: "100%",
+    }),
   };
 
   const options = techOptions.map(({ value, label }) => ({
@@ -147,16 +147,21 @@ function ProjectTechstack({skills,setSkills}) {
   }));
 
   function handleAdd() {
-    if (!selectedSkill) return;
-    var present=false;
-    skills.map((skill)=>
-    {
-      if(skill===selectedSkill)
-        present=true;
-    })
-    if(present){
+    if (!selectedSkill) {
+      toast.error("Please select a tool!", {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+      });
+      return;
+    }
+    var present = false;
+    skills.map((skill) => {
+      if (skill === selectedSkill) present = true;
+    });
+    if (present) {
       toast.error("Skill already present!", {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 1000,
         transition: Slide,
         style: {
@@ -166,21 +171,21 @@ function ProjectTechstack({skills,setSkills}) {
           fontFamily: "Poppins",
         },
       });
-      return
+      return;
     }
     setSkills([...skills, selectedSkill]);
   }
-  function handleDelete(skill)
-  {
-    setSkills((prev)=>
-    prev.filter((s)=>s!==skill))
+  function handleDelete(skill) {
+    setSkills((prev) => prev.filter((s) => s !== skill));
   }
 
   return (
-    <div className="flex flex-col p-5 w-full justify-start">
-      <label className="text-start border-t-1 border-indie-400 py-4">Tech Stack💻</label>
-      <div className="relative py-2 w-full flex gap-2 justify-items-start items-start">
-        <Select className="w-full placeholder:text-center"
+    <div className="flex flex-col gap-4">
+      <div className="border-t-2 border-indie-300/30"></div>
+      <label className="text-start">Tech Stack💻</label>
+      <div className="w-full flex gap-2 justify-items-start items-start">
+        <Select
+          className="w-full placeholder:text-center"
           options={options}
           styles={customStyles}
           isSearchable={true}
@@ -189,23 +194,43 @@ function ProjectTechstack({skills,setSkills}) {
             setSelectedSkill(selected.value);
           }}
         />
-        <div
-          className="bg-veronica-700 flex items-center justify-center text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
-       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
+        <motion.button
+          className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12 text-md"
           onClick={handleAdd}
         >
-          +
-        </div>
+          <motion.div
+            animate={{ rotate: [0, 90] }}
+            transition={{ repeatDelay: 2, duration: 0.2, repeat: Infinity }}
+          >
+            +
+          </motion.div>
+        </motion.button>
       </div>
       {skills.length > 0 && (
-        <ul className="flex gap-4 flex-wrap mx-2 my-3">
+        <ul className="flex gap-4 flex-wrap">
           {skills.map((skill) => (
-            <div key={skill} className="bg-indie-400 h-12 gap-4 flex justify-between px-3 items-center rounded-xl ">
-              <li  className="w-7 h-7"><span><StackIcon name={skill}/></span></li>
-              <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
-              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent"
-              onClick={()=>handleDelete(skill)}> x </button>
-            </div>
+            <motion.div
+              key={skill}
+              className="bg-indie-400 h-12 gap-4 flex justify-between w-fit px-2 items-center rounded-xl "
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+            >
+              <li className="w-7 h-7">
+                <span>
+                  <StackIcon name={skill} />
+                </span>
+              </li>
+              <button
+                className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
+              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:border-transparent rotate-45"
+                onClick={() => handleDelete(skill)}
+              >
+                {" "}
+                +{" "}
+              </button>
+            </motion.div>
           ))}
         </ul>
       )}

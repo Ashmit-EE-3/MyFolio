@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+/* eslint-disable react/prop-types */
 import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials, addUserDetails, addUsername } from '../features/user/userSlice';
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
+import { motion } from 'motion/react';
 
 function OAuth({ provider, Icon, name }) {
     const navigate = useNavigate();
@@ -127,10 +128,11 @@ function OAuth({ provider, Icon, name }) {
     }
 
     return (
-        <button onClick={handleClick} className="bg-indie-100 flex text-xl p-2 rounded-lg w-72 items-center justify-evenly h-16 cursor-pointer">
+        <motion.button onClick={handleClick} className="bg-indie-100 flex text-xl p-2 rounded-lg w-72 items-center justify-evenly h-16 cursor-pointer"
+        whileHover={{scale:0.95}}>
             <Icon className='h-10 w-10' color='Black' />
             <span>Sign in with {name}</span>
-        </button>
+        </motion.button>
     )
 }
 

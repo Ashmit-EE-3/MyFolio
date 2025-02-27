@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
-import Select from 'react-select';
+import Select from "react-select";
+import { motion } from "motion/react";
 
 const techOptions = [
   { value: "angular", label: "Angular" },
@@ -95,9 +96,7 @@ const techOptions = [
   { value: "analytics", label: "Analytics" },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
-
 function Techstack({ setUserData, handleUserDetails, userData }) {
-
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -107,7 +106,7 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
       backgroundColor: "#282A36",
       color: "white",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -116,7 +115,7 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
       display: "flex",
       padding: "10px",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -129,10 +128,10 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
       color: "white",
     }),
     placeholder: (provided) => ({
-      ...provided, 
-      textAlign: "left", 
-    width: "100%",
-    })
+      ...provided,
+      textAlign: "left",
+      width: "100%",
+    }),
   };
 
   const options = techOptions.map(({ value, label }) => ({
@@ -147,32 +146,33 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
     ),
   }));
 
-  const tc = useSelector(state => state.user.userDetails?.techStack)
+  const tc = useSelector((state) => state.user.userDetails?.techStack) || [];
   const [selectedSkill, setSelectedSkill] = useState("");
 
   function handleAdd() {
-    if (!selectedSkill) return;
-    if (!userData?.techStack) {
-      const updatedSkill = [selectedSkill];
-      setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
-      handleUserDetails({ ...userData, techStack: updatedSkill });
+    if (!selectedSkill) {
+      toast.error("Please select a skill", {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+      });
       return;
     }
-    if (userData.techStack.includes(selectedSkill)) {
+    if (tc.includes(selectedSkill)) {
       toast.error("Skill Already Present", {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 1000,
         transition: Slide,
         style: {
           width: "auto",
           whiteSpace: "nowrap",
-          padding: "12px 20px"
-        }
+          padding: "12px 20px",
+        },
       });
       return;
     }
 
-    const updatedSkill = [...userData.techStack, selectedSkill];
+    const updatedSkill = [...tc, selectedSkill];
     setUserData((prev) => ({ ...prev, techStack: updatedSkill }));
     handleUserDetails({ ...userData, techStack: updatedSkill });
   }
@@ -184,38 +184,61 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
   }
 
   return (
-    <div className="flex flex-col p-5 w-full justify-start">
-      <label className="text-start border-t-1 border-indie-400 py-4">Tech Stack</label>
-      <div className="relative py-2 w-full flex gap-2 justify-items-start items-start">
-        <Select className="w-full placeholder:text-center"
-          options={options}
-          styles={customStyles}
-          isSearchable={true}
-          placeholder="Select your Tech Stack 👨‍💻"
-          onChange={(selected) => {
-            setSelectedSkill(selected.value);
-          }}
-        />
-        <button
-          className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
-       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12"
-          onClick={handleAdd}
-        >
-          +
-        </button>
+    <div className={`flex flex-col w-full justify-start gap-4`}>
+      <div className="border-t-2 border-indie-300/10"></div>
+      <label className="text-start">Tech Stack</label>
+      <div className={`${tc.length > 0 && "gap-4 flex flex-col"}`}>
+        <div className="relative w-full flex gap-2 justify-items-start items-start">
+          <Select
+            className="w-full placeholder:text-center"
+            options={options}
+            styles={customStyles}
+            isSearchable={true}
+            placeholder="Select your Tech Stack 👨‍💻"
+            onChange={(selected) => {
+              setSelectedSkill(selected.value);
+            }}
+          />
+          <motion.button
+            className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12 text-md"
+            onClick={handleAdd}
+          >
+            <motion.div
+            animate={{ rotate: [0,90]}}
+            transition={{ repeatDelay:2,duration:0.2,repeat:Infinity}}>+</motion.div>
+          </motion.button>
+        </div>
+        <div>
+          {tc && (
+            <ul className="flex gap-2 flex-wrap">
+              {tc?.map((skill) => (
+                <motion.div
+                  key={skill}
+                  className="bg-indie-400 h-12 flex justify-between w-fit px-2 gap-2 items-center rounded-xl "
+                  initial={{opacity:0,x:-100}}
+                  animate={{opacity:1,x:0}}
+                  transition={{duration:0.5,type:"spring",stiffness:200}}
+                >
+                  <li className="w-7 h-7">
+                    <span>
+                      <StackIcon name={skill} />
+                    </span>
+                  </li>
+                  <button
+                    className="rotate-45 text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
+              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:border-transparent"
+                    onClick={() => handleDelete(skill)}
+                  >
+                    {" "}
+                    +{" "}
+                  </button>
+                </motion.div>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-      {tc && (
-        <ul className="flex gap-4 flex-wrap my-3">
-          {tc.map((skill) => (
-            <div key={skill} className="bg-indie-400 h-12 gap-4 flex justify-between px-3 items-center rounded-xl ">
-              <li className="w-7 h-7"><span><StackIcon name={skill} /></span></li>
-              <button className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
-              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent"
-                onClick={() => handleDelete(skill)}> x </button>
-            </div>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }

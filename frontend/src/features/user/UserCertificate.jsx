@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
 import CertificatePdf from "./CertificatePdf";
+import { motion } from "motion/react";
 
 function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDetails }) {
   const typingTimeout = useRef(null);
@@ -16,14 +17,14 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
       setUserData((prev)=>({
         ...prev,
         certificate:{
-          ...prev.certificate,
+          ...(prev?.certificate||{}),
           certificateName:name,
         },
       }))
       handleUserDetails({
-        ...userData,
+        ...(userData||{}),
         certificate: {
-          ...userData.certificate,
+          ...(userData?.certificate||{}),
           certificateName:name,
         },
       })
@@ -42,14 +43,14 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
       setUserData((prev)=>({
         ...prev,
         certificate:{
-          ...prev.certificate,
+          ...(prev?.certificate||{}),
           certificateLink:link,
         },
       }))
       handleUserDetails({
-        ...userData,
+        ...(userData||{}),
         certificate: {
-          ...userData.certificate,
+          ...(userData?.certificate||{}),
           certificateLink:link,
         },
       })
@@ -58,34 +59,34 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
 
   return (
     <>
-      <div className="flex flex-col gap-3 px-4 border-indie-400">
-        <div className="flex mx-2 border-indie-400 gap-2">
+      <div className="flex flex-col gap-4 border-indie-400">
+        <div className="flex border-indie-400 gap-2">
           <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-            <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+            <div className="bg-indie-400 p-3 inline-block h-12">
               <span className> 🏆 </span>
             </div>
-            <input
+            <motion.input
               type="text"
               defaultValue={userData?.certificate?.certificateName||""}    
               placeholder="Certification Name"
-              className="w-full p-2 h-full
-                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              className="w-full p-2 h-12 rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30"
               onChange={handleName}
+              whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
           </div>
         </div>
-        <div className="flex mx-2 border-indie-400 gap-2">
+        <div className="flex border-indie-400 gap-2">
           <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-            <div className="bg-indie-400 border-r-2 border-indie-100/10 p-3 inline-block h-12">
+            <div className="bg-indie-400 p-3 inline-block h-12">
               <span className> 🔗 </span>
             </div>
-            <input
+            <motion.input
               type="url"
-              defaultValue={userData.certificate?.certificateLink||""}
+              defaultValue={userData?.certificate?.certificateLink||""}
               placeholder="Certification Link"
-              className="w-full p-2 h-full
-                  focus:outline-none focus:ring focus:ring-offset-1 focus:ring-indie-400"
+              className="w-full p-2 h-12 rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30"
               onChange={handleLink}
+              whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
           </div>
         </div>

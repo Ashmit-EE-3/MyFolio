@@ -1,25 +1,57 @@
 /* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 import { Slide, toast } from "react-toastify";
-import Select from "react-select"
+import Select from "react-select";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { motion } from "motion/react";
 
 function UserLanguages({ handleUserDetails, userData, setUserData }) {
-  const userlanguages=useSelector(state=>state.user.userDetails?.languages)
+  const userlanguages =
+    useSelector((state) => state.user.userDetails?.languages) || [];
 
-  const [lang, setLang] = useState("")
+  const [lang, setLang] = useState("");
   const languageOptions = [
-    { language: "English", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg" },
-    { language: "Hindi", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/IN.svg" },
-    { language: "Spanish", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/ES.svg" },
-    { language: "German", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/DK.svg" },
-    { language: "Mandarin", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/CN.svg" },
-    { language: "Arabic", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/SA.svg" },
-    { language: "Polish", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PL.svg" },
-    { language: "Portugese", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PT.svg" },
-    { language: "French", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/FR.svg" },
-    { language: "Japanese", url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/JP.svg" }
+    {
+      language: "English",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg",
+    },
+    {
+      language: "Hindi",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/IN.svg",
+    },
+    {
+      language: "Spanish",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/ES.svg",
+    },
+    {
+      language: "German",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/DK.svg",
+    },
+    {
+      language: "Mandarin",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/CN.svg",
+    },
+    {
+      language: "Arabic",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/SA.svg",
+    },
+    {
+      language: "Polish",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PL.svg",
+    },
+    {
+      language: "Portugese",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PT.svg",
+    },
+    {
+      language: "French",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/FR.svg",
+    },
+    {
+      language: "Japanese",
+      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/JP.svg",
+    },
   ].sort((a, b) => a.language.localeCompare(b.language));
 
   const customStyles = {
@@ -31,7 +63,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       backgroundColor: "#282A36",
       color: "white",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -40,7 +72,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       display: "flex",
       padding: "10px",
       cursor: "pointer",
-      alignItems: "left"
+      alignItems: "left",
     }),
     singleValue: (provided) => ({
       ...provided,
@@ -53,10 +85,10 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       color: "white",
     }),
     placeholder: (provided) => ({
-      ...provided, 
-      textAlign: "left", 
-    width: "100%",
-    })
+      ...provided,
+      textAlign: "left",
+      width: "100%",
+    }),
   };
 
   const options = languageOptions.map(({ language, url }) => ({
@@ -71,29 +103,28 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
 
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
-      proficiency: "Basic"
-    }
-  })
+      proficiency: "Basic",
+    },
+  });
   // eslint-disable-next-line no-unused-vars
   const proficiencyValue = watch("proficiency");
 
   function onSubmit(data) {
-    var present = false;
-    if (!userData.languages) {
-      const language = lang;
-      const prof=data.proficiency
-      const newObj={language:language,proficiency:prof}
-      setUserData((prev) => ({ ...prev, languages: newObj }));
-      handleUserDetails({ ...userData, languages: newObj });
+    if (!lang) {
+      toast.error("Please select a language", {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+      });
       return;
     }
-    userlanguages.map((language) => {
-      if (language.language === lang)
-        present = true;
-    })
+    var present = false;
+    userlanguages?.map((language) => {
+      if (language.language === lang) present = true;
+    });
     if (present) {
       toast.error("Language Already Present", {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 1000,
         transition: Slide,
         style: {
@@ -101,19 +132,24 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
           whiteSpace: "nowrap",
           padding: "12px 20px",
           fontFamily: "Poppins",
-        }
+        },
       });
-      return
+      return;
     }
-    const newLanguageData = [...userlanguages, { language: lang, proficiency: data.proficiency }]
-    setUserData((prev) => ({ ...prev, languages: newLanguageData }))
-    handleUserDetails({ ...userData, languages: newLanguageData })
+    const newLanguageData = [
+      ...userlanguages,
+      { language: lang, proficiency: data.proficiency },
+    ];
+    setUserData((prev) => ({ ...prev, languages: newLanguageData }));
+    handleUserDetails({ ...userData, languages: newLanguageData });
   }
 
   function handleDelete(language) {
-    const newLanguageData = userData.languages.filter((data) => data.language !== language);
-    setUserData((prev) => ({ ...prev, languages: newLanguageData }))
-    handleUserDetails({ ...userData, languages: newLanguageData })
+    const newLanguageData = userData.languages.filter(
+      (data) => data.language !== language
+    );
+    setUserData((prev) => ({ ...prev, languages: newLanguageData }));
+    handleUserDetails({ ...userData, languages: newLanguageData });
   }
 
   const levels = [
@@ -131,8 +167,11 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
     },
   ];
   return (
-    <div className="p-6">
-      <form className="flex flex-col gap-3 text-start py-2" onSubmit={handleSubmit(onSubmit)}>
+    <div className={`flex flex-col ${userlanguages.length > 0 ? "gap-4" : ""}`}>
+      <form
+        className="flex flex-col gap-2.5 text-start"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="border-t-2 border-indie-300/10"></div>
         <label>What Languages do you know?</label>
         <>
@@ -153,7 +192,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
             isSearchable={true}
             onChange={(selected) => {
               console.log("selected is : ", selected);
-              setLang(selected.value)
+              setLang(selected.value);
             }}
           />
           <div className="flex w-[50%] justify-evenly">
@@ -174,25 +213,37 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
             ))}
           </div>
         </div>
-        <button
-          className="bg-veronica-700 p-2 max-w-max rounded-lg text-indie-700 text-xs cursor-pointer hover:bg-veronica-800"
-        >
+        <button className="bg-veronica-700 p-2 max-w-max rounded-lg text-indie-700 text-xs cursor-pointer hover:bg-veronica-800 hover:scale-[1.2] transition duration-200">
           {" "}
           + ADD{" "}
         </button>
       </form>
-      {userlanguages && (
-        <ul className="flex gap-4 flex-wrap my-2">
-          {userlanguages.map((language) => (
-            <div key={language.language} className="bg-indie-400 h-10 gap-4 flex justify-center px-3 items-center rounded-xl ">
-              <li><span>{language.language}</span></li>
-              <span className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 flex justify-center items-center
-              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent"
-                onClick={() => handleDelete(language.language)}> x </span>
-            </div>
-          ))}
-        </ul>
-      )}
+      <div>
+        {userlanguages && (
+          <ul className="flex gap-4 flex-wrap">
+            {userlanguages.map((language) => (
+              <motion.div
+                key={language.language}
+                className="bg-indie-400 h-10 gap-2 flex justify-center w-fit px-2 items-center rounded-md"
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+              >
+                <li>
+                  <span>{language.language}</span>
+                </li>
+                <span
+                  className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 flex justify-center items-center
+              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent rotate-45"
+                  onClick={() => handleDelete(language.language)}
+                >
+                  +
+                </span>
+              </motion.div>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

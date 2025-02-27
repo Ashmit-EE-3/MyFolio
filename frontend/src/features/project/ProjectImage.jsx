@@ -7,7 +7,7 @@ const ProjectImage = ({ images, setImages }) => {
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       setImages([...images, file]);
       toast.success("Image uploaded successfully!", {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 1000,
         transition: Slide,
         style: {
@@ -19,7 +19,7 @@ const ProjectImage = ({ images, setImages }) => {
       });
     } else {
       toast.error("Please upload a JPG, JPEG, or PNG file", {
-        position: 'top-center',
+        position: "top-center",
         autoClose: 1000,
         transition: Slide,
         style: {
@@ -37,7 +37,7 @@ const ProjectImage = ({ images, setImages }) => {
   }
 
   return (
-    <div className="py-2 w-full">
+    <div className="w-full space-y-4">
       <input
         type="file"
         accept="image/jpeg, image/png, image/jpg"
@@ -48,27 +48,29 @@ const ProjectImage = ({ images, setImages }) => {
         // })}
         onChange={handleImageUpload}
       />
-      {images && (
-        <div className="flex gap-4">
-          {images.map((image, index) => (
-            <div className="relative" key={index}>
-              <img src={URL.createObjectURL(image)} alt="Project"/>
-              <span
-                className="absolute rounded-full bg-veronica-700 text-indie-600 text-xs w-5 h-5 flex items-center justify-center top-0
-            cursor-pointer hover:bg-veronica-800"
-                onClick={() => handleImageDelete(image)}
-              >
-                x
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-      <div className={`flex flex-col gap-2 ${images.length > 0 ? "my-4" : ""}`}>
+      <div>
+        {images && (
+          <div className="flex gap-4">
+            {images.map((image, index) => (
+              <div className="relative" key={index}>
+                <img src={URL.createObjectURL(image)} alt="Project" />
+                <span
+                  className="absolute rounded-full bg-veronica-700 text-indie-600 text-xs w-5 h-5 flex items-center justify-center top-0
+            cursor-pointer hover:bg-veronica-800 rotate-45"
+                  onClick={() => handleImageDelete(image)}
+                >
+                  +
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-col gap-2">
         <button
           onClick={() => document.getElementById("image-upload").click()}
           type="button"
-          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
         >
           <span>
             <IoCloudUploadOutline style={{ color: "#22222A" }} size={28} />

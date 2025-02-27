@@ -19,7 +19,7 @@ function Navbar() {
         <Link
           to="/login"
           className="text-indie-400 bg-indie-200 p-1 rounded-md w-20 hover:bg-indie-400 hover:text-indie-300 
-            transition delay-75 focus:outline-none flex justify-center"
+          focus:outline-none flex justify-center hover:scale-[1.15]"
         >
           <span>LOG IN</span>
         </Link>

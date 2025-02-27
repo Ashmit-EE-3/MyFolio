@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProject, updateProject } from "./projectSlice";
 import { useEffect, useState } from "react";
 import { Slide, toast } from "react-toastify";
+import { motion } from "motion/react";
 
 const obj = {
   "Planning": "🖖",
@@ -122,7 +123,10 @@ function ShowProject() {
                           >
                             <RxDragHandleDots2 size={24} />
                           </div>
-                          <div className="text-indie-100 text-start flex flex-col gap-2 col-span-11">
+                          <motion.div className="text-indie-100 text-start flex flex-col gap-2 col-span-11"
+                          initial={{ opacity: 0, y: 100 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ type: "spring", stiffness: 200, damping: 10,duration:1 }}>
                             <div className="flex justify-between">
                               <h1 className="flex items-center gap-2">
                                 <span>
@@ -130,7 +134,7 @@ function ShowProject() {
                                 </span>
                                 <p className="text-2xl">{project.name}</p>
                                 {project.status && (
-                                  <div className="bg-indie-300 text-indie-500 rounded-md px-2 py-1">
+                                  <div className="bg-indie-300 text-indie-500 rounded-md px-1 w-fit">
                                     <span>{obj[project.status]}</span>
                                     {project.status}
                                   </div>
@@ -147,7 +151,7 @@ function ShowProject() {
                               <span> ➡ </span>
                               {project.description}
                             </p>
-                          </div>
+                          </motion.div>
                         </div>
                       )}
                     </Draggable>

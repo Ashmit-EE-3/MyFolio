@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import {motion} from "motion/react"
+import { useState } from "react";
 function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUserData }) {
   const pdfName = file ? file.name : "";
-  
+  const [hover,setHover]=useState(false)
   async function handleFileUpload(e) {
     try {
       const file = e.target.files[0];
@@ -44,7 +45,7 @@ function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUser
     }
   }
   return (
-    <div className="px-6 py-2">
+    <div>
       <input
         type="file"
         accept=".pdf"
@@ -53,15 +54,17 @@ function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUser
         id="pdf-upload"
       />
       <div className="flex flex-col gap-2">
-        <button
+        <motion.button
           onClick={() => document.getElementById("pdf-upload").click()}
-          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none focus:ring focus:ring-veronica-800 focus:ring-offset-2 cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+          onHoverStart={()=>setHover(true)}
+          onHoverEnd={()=>setHover(false)}
+          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
         >
-          <span>
+          <motion.span animate={{y:hover?-4:0}}>
             <IoCloudUploadOutline style={{ color: "#22222A" }} size={28} />
-          </span>
+          </motion.span>
           {pdfName  || "UPLOAD PDF"}
-        </button>
+        </motion.button>
         {pdfName && (
           <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
         )}
