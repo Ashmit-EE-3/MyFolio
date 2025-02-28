@@ -41,14 +41,12 @@ function AdminNavbar() {
           </motion.div>
         </NavLink>
       </ul>
-      <motion.button
+      <button
         className="bg-veronica-700 py-4 w-[124px] rounded-lg hover:cursor-pointer hover:bg-veronica-800
-      focus:outline-none hover:shadow-sm hover:shadow-indie-200"
-      transition={{duration:0.2}}
-      whileHover={{scale:1.1,skewX:-7}}
+      focus:outline-none"
       >
         🚀 DEPLOY
-      </motion.button>
+      </button>
     </div>
   );
 }

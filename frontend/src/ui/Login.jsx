@@ -33,7 +33,7 @@ function Login() {
     }
 
     return (
-        <div className="h-screen flex items-center justify-center">
+        <div className="h-screen font-poppins flex items-center justify-center">
             <div className="h-[35rem] w-96 bg-indie-800 rounded-4xl p-10 flex flex-col items-center justify-center">
                 <div className="flex flex-col gap-4 justify-center items-center">
                     <OAuth provider = {new GoogleAuthProvider()} Icon={FcGoogle} name="Google" />

@@ -65,7 +65,7 @@ function OAuth({ provider, Icon, name }) {
             }
             console.log("Username is : ", data);
 
-            dispatch(addUsername(data.username))
+            dispatch(addUsername(data))
 
         }
         catch (error) {

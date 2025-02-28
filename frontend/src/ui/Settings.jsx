@@ -2,7 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 function Settings() {
   return (
-    <div className="flex flex-col gap-6 h-screen overflow-y-auto">
+    <div className="flex flex-col font-poppins gap-6 h-screen overflow-y-auto">
       <nav className="w-[40vw] mx-auto">
         <ul className="flex justify-start gap-4">
           <NavLink to="account" className="p-2 rounded-lg">

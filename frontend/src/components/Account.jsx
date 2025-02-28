@@ -6,7 +6,7 @@ import {persistor} from '../store' ;
 import { useNavigate } from "react-router-dom";
 
 function Account() {
-  const username = useSelector((state) => state.user.username);
+  const username = useSelector((state) => state.user.username.username);
   const [user, setUsername] = useState("");
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();

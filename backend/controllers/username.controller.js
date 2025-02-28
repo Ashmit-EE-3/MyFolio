@@ -1,3 +1,4 @@
+const { devToolsEnhancerLogOnlyInProduction } = require("@redux-devtools/extension");
 const Username = require("../models/username.model");
 
 
@@ -43,7 +44,15 @@ const createUsername = async(req,res,next)=>{
 //     }
 // }
 
-const updateUsername = (req,res,next) => {
-
+const updateUsername = async(req,res,next) => {
+    try{
+        const updatedUsername = await Username.findByIdAndUpdate(req.params.id, {
+            $set: req.body
+        }, {new: true})
+        res.status(200).json(updatedUsername)
+    }
+    catch(error){
+        next(error)
+    }
 }
 module.exports = {getUsername, updateUsername, createUsername}

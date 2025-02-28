@@ -285,7 +285,7 @@ function Page() {
         },
       });
 
-      dispatch(addUsername(data.username));
+      dispatch(addUsername(data));
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
@@ -303,7 +303,7 @@ function Page() {
 
   return (
     <div className="flex mx-auto h-screen overflow-hidden gap-8">
-      <div className="flex flex-col gap-6 font-poppins overflow-y-scroll h-full">
+      <div className="flex flex-col gap-6 font-(family-name:--font-poppins) overflow-y-scroll h-full">
         {!submit && (
           <div className="flex flex-col w-[50vw] bg-indie-700 rounded-2xl text-start p-6 gap-5">
             <h1 className="text-yellow-200">
@@ -499,7 +499,7 @@ function Page() {
         <ShowProject projects={projects} />
         <SocialIcons />
       </div>
-      <div>{submit && <Mobile />}</div>
+      <div className="overflow-y-scroll">{submit && <Mobile />}</div>
     </div>
   );
 }
