@@ -8,6 +8,7 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import ProjectTechstack from "./ProjectTechStack";
 import ProjectImage from "./ProjectImage";
+import { IoImage } from "react-icons/io5";
 
 function ProjectIcons({ register, skills, setSkills, images, setImages }) {
   const [selected, setSelected] = useState({
@@ -73,7 +74,7 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Add Images
           </div>
-          <CiImageOn
+          <IoImage
             size={40}
             className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
               selected.image ? "bg-indie-400" : ""

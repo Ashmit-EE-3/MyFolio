@@ -10,7 +10,7 @@ import Project from "../features/project/Project";
 import { CiLocationOn } from "react-icons/ci";
 import { GiSkills } from "react-icons/gi";
 import { PiReadCvLogo } from "react-icons/pi";
-import { IoLanguageSharp } from "react-icons/io5";
+import { IoDocumentText, IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
 import { IoMdSchool } from "react-icons/io";
@@ -23,6 +23,7 @@ import UserLanguages from "../features/user/UserLanguages";
 import CVUpload from "../features/user/CVUpload";
 import Mobile from "./Mobile";
 import ShowProject from "../features/project/ShowProject";
+import { MdLocationPin } from "react-icons/md";
 
 function Page() {
   const submit = useSelector((state) => state.user.submit);
@@ -387,7 +388,7 @@ function Page() {
             <UserDetails
               selected={selected}
               setSelected={setSelected}
-              Icon={CiLocationOn}
+              Icon={MdLocationPin}
               text="Location"
             />
             <UserDetails
@@ -411,7 +412,7 @@ function Page() {
             <UserDetails
               selected={selected}
               setSelected={setSelected}
-              Icon={PiReadCvLogo}
+              Icon={IoDocumentText}
               text="Resume"
             />
             <UserDetails
