@@ -101,27 +101,41 @@ function ProjectTechstack({ skills, setSkills }) {
     control: (provided) => ({
       ...provided,
       width: "100%",
-      padding: "4px",
+      maxWidth: "290px",
+      padding: "1px",
       border: "2px solid rgba(255, 255, 255, 0.1)",
       backgroundColor: "#282A36",
       color: "white",
       cursor: "pointer",
       alignItems: "left",
+      minHeight: "32px",
+      "@media (min-width: 650px)": {
+        minHeight: "40px",
+      },
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#414558" : "#282A36", // Highlight on hover
+      backgroundColor: state.isFocused ? "#414558" : "#282A36",
       color: "white",
       display: "flex",
-      padding: "10px",
+      padding: "4px",
       cursor: "pointer",
       alignItems: "left",
+      fontSize: "10px",
+      "@media (min-width: 650px)": {
+        padding: "10px",
+        fontSize: "14px",
+      },
     }),
     singleValue: (provided) => ({
       ...provided,
       display: "flex",
       alignItems: "left",
       color: "white",
+      fontSize: "10px",
+      "@media (min-width: 650px)": {
+        fontSize: "14px",
+      },
     }),
     input: (provided) => ({
       ...provided,
@@ -137,8 +151,8 @@ function ProjectTechstack({ skills, setSkills }) {
   const options = techOptions.map(({ value, label }) => ({
     value: value,
     label: (
-      <div className="flex gap-6 justify-start items-center">
-        <div className="w-8 h-8">
+      <div className="flex gap-2 md:gap-6 justify-start items-center">
+        <div className="w-6 h-6 md:w-8 md:h-8">
           <StackIcon name={value} />
         </div>
         {label}
@@ -180,12 +194,12 @@ function ProjectTechstack({ skills, setSkills }) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2 md:gap-4">
       <div className="border-t-2 border-indie-300/30"></div>
-      <label className="text-start">Tech Stack💻</label>
+      <label className="text-start text-[10px] md:text-xs lg:text-[16px]">Tech Stack💻</label>
       <div className="w-full flex gap-2 justify-items-start items-start">
         <Select
-          className="w-full placeholder:text-center"
+          className="w-full text-[10px] md:text-xs lg:text-[16px]"
           options={options}
           styles={customStyles}
           isSearchable={true}
@@ -195,8 +209,8 @@ function ProjectTechstack({ skills, setSkills }) {
           }}
         />
         <motion.button
-          className="bg-veronica-700 text-indie-500 w-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
-       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent h-12 text-md"
+          className="bg-veronica-700 text-indie-500 w-10 h-9 md:w-12 md:h-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent text-sm md:text-[16px]"
           onClick={handleAdd}
         >
           <motion.div
@@ -208,23 +222,23 @@ function ProjectTechstack({ skills, setSkills }) {
         </motion.button>
       </div>
       {skills.length > 0 && (
-        <ul className="flex gap-4 flex-wrap">
+        <ul className="flex gap-2 md:gap-4 flex-wrap">
           {skills.map((skill) => (
             <motion.div
               key={skill}
-              className="bg-indie-400 h-12 gap-4 flex justify-between w-fit px-2 items-center rounded-xl "
+              className="bg-indie-400 h-8 md:h-12 flex justify-between w-fit px-1 md:px-2 gap-1 md:gap-2 items-center rounded-lg md:rounded-xl"
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
             >
-              <li className="w-7 h-7">
+              <li className="w-5 h-5 md:w-7 md:h-7">
                 <span>
                   <StackIcon name={skill} />
                 </span>
               </li>
               <button
-                className=" text-xs bg-veronica-700 rounded-full text-indie-500 w-5 h-5 flex justify-center items-center
-              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:border-transparent rotate-45"
+                className="rotate-45 text-[10px] md:text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 md:w-5 md:h-5 flex justify-center items-center
+              hover:bg-veronica-800 cursor-pointer focus:outline-none focus:border-transparent"
                 onClick={() => handleDelete(skill)}
               >
                 {" "}

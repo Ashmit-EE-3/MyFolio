@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { LuFlagTriangleRight } from "react-icons/lu";
-import { FaLink } from "react-icons/fa";
-import { CiImageOn } from "react-icons/ci";
+import { FaFileImage, FaLink } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { RiToolsFill } from "react-icons/ri";
 import { useState } from "react";
@@ -33,14 +32,13 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
 
   return (
     <div className="w-full space-y-4">
-      <div className="flex gap-6">
+      <div className="flex lg:gap-6 sm:gap-2.5 items-center flex-wrap w-fit">
         <span className="relative group">
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Project Link
           </div>
           <FaLink
-            size={38}
-            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
+            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group h-8 w-8 md:h-10 md:w-10 ${
               selected.link ? "bg-indie-400" : ""
             }`}
             onClick={() => handleSelect("link")}
@@ -51,8 +49,7 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
             Repository Link
           </div>
           <FaGithub
-            size={39}
-            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
+            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group h-8 w-8 md:h-10 md:w-10  ${
               selected.repo ? "bg-indie-400" : ""
             }`}
             onClick={() => handleSelect("repo")}
@@ -63,8 +60,7 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
             Project Status
           </div>
           <LuFlagTriangleRight
-            size={40}
-            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
+            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group h-8 w-8 md:h-10 md:w-10  ${
               selected.status ? "bg-indie-400" : ""
             }`}
             onClick={() => handleSelect("status")}
@@ -74,9 +70,8 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Add Images
           </div>
-          <IoImage
-            size={40}
-            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
+          <FaFileImage
+            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group h-8 w-9 md:h-10 md:w-11  ${
               selected.image ? "bg-indie-400" : ""
             }`}
             onClick={() => handleSelect("image")}
@@ -87,70 +82,68 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
             Add Tools
           </div>
           <RiToolsFill
-            size={40}
-            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group ${
+            className={`cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group h-8 w-8 md:h-10 md:w-10  ${
               selected.tools ? "bg-indie-400" : ""
             }`}
             onClick={() => handleSelect("tools")}
           />
         </span>
-        <span className="relative group">
+        <span className="relative group hidden md:block">
           <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
             Reset
           </div>
           <button
             type="reset"
-            className="cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group
-             "
+            className="cursor-pointer hover:bg-indie-400 rounded-full p-2 transition duration-200 group"
           >
             <span>
-              <MdDelete size={23} />
+              <MdDelete className="md:h-6 md:w-6 h-3 w-3"/>
             </span>
           </button>
         </span>
       </div>
       <div>
         {selected.link && (
-          <div className="flex gap-4 flex-col">
+          <div className="flex md:gap-4 gap-2 flex-col">
             <div className="border-t-2 border-indie-300/30"></div>
             <div className="flex gap-2 w-full">
               <input
                 type="url"
                 placeholder="Enter your Project Link 🔥 "
                 className="w-full border-1 placeholder:opacity-30 border-indie-500 p-2 rounded-md
-                focus:outline-none"
+                focus:outline-none text-[10px] placeholder:text-[10px] md:text-sm lg:text-[16px] md:placeholder:text-[16px]"
                 {...register("projectLink")}
               />
             </div>
           </div>
         )}
         {selected.repo && (
-          <div className="flex gap-4 flex-col">
+          <div className="flex md:gap-4 gap-2 flex-col">
             <div className="border-t-2 border-indie-300/30"></div>
             <div className="flex gap-2 w-full">
               <input
                 type="url"
                 placeholder="Enter your Github Repository Link 🔑 "
                 className="w-full border-1 placeholder:opacity-30 border-indie-500 p-2 rounded-md
-                focus:outline-none"
+                focus:outline-none text-[10px] placeholder:text-[10px] md:text-sm lg:text-[16px] md:placeholder:text-[16px]"
                 {...register("repoLink")}
               />
             </div>
           </div>
         )}
         {selected.status && (
-          <div className="flex gap-4 flex-col">
+          <div className="flex lg:gap-4 gap-2 flex-col">
             <div className="border-t-2 border-indie-300/30"></div>
             <div className="flex gap-2 w-full">
-              <label className="text-start">Project Status</label>
+              <label className="text-start text-[10px] md:text-sm lg:text-[16px]">Project Status</label>
             </div>
-            <div className="">
+            <div>
               <select
                 name="status"
                 defaultValue=""
                 className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
-      focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent cursor-pointer
-      text-start w-full px-2 h-12"
+      focus:outline-none focus:border-transparent cursor-pointer
+      text-start w-full px-2 md:h-12 h-10"
                 {...register("status")}
               >
                 <option value="" disabled>

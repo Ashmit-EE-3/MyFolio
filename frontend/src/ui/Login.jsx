@@ -34,8 +34,8 @@ function Login() {
 
     return (
         <div className="h-screen font-poppins flex items-center justify-center">
-            <div className="h-[35rem] w-96 bg-indie-800 rounded-4xl p-10 flex flex-col items-center justify-center">
-                <div className="flex flex-col gap-4 justify-center items-center">
+            <div className="max-h-[45rem] lg:h-[40rem] h-[30rem] lg:w-[50%] w-[80%] max-w-[95%] bg-indie-800 md:rounded-4xl rounded-xl p-4 md:p-8 lg:p-10 flex flex-col items-center justify-center">
+                <div className="flex flex-col md:gap-4 gap-2 justify-center items-center max-w-[80%]">
                     <OAuth provider = {new GoogleAuthProvider()} Icon={FcGoogle} name="Google" />
                     <OAuth provider = {new GithubAuthProvider()} Icon={FaGithub} name="Github" />
                     <OAuth provider = {new TwitterAuthProvider()} Icon={FaXTwitter} name="X" />
@@ -44,10 +44,10 @@ function Login() {
                         <span className="mx-4 text-indie-200">or</span>
                         <hr className="h-0.5 bg-indie-200 w-full" />
                     </div>
-                    <form onSubmit={handleClick} className="w-full text-indie-200 flex flex-col gap-2 mt-2">
+                    <form onSubmit={handleClick} className="w-full text-indie-200 flex flex-col gap-2 mt-2 text-[10px] md:text-sm lg:text-xl">
                         <label htmlFor="email">Email</label>
-                        <input type="email" placeholder="email@example.com" className="border-2 border-indie-200 rounded-sm p-2 focus:outline-none" onChange={handleChange} />
-                        <motion.button whileHover={{scale:0.95}} className="bg-veronica-700 text-xl p-2 rounded-lg w-full text-indie-100 h-16 mt-2 cursor-pointer">Sign in with Email</motion.button>
+                        <input type="email" placeholder="email@example.com" className="border-2 border-indie-200 rounded-sm md:p-2 p-1 focus:outline-none" onChange={handleChange} />
+                        <motion.button whileHover={{scale:0.95}} className="bg-veronica-700 lg:text-xl md:text-sm text-[10px] md:p-2 rounded-lg md:w-full text-indie-100 md:h-16 h-12 mt-2 cursor-pointer">Sign in with Email</motion.button>
                     </form>
                 </div>
             </div>

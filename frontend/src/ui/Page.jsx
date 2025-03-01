@@ -303,22 +303,22 @@ function Page() {
   }
 
   return (
-    <div className="flex mx-auto h-screen overflow-hidden gap-8">
-      <div className="flex flex-col gap-6 font-(family-name:--font-poppins) overflow-y-scroll h-full">
+    <div className="col-span-9 flex h-screen md:mx-auto lg:gap-8 overflow-hidden p-4 md:p-0">
+      <div className="flex flex-col lg:gap-6 gap-3 md:gap-4.5 font-(family-name:--font-poppins) lg:h-full overflow-y-scroll mx-auto md:mx-0 overflow-x-hidden">
         {!submit && (
-          <div className="flex flex-col w-[50vw] bg-indie-700 rounded-2xl text-start p-6 gap-5">
-            <h1 className="text-yellow-200">
+          <div className="flex flex-col xl:w-[50vw] bg-indie-700 rounded-2xl text-start lg:p-6 lg:gap-5 w-[98%] p-2 md:p-4 gap-2">
+            <h1 className="text-yellow-200 text-[10px] md:text-sm lg:text-[16px]">
               ⚠ Create a username to get a public page
             </h1>
             <form
-              className="flex flex-col gap-4"
+              className="flex flex-col lg:gap-4 sm:gap-3 gap-2"
               onSubmit={handleUSubmit}
             >
               <motion.input
                 placeholder="username"
                 type="text"
                 value={username}
-                className="border-indie-300/10 p-2 border-1 rounded-md h-12 placeholder:opacity-30 bg-indie-500 focus:outline-none "
+                className="border-indie-300/10 p-2 border-1 rounded-md md:h-12 h-8 placeholder:opacity-30 bg-indie-500 focus:outline-none placeholder:text-[10px] md:placeholder:text-sm lg:placeholder:text-[16px] text-xs md:text-sm lg:text-[16px]"
                 required
                 onChange={handleChange}
                 whileFocus={{ boxShadow: "0px 0px 8px 8px #242631" }}
@@ -326,19 +326,19 @@ function Page() {
               <motion.button
               whileHover={{rotate:[1,0.5,-1,-0.5,0],scale:0.98}}
               transition={{duration:0.25}}
-                className="bg-veronica-700 text-indie-600 p-2 rounded-lg h-12 tracking-wide font-semibold hover:bg-veronica-800
-            focus:outline-none cursor-pointer"
+                className="bg-veronica-700 text-indie-600 p-2 rounded-lg sm:h-10 h-8 tracking-wide font-semibold hover:bg-veronica-800
+            focus:outline-none cursor-pointer text-[10px] md:text-sm lg:text-[16px]"
               >
                 CREATE USERNAME
               </motion.button>
             </form>
           </div>
         )}
-        <div className="flex flex-col p-6 w-[50vw] bg-indie-700 rounded-2xl text-indie-100 gap-4">
-          <form className="flex gap-4 text-xl items-center">
+        <div className="flex flex-col lg:p-6 xl:w-[50vw] bg-indie-700 rounded-2xl text-indie-100 lg:gap-4 gap-2 sm:gap-3 w-[98%] mx-auto p-2 md:p-4">
+          <form className="flex lg:gap-4 gap-2 items-center">
             <div
               onClick={() => document.getElementById("profile-upload").click()}
-              className="relative h-14 w-14 group cursor-pointer aspect-square block p-0 m-0 object-cover"
+              className="relative lg:h-14 lg:w-14 w-10 h-10 group cursor-pointer aspect-square block p-0 m-0 object-cover"
             >
               <input
                 type="file"
@@ -348,7 +348,7 @@ function Page() {
                 id="profile-upload"
               />
               <svg
-                className="absolute top-0 left-0 h-8 w-8 z-20 translate-x-1/4 translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
+                className="absolute top-0 left-0 lg:h-8 lg:w-8 h-6 w-6 z-20 lg:translate-x-1/4 translate-x-1/3 translate-y-1/3 lg:translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
                 fill="white"
@@ -362,8 +362,8 @@ function Page() {
               </svg>
               <img
                 src={formData.photoURL}
-                className="rounded-full h-13 w-13 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
-                alt="avatar"
+                className="rounded-full lg:h-13 lg:w-13 w-10 h-10 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
+                // alt="avatar"
               />
             </div>
             <input
@@ -371,20 +371,20 @@ function Page() {
               placeholder="Your name"
               onChange={handleDisplayNameChange}
               defaultValue={formData.displayName}
-              className="w-full p-2 h-12 rounded-md placeholder:opacity-30 placeholder:text-base focus:outline-none focus:ring focus:ring-indie-100"
+              className="w-full p-2 lg:h-12 h-8 sm:h-10 rounded-md text-[10px] md:text-[16px] placeholder:opacity-30 placeholder:text-base focus:outline-none focus:ring focus:ring-indie-100"
             />
           </form>
           <form>
             <motion.textarea
-              placeholder="I quit my 9-5 job to work 24/7 on my startup"
+              placeholder="About me..."
               type="text"
               whileFocus={{ boxShadow: "0px 0px 2px 2px #242631" }}
               defaultValue={userData?.about || ""}
               onChange={handleAbout}
-              className="border-indie-300/10 h-28 w-full placeholder:text-base p-2 rounded-md focus:outline-none outfocus:ring focus:ring-indie-400 focus:ring-offset-1 placeholder:opacity-30 bg-indie-500"
+              className="border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder-text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
             ></motion.textarea>
           </form>
-          <div className="flex gap-4">
+          <div className="flex md:gap-4 sm:gap-2">
             <UserDetails
               selected={selected}
               setSelected={setSelected}
@@ -423,17 +423,17 @@ function Page() {
             />
           </div>
           {selected.Location && (
-            <div className="flex flex-col gap-4 text-start">
+            <div className="flex flex-col lg:gap-4 sm:gap-2.5 gap-1.5 text-start text-[10px] md:text-sm lg:text-[16px]">
               <div className="border-t-2 border-indie-300/10"></div>
-              <label>Where are you based?</label>
+              <label className="text-[10px] md:text-sm lg:text-[16px]">Where are you based?</label>
               <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
-                <div className="bg-indie-400 p-3 inline-block h-12">
+                <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
                   <span className> 🌴 </span>
                 </div>
                 <motion.input
                   placeholder="Location"
                   type="text"
-                  className="p-2 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
+                  className="p-2 md:h-12 h-8 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px]"
                   defaultValue={userData?.location || ""}
                   onChange={handleLocation}
                   whileFocus={{ boxShadow: "0px 0px 1.5px 1.5px #414558" }}
@@ -442,17 +442,17 @@ function Page() {
             </div>
           )}
           {selected.College && (
-            <div className="flex flex-col gap-4 text-start">
+            <div className="flex flex-col lg:gap-4 gap-1.5 sm:gap-2.5 text-start text-[10px] md:text-sm lg:text-[16px]">
               <div className="border-t-2 border-indie-300/10"></div>
-              <label>Which College are you in?</label>
+              <label className="text-[10px] md:text-sm lg:text-[16px]">Which College are you in?</label>
               <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
-                <div className="bg-indie-400 p-3 inline-block h-12">
+                <div className="bg-indie-400 md:p-3 p-1.5 h-8 inline-block md:h-12">
                   <span className> 🎓 </span>
                 </div>
                 <motion.input
                   placeholder="College"
                   type="text"
-                  className="p-2 h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
+                  className="p-2 md:h-12 h-8 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px]"
                   defaultValue={userData?.college || ""}
                   onChange={handleCollege}
                   whileFocus={{ boxShadow: "0px 0px 1.5px 1.5px #414558" }}
@@ -493,14 +493,14 @@ function Page() {
             />
           )}
         </div>
-        <h1 className="text-xl">
+        <h1 className="md:text-[16px] lg:text-xl sm:text-[12px] text-[10px] mx-auto">
           Your failures, successes and everything in between!
         </h1>
         <Project />
         <ShowProject projects={projects} />
         <SocialIcons />
       </div>
-      <div className="overflow-y-scroll">{submit && <Mobile />}</div>
+      {submit && <Mobile />}
     </div>
   );
 }

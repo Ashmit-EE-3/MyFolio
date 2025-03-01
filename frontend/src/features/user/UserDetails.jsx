@@ -20,7 +20,7 @@ function UserDetails({ selected, setSelected, Icon, text }) {
       <div className="absolute -top-10 left-1/2 bg-black text-white text-xs p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
         {text}
       </div>
-      <Icon size={32} />
+      <Icon className="h-4 w-4 lg:h-8 lg:w-8 md:h-6 md:w-6" />
     </span>
   );
 }

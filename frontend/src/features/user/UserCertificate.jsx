@@ -58,18 +58,18 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4 border-indie-400">
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 border-indie-400 text-[10px] md:text-sm lg:text-[16px]">
         <div className="flex border-indie-400 gap-2">
           <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-            <div className="bg-indie-400 p-3 inline-block h-12">
-              <span className> 🏆 </span>
+            <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
+              <span> 🏆 </span>
             </div>
             <motion.input
               type="text"
               defaultValue={userData?.certificate?.certificateName||""}    
               placeholder="Certification Name"
-              className="w-full p-2 h-12 rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30"
+              className="w-full p-2 md:h-12 h-8 md:rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30 placeholder:text-[10px] md:placeholder:text-[16px]"
               onChange={handleName}
               whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
@@ -77,14 +77,14 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
         </div>
         <div className="flex border-indie-400 gap-2">
           <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
-            <div className="bg-indie-400 p-3 inline-block h-12">
-              <span className> 🔗 </span>
+            <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
+              <span> 🔗 </span>
             </div>
             <motion.input
               type="url"
               defaultValue={userData?.certificate?.certificateLink||""}
               placeholder="Certification Link"
-              className="w-full p-2 h-12 rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30"
+              className="w-full p-2 md:h-12 h-8 placeholder:text-[10px] md:placeholder:text-[16px] md:rounded-md focus:outline-none bg-indie-500 placeholder:opacity-30"
               onChange={handleLink}
               whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
@@ -92,7 +92,7 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
         </div>
       </div>
       <CertificatePdf file={pdfFile} setPdfFile={setPdfFile} setUserData={setUserData} userData={userData} handleUserDetails={handleUserDetails}  />
-    </>
+    </div>
   );
 }
 

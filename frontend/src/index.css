@@ -13,7 +13,10 @@
     --color-veronica-700: #C77DFF ; 
     --color-veronica-800: #7B2CBF ;
     --color-veronica-900: #5A189A ;
-    --font-poppins: "Poppins" ;  
+    --font-poppins: "Poppins" ; 
+    --breakpoint-sm: 480px; 
+    --breakpoint-md: 720px;
+    --breakpoint-lg: 820px
 } 
 
 

@@ -1,8 +1,6 @@
-import React from 'react'
-
 function Footer() {
   return (
-    <div className='font-poppins flex justify-center p-8 bg-indie-700 sm:flex-row sm:justify-evenly flex-col '>
+    <div className='font-poppins flex justify-center p-8 bg-indie-700 sm:flex-row sm:justify-evenly flex-col text-sm md:text-lg lg:text-xl'>
         <div>
             <header className='font-bold my-4 text-indie-400'>INDIE PAGE</header>
             <p className='my-0.75 text-indie-100'>Tech News</p>

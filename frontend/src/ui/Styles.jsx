@@ -6,7 +6,7 @@ import { Slide, toast } from 'react-toastify';
 function Styles() {
     const dispatch = useDispatch() ;
     const submit = useSelector((state) => state.user.submit) ; 
-    const usernameId = useSelector((state) => state.user.username._id);
+    const usernameId = useSelector((state) => state.user.username?._id);
     const handleFontChange = async (selected) => {
         try {
             const res = await fetch(`/api/v1/username/update/${usernameId}`, {
@@ -128,7 +128,7 @@ function Styles() {
             backgroundColor: 'var(--indie-600)',
             border: '2px solid var(--indie-800)',
             borderRadius: '0.5rem',
-            padding: '0.25rem',
+            padding: '',
             cursor: 'pointer',
         }),
         singleValue: (base) => ({
@@ -158,7 +158,7 @@ function Styles() {
             ...base,
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
-            padding: '0.5rem',
+            padding: '',
             backgroundColor: 'var(--indie-600)',
         }),
         option: (base, state) => ({
@@ -172,7 +172,8 @@ function Styles() {
         }),
     };
     return (
-        <div className='flex justify-between px-40 flex-row gap-2 w-full mx-auto overflow-y-scroll'>
+        <div className='flex justify-between xl:px-40 px-10 flex-row gap-2 w-full mx-auto lg:overflow-y-scroll overflow-hidden lg:min-h-fit min-h-screen
+        text-[10px] md:text-[16px] md:py-0 py-6'>
             <div className='flex flex-col items-start gap-8'>
                 <div className='flex flex-col items-start gap-2'>
                     <div className='px-1'>FONT</div>

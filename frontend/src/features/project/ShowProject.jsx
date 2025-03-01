@@ -96,10 +96,11 @@ function ShowProject() {
   return (
     <DragDropContext onDragEnd={handleDND}>
       {projectList && (
+        <div className="w-[98%] xl:w-[50vw] mx-auto text-[10px] md:text-sm lg:text-[16px]">
         <Droppable droppableId="ROOT" type="group">
           {(provided) => (
             <div
-              className="flex flex-col gap-4"
+              className="flex flex-col md:gap-4"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -113,7 +114,7 @@ function ShowProject() {
                     >
                       {(provided) => (
                         <div
-                          className="grid grid-cols-12 bg-indie-700 items-center rounded-md p-4 cursor-pointer"
+                          className="grid grid-cols-12 bg-indie-700 items-center rounded-md md:p-4 p-2 cursor-pointer gap-6"
                           {...provided.draggableProps}
                           ref={provided.innerRef}
                         >
@@ -121,20 +122,20 @@ function ShowProject() {
                             className="col-span-1 cursor-pointer"
                             {...provided.dragHandleProps}
                           >
-                            <RxDragHandleDots2 size={24} />
+                            <RxDragHandleDots2 className="h-5 w-5 md:h-8 md:w-8" />
                           </div>
-                          <motion.div className="text-indie-100 text-start flex flex-col gap-2 col-span-11"
+                          <motion.div className="text-indie-100 text-start flex flex-col gap-2 col-span-11 justify-center"
                           initial={{ opacity: 0, y: 100 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ type: "spring", stiffness: 200, damping: 10,duration:1 }}>
-                            <div className="flex justify-between">
+                            <div className="flex sm:max-w-full sm:gap-0 max-w-fit justify-between">
                               <h1 className="flex items-center gap-2">
                                 <span>
-                                  <GoProjectRoadmap size={24} />
+                                  <GoProjectRoadmap className="h-4 w-4 md:h-8 md:w-8" />
                                 </span>
-                                <p className="text-2xl">{project.name}</p>
+                                <p className="lg:text-2xl md:text-xl text-sm">{project.name}</p>
                                 {project.status && (
-                                  <div className="bg-indie-300 text-indie-500 rounded-md px-1 w-fit">
+                                  <div className="bg-indie-300 text-indie-500 rounded-md px-1 w-fit hidden sm:block">
                                     <span>{obj[project.status]}</span>
                                     {project.status}
                                   </div>
@@ -144,10 +145,10 @@ function ShowProject() {
                                 className="cursor-pointer"
                                 onClick={() => deleteProj(project._id)}
                               >
-                                <MdDeleteForever size={30} />
+                                <MdDeleteForever className="h-5 w-5 md:h-8 md:w-8" />
                               </button>
                             </div>
-                            <p className="text-md">
+                            <p>
                               <span> ➡ </span>
                               {project.description}
                             </p>
@@ -161,6 +162,7 @@ function ShowProject() {
             </div>
           )}
         </Droppable>
+        </div>
       )}
     </DragDropContext>
   );

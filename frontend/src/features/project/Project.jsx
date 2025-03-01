@@ -136,28 +136,28 @@ function Project() {
   return (
     <>
       {showForm && (
-        <div className="bg-indie-700 rounded-2xl w-[50vw] p-6">
-          <div className="space-y-4">
-            <div className="h-4">
+        <div className="bg-indie-700 rounded-2xl xl:w-[50vw] lg:p-6 p-2 md:p-4 w-[98%] mx-auto text-[10px] md:text-sm lg:text-[16px]">
+          <div className="lg:space-y-4 space-y-2">
+            <div className="md:h-4 h-2.5">
               <button
                 onClick={() => setShowForm(false)}
-                className="w-6 h-6 rounded-full
+                className="lg:w-6 lg:h-6 md:h-5 md:w-5 h-4 w-4 rounded-full
         cursor-pointer float-right"
               >
                 <span>
-                  <IoIosArrowDropdownCircle size={24} color="#B5BDE5" />
+                  <IoIosArrowDropdownCircle className="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6" color="#B5BDE5" />
                 </span>
               </button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="flex flex-col gap-4 ">
+            <form onSubmit={handleSubmit(onSubmit)} className="md:space-y-4 space-y-2">
+              <div className="flex flex-col lg:gap-4 gap-1.5 sm:gap-2.5">
                 <div className="w-full justify-center">
                   <input
                     type="text"
                     required
                     placeholder="Project Name"
                     {...register("name", { required: true })}
-                    className="p-2 border-1px rounded-md h-12 placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
+                    className="p-2 border-1px rounded-md md:h-12 h-8 md:text-sm lg:text-[16px] placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
                   />
                 </div>
                 <div className="w-full justify-center">
@@ -165,7 +165,7 @@ function Project() {
                     type="text"
                     placeholder="Project Description"
                     required
-                    className="h-24 p-2 border-1px rounded-md placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
+                    className="md:h-24 h-18 md:text-sm lg:text-[16px] placeholder:text-[10px] md:placeholder:text-[16px] p-2 border-1px rounded-md placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
                     {...register("description", { required: true })}
                   />
                 </div>
@@ -178,7 +178,7 @@ function Project() {
                 />
               </div>
               <motion.button
-                className="bg-veronica-700 text-indie-600 w-full h-12 rounded-lg tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 hover:scale-[1.05] focus:outline-none flex justify-center items-center gap-2"
+                className="bg-veronica-700 text-indie-600 w-full md:h-12 h-8 rounded-lg tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 transition duration-200 hover:scale-[1.05] focus:outline-none flex justify-center items-center gap-2"
                 type="submit"
               >
                 <motion.span
@@ -192,7 +192,7 @@ function Project() {
                 >
                   +
                 </motion.span>
-                <h1>ADD PROJECT</h1>
+                <h1 className="md:text-sm lg:text-[16px] text-[10px]">ADD PROJECT</h1>
               </motion.button>
             </form>
           </div>
@@ -201,7 +201,7 @@ function Project() {
       {!showForm && (
         <div>
           <motion.button
-            className="bg-veronica-700 text-indie-600 rounded-lg w-full h-12 items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
+            className="bg-veronica-700 text-center text-indie-600 rounded-lg w-full mx-auto md:h-12 h-8 text-[10px] md:text-[16px] items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
             onClick={() => setShowForm(!showForm)}
           >
             <motion.span
@@ -211,7 +211,7 @@ function Project() {
             >
               +
             </motion.span>
-            <h1>ADD PROJECT</h1>
+            <h1 className="text-[10px] md:text-sm lg:text-[16px]">ADD PROJECT</h1>
           </motion.button>
         </div>
       )}
