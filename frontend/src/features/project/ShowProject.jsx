@@ -128,7 +128,7 @@ function ShowProject() {
                           initial={{ opacity: 0, y: 100 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ type: "spring", stiffness: 200, damping: 10,duration:1 }}>
-                            <div className="flex sm:w-full sm:gap-0 max-w-fit justify-between">
+                            <div className="flex sm:max-w-full sm:gap-0 max-w-fit justify-between">
                               <h1 className="flex items-center gap-2">
                                 <span>
                                   <GoProjectRoadmap className="h-4 w-4 md:h-8 md:w-8" />
@@ -142,7 +142,7 @@ function ShowProject() {
                                 )}
                               </h1>
                               <button
-                                className="cursor-pointer flex justify-end"
+                                className="cursor-pointer"
                                 onClick={() => deleteProj(project._id)}
                               >
                                 <MdDeleteForever className="h-5 w-5 md:h-8 md:w-8" />

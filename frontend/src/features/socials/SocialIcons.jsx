@@ -214,14 +214,14 @@ function AdminIcons() {
             {socialdetails?.[social[0]] ? (
               <button
                 onClick={handleDelete}
-                className="bg-veronica-700 md:text-sm md:h-10 lg:text-[16px] p-1 text-[8px] w-12 md:w-16 md:p-3 h-8 rounded-lg lg:w-24 text-indie-700 cursor-pointer hover:bg-veronica-800"
+                className="bg-veronica-700 md:text-sm md:h-12 lg:text-[16px] p-1 text-[8px] w-12 md:w-16 md:p-3 h-8 rounded-lg lg:w-24 text-indie-700 cursor-pointer hover:bg-veronica-800"
               >
                 DELETE
               </button>
             ) : (
               <button
                 onClick={handleAdd}
-                className="bg-veronica-700 md:p-3 p-1 h-8 md:h-10 rounded-lg lg:w-24 md:w-16 w-12 lg:text-[16px] md:text-sm text-[8px] text-indie-700 cursor-pointer hover:bg-veronica-800"
+                className="bg-veronica-700 md:p-3 p-1 h-8 md:h-12 rounded-lg lg:w-24 md:w-16 w-12 lg:text-[16px] md:text-sm text-[8px] text-indie-700 cursor-pointer hover:bg-veronica-800"
               >
                 ADD
               </button>

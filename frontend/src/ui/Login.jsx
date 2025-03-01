@@ -34,7 +34,7 @@ function Login() {
 
     return (
         <div className="h-screen font-poppins flex items-center justify-center">
-            <div className="h-[35rem] max-w-[95%] bg-indie-800 md:rounded-4xl rounded-xl p-4 md:p-8 lg:p-10 flex flex-col items-center justify-center">
+            <div className="max-h-[45rem] lg:h-[40rem] h-[30rem] lg:w-[50%] w-[80%] max-w-[95%] bg-indie-800 md:rounded-4xl rounded-xl p-4 md:p-8 lg:p-10 flex flex-col items-center justify-center">
                 <div className="flex flex-col md:gap-4 gap-2 justify-center items-center max-w-[80%]">
                     <OAuth provider = {new GoogleAuthProvider()} Icon={FcGoogle} name="Google" />
                     <OAuth provider = {new GithubAuthProvider()} Icon={FaGithub} name="Github" />
