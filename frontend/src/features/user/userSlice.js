@@ -5,7 +5,8 @@ const initialState = {
     username: {},
     submit: false,
     isAuthenticated: false,
-    userDetails: {}
+    userDetails: {}, 
+    loading: false, 
 }
 const userSlice = createSlice({
     name: 'user',
@@ -36,8 +37,14 @@ const userSlice = createSlice({
         },
         addUserDetails(state,action){
             state.userDetails=action.payload
+        },
+        startLoading(state){
+            state.loading = true
+        },
+        endLoading(state){
+            state.loading = false
         }
     }
 })
-export const { addUsername, addLogInCredentials, updateUser, logOutUser,deleteUser,addUserDetails,updateUsername} = userSlice.actions
+export const { addUsername, addLogInCredentials, updateUser, logOutUser,deleteUser,addUserDetails,updateUsername,startLoading,endLoading} = userSlice.actions
 export default userSlice.reducer;

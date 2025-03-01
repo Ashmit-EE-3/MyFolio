@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useNavigate } from 'react-router-dom';
-import { addLogInCredentials, addUserDetails, addUsername } from '../features/user/userSlice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { addLogInCredentials, addUserDetails, addUsername, endLoading, startLoading } from '../features/user/userSlice';
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
@@ -12,7 +12,7 @@ import { motion } from 'motion/react';
 function OAuth({ provider, Icon, name }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const loading = useSelector((state) => state.user.loading)
     const fetchProfile = async (id) => {
         try {
             const res = await fetch(`/api/v1/profile/get/${id}`, {
@@ -92,6 +92,7 @@ function OAuth({ provider, Icon, name }) {
         }
     }
     const handleClick = async () => {
+        dispatch(startLoading());
         try {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
@@ -116,23 +117,33 @@ function OAuth({ provider, Icon, name }) {
             }
             console.log(data);
             dispatch(addLogInCredentials(data));
-            fetchProjects(data._id) ; 
-            fetchProfile(data._id) ; 
-            fetchUsername(data._id) ;
-            fetchSocials(data._id) ; 
-            navigate('/admin') ; 
+            fetchProjects(data._id);
+            fetchProfile(data._id);
+            fetchUsername(data._id);
+            fetchSocials(data._id);
+            dispatch(endLoading());
+            navigate('/admin');
         }
         catch (error) {
             console.log(error);
+            dispatch(endLoading());
         }
     }
 
     return (
-        <motion.button onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-evenly md:h-16 h-12 cursor-pointer"
-        whileHover={{scale:0.95}}>
-            <Icon className='lg:h-10 lg:w-10 h-6 w-6' color='Black' />
-            <span className='text-[10px] md:text-sm lg:text-xl'>Sign in with {name}</span>
-        </motion.button>
+        loading ?
+            (<motion.button disabled={loading} onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-center md:h-16 h-12 cursor-pointer disabled:opacity-50"
+                whileHover={{ scale: 0.95 }}>
+                  <div className='flex items-center gap-2'>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+                    <span className='text-[10px] md:text-sm lg:text-xl'>Signing in...</span>
+                  </div>
+            </motion.button>) :
+            (<motion.button onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-evenly md:h-16 h-12 cursor-pointer"
+                whileHover={{ scale: 0.95 }}>
+                <Icon className='lg:h-10 lg:w-10 h-6 w-6' color='Black' />
+                <span className='text-[10px] md:text-sm lg:text-xl'>Sign in with {name}</span>
+            </motion.button>)
     )
 }
 

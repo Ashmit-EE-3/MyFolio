@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { toast, Slide } from "react-toastify";
 const ProjectImage = ({ images, setImages }) => {
+  const [isUploading, setIsUploading] = useState(false);
   const handleImageUpload = (e) => {
+    setIsUploading(true);
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       setImages([...images, file]);
@@ -30,6 +33,7 @@ const ProjectImage = ({ images, setImages }) => {
         },
       });
     }
+    setIsUploading(false);
   };
 
   function handleImageDelete(image) {
@@ -43,9 +47,6 @@ const ProjectImage = ({ images, setImages }) => {
         accept="image/jpeg, image/png, image/jpg"
         className="hidden"
         id="image-upload"
-        // {...register("image", { // because of register, onChange is not working, so we need to handle it manually
-        //   onChange: (e) => handleImageUpload(e),
-        // })}
         onChange={handleImageUpload}
       />
       <div>
@@ -72,10 +73,17 @@ const ProjectImage = ({ images, setImages }) => {
           type="button"
           className="bg-veronica-700 hover:bg-veronica-800 h-8 md:h-12 md:text-[16px] focus:outline-none cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
         >
-          <span>
-            <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
-          </span>
-          UPLOAD IMAGE
+          {isUploading ?
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+              <span>Uploading...</span>
+            </div> :
+            <div className="flex items-center gap-2">
+              <span>
+                <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
+              </span>
+              <span>UPLOAD IMAGE</span>
+            </div>}
         </button>
       </div>
     </div>

@@ -1,11 +1,13 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-import {motion} from "motion/react"
+import { motion } from "motion/react"
 import { useState } from "react";
 function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUserData }) {
   const pdfName = file ? file.name : "";
-  const [hover,setHover]=useState(false)
+  const [hover, setHover] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   async function handleFileUpload(e) {
+    setIsUploading(true);
     try {
       const file = e.target.files[0];
       if (file && file.type === "application/pdf") {
@@ -43,6 +45,7 @@ function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUser
     catch (error) {
       console.log("Error uploading images: ", error);
     }
+    setIsUploading(false);
   }
   return (
     <div>
@@ -56,16 +59,23 @@ function CertificatePdf({ file, setPdfFile, handleUserDetails, userData, setUser
       <div className="flex flex-col gap-2">
         <motion.button
           onClick={() => document.getElementById("pdf-upload").click()}
-          onHoverStart={()=>setHover(true)}
-          onHoverEnd={()=>setHover(false)}
-          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none h-8 md:h-12 text-[10px] md:text-[16px] cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+          onHoverStart={() => setHover(true)}
+          onHoverEnd={() => setHover(false)}
+          disabled={isUploading}
+          className="bg-veronica-700 disabled:opacity-50 hover:bg-veronica-800 focus:outline-none h-8 md:h-12 text-[10px] md:text-[16px] cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
         >
-          <motion.span animate={{y:hover?-4:0}}>
-            <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
-          </motion.span>
-          {pdfName  || "UPLOAD PDF"}
+          {isUploading ?
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+              <span>Uploading...</span>
+            </div> :
+            (<>
+              <motion.span animate={{ y: hover ? -4 : 0 }}>
+                <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
+              </motion.span>
+              {pdfName || "UPLOAD PDF"}</>)}
         </motion.button>
-        {pdfName && (
+        {pdfName && !isUploading && (
           <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
         )}
       </div>

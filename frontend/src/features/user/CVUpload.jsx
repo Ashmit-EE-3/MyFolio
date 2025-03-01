@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { startLoading } from "./userSlice";
+
 function PdfUpload({
   file,
   setPdfFile,
@@ -10,11 +12,15 @@ function PdfUpload({
   userData,
   setUserData,
 }) {
+  const dispatch = useDispatch();
+  const [isUploading, setIsUploading] = useState(false);
   const pdfName = file ? file.name : "";
   const cv = useSelector((state) => state.user.userDetails?.resume);
-  const [hover,setHover]=useState(false);
+  const [hover, setHover] = useState(false);
   async function handleFileUpload(e) {
+    setIsUploading(true);
     try {
+      dispatch(startLoading());
       const file = e.target.files[0];
       if (file && file.type === "application/pdf") {
         setPdfFile(file);
@@ -49,6 +55,7 @@ function PdfUpload({
     } catch (error) {
       console.log("Error uploading PDF: ", error);
     }
+    setIsUploading(false);
   }
   return (
     <div>
@@ -62,18 +69,25 @@ function PdfUpload({
       <motion.div className="flex flex-col gap-2">
         <motion.button
           onClick={() => document.getElementById("pdf-upload").click()}
-          onHoverStart={()=>setHover(true)}
-          onHoverEnd={()=>setHover(false)}
-          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none cursor-pointer text-[10px] md:text-[16px] h-8 md:h-12 px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+          onHoverStart={() => setHover(true)}
+          onHoverEnd={() => setHover(false)}
+          disabled={isUploading}
+          className={`bg-veronica-700 disabled:opacity-50 hover:bg-veronica-800 focus:outline-none cursor-pointer text-[10px] md:text-[16px] h-8 md:h-12 px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center`}
         >
-          <motion.div className="flex items-center gap-2">
-            <motion.span animate={{y:hover?-4:0}}>
-              <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
-            </motion.span>
-            <span>{pdfName || (cv && "UPLOADED CV ✔ ") || "UPLOAD PDF"}</span>
-          </motion.div>
+          {(isUploading) ?
+            <div className="flex items-center gap-2">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+              <span>Uploading...</span>
+            </div> :
+            <motion.div className="flex items-center gap-2">
+              <motion.span animate={{ y: hover ? -4 : 0 }}>
+                <IoCloudUploadOutline style={{ color: "#22222A" }} size={28} />
+              </motion.span>
+              <span>{pdfName || (cv && "UPLOADED CV ✔ ") || "UPLOAD PDF"}</span>
+            </motion.div>}
+
         </motion.button>
-        {pdfName && (
+        {pdfName && !isUploading && (
           <p className="text-sm text-indie-300">Selected file: {pdfName}</p>
         )}
       </motion.div>

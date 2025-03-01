@@ -4,12 +4,12 @@ import { useRef, useState } from "react";
 import {
   addUserDetails,
   addUsername,
+  endLoading,
+  startLoading,
   updateUser,
 } from "../features/user/userSlice";
 import Project from "../features/project/Project";
-import { CiLocationOn } from "react-icons/ci";
 import { GiSkills } from "react-icons/gi";
-import { PiReadCvLogo } from "react-icons/pi";
 import { IoDocumentText, IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast } from "react-toastify";
 import { PiCertificateFill } from "react-icons/pi";
@@ -30,10 +30,12 @@ function Page() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   const userDetails = useSelector((state) => state.user.userDetails);
+  const loading = useSelector((state)=>state.user.loading)
   const [formData, setFormData] = useState(currentUser);
   const [userData, setUserData] = useState(userDetails);
   const typingTimeout = useRef(null);
   const [username, setUsername] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const [selected, setSelected] = useState({
     Location: false,
     Languages: false,
@@ -45,6 +47,7 @@ function Page() {
   const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
   const projects = useSelector((state) => state.project?.project);
+  const [usernameLoading, setUsernameLoading] = useState(false) ; 
 
   function handleChange(e) {
     setUsername(e.target.value);
@@ -56,14 +59,15 @@ function Page() {
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
     }
-
-    typingTimeout.current = setTimeout(() => {
+    dispatch(startLoading()) ; 
+    typingTimeout.current = setTimeout(() => {  
       setFormData((prevData) => ({ ...prevData, displayName: newValue }));
       handleUserSubmit({ ...formData, displayName: newValue });
     }, 2000);
   }
 
   async function handleProfileImageUpload(e) {
+    setIsUploading(true);
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
       console.log("Image uploaded:", file);
@@ -88,9 +92,10 @@ function Page() {
     }
 
     const data = await res.json();
-    const imageURL = data.secure_url; // Convert file to URL
+    const imageURL = data.secure_url; 
     setFormData((prevData) => ({ ...prevData, photoURL: imageURL }));
-    handleUserSubmit({ ...formData, photoURL: imageURL });
+    await handleUserSubmit({ ...formData, photoURL: imageURL });
+    setIsUploading(false);
   }
 
   const handleUserSubmit = async (updatedFormData) => {
@@ -119,6 +124,7 @@ function Page() {
         return;
       }
       dispatch(updateUser(data));
+      dispatch(endLoading()) ; 
       toast.success("Saved!", {
         position: "top-center",
         autoClose: 1000,
@@ -152,7 +158,7 @@ function Page() {
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
     }
-
+    dispatch(startLoading()) ; 
     typingTimeout.current = setTimeout(() => {
       setUserData((prevData) => ({ ...prevData, about: newAbout }));
       handleUserDetails({ ...userData, about: newAbout });
@@ -165,7 +171,7 @@ function Page() {
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
     }
-
+    dispatch(startLoading()) ; 
     typingTimeout.current = setTimeout(() => {
       setUserData((prevData) => ({ ...prevData, location: newLocation }));
       handleUserDetails({ ...userData, location: newLocation });
@@ -177,7 +183,7 @@ function Page() {
     if (typingTimeout.current) {
       clearTimeout(typingTimeout.current);
     }
-
+    dispatch(startLoading()) ; 
     typingTimeout.current = setTimeout(() => {
       setUserData((prevData) => ({ ...prevData, college: newCollege }));
       handleUserDetails({ ...userData, college: newCollege });
@@ -185,6 +191,7 @@ function Page() {
   }
 
   async function handleUserDetails(data) {
+    dispatch(startLoading()) ; 
     const updatedUserDetails = {
       ...data,
       userId: currentUser._id,
@@ -228,6 +235,7 @@ function Page() {
 
       console.log("Data is : ", data);
       dispatch(addUserDetails(data));
+      dispatch(endLoading()) ; 
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",
@@ -244,6 +252,7 @@ function Page() {
   }
 
   async function handleUSubmit(e) {
+    setUsernameLoading(true);
     e.preventDefault();
     try {
       const usernameData = {
@@ -300,6 +309,7 @@ function Page() {
         },
       });
     }
+    setUsernameLoading(false);
   }
 
   return (
@@ -326,16 +336,20 @@ function Page() {
               <motion.button
               whileHover={{rotate:[1,0.5,-1,-0.5,0],scale:0.98}}
               transition={{duration:0.25}}
-                className="bg-veronica-700 text-indie-600 p-2 rounded-lg sm:h-10 h-8 tracking-wide font-semibold hover:bg-veronica-800
+              disabled={usernameLoading}
+                className="bg-veronica-700 disabled:opacity-50 text-indie-600 p-2 rounded-lg sm:h-10 h-8 tracking-wide font-semibold hover:bg-veronica-800
             focus:outline-none cursor-pointer text-[10px] md:text-sm lg:text-[16px]"
               >
-                CREATE USERNAME
+                {usernameLoading ? <div className="flex justify-center items-center gap-2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+                  Creating Username...
+                </div>: <span>CREATE USERNAME</span>}
               </motion.button>
             </form>
           </div>
         )}
         <div className="flex flex-col lg:p-6 xl:w-[50vw] bg-indie-700 rounded-2xl text-indie-100 lg:gap-4 gap-2 sm:gap-3 w-[98%] mx-auto p-2 md:p-4">
-          <form className="flex lg:gap-4 gap-2 items-center">
+          <form className="relative flex lg:gap-4 gap-2 items-center">
             <div
               onClick={() => document.getElementById("profile-upload").click()}
               className="relative lg:h-14 lg:w-14 w-10 h-10 group cursor-pointer aspect-square block p-0 m-0 object-cover"
@@ -347,7 +361,9 @@ function Page() {
                 className="hidden"
                 id="profile-upload"
               />
-              <svg
+              {isUploading ? <div className="flex items-center justify-center absolute top-0 left-0 lg:h-8 lg:w-8 h-6 w-6 z-20 lg:translate-x-1/4 translate-x-1/3 translate-y-1/3 lg:translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1">
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+              </div> : <svg
                 className="absolute top-0 left-0 lg:h-8 lg:w-8 h-6 w-6 z-20 lg:translate-x-1/4 translate-x-1/3 translate-y-1/3 lg:translate-y-1/4 opacity-60 bg-indie-400 rounded-lg group-hover:opacity-100 focus:outline-none focus:ring focus:ring-indie-200 focus:ring-offset-1"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -359,30 +375,40 @@ function Page() {
                   <rect x="352" y="192" />
                   <circle cx="256" cy="275" r="32" />
                 </g>
-              </svg>
+              </svg>}
               <img
                 src={formData.photoURL}
                 className="rounded-full lg:h-13 lg:w-13 w-10 h-10 aspect-square block p-0 m-0 object-cover group-hover:opacity-60"
-                // alt="avatar"
               />
             </div>
+            
             <input
               type="text"
               placeholder="Your name"
               onChange={handleDisplayNameChange}
               defaultValue={formData.displayName}
-              className="w-full p-2 lg:h-12 h-8 sm:h-10 rounded-md text-[10px] md:text-[16px] placeholder:opacity-30 placeholder:text-base focus:outline-none focus:ring focus:ring-indie-100"
+              className="w-full pr-8 p-2 lg:h-12 h-8 sm:h-10 rounded-md text-[10px] md:text-[16px] placeholder:opacity-30 placeholder:text-base focus:outline-none focus:ring focus:ring-indie-100"
             />
+            {loading && document.activeElement === document.querySelector('input[placeholder="Your name"]') && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                </div>
+              )}  
           </form>
-          <form>
+          <form className="relative">
             <motion.textarea
               placeholder="About me..."
               type="text"
               whileFocus={{ boxShadow: "0px 0px 2px 2px #242631" }}
               defaultValue={userData?.about || ""}
               onChange={handleAbout}
-              className="border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder-text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
+              className="pr-8 border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder-text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
             ></motion.textarea>
+            {loading && document.activeElement === document.querySelector('textarea[placeholder="About me..."]') && (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                </div>
+              )}  
           </form>
           <div className="flex md:gap-4 sm:gap-2">
             <UserDetails
@@ -426,7 +452,7 @@ function Page() {
             <div className="flex flex-col lg:gap-4 sm:gap-2.5 gap-1.5 text-start text-[10px] md:text-sm lg:text-[16px]">
               <div className="border-t-2 border-indie-300/10"></div>
               <label className="text-[10px] md:text-sm lg:text-[16px]">Where are you based?</label>
-              <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
+              <div className="relative flex items-center border-2 border-indie-100/10 rounded-sm">
                 <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
                   <span className> 🌴 </span>
                 </div>
@@ -438,6 +464,11 @@ function Page() {
                   onChange={handleLocation}
                   whileFocus={{ boxShadow: "0px 0px 1.5px 1.5px #414558" }}
                 />
+                {loading && document.activeElement === document.querySelector('input[placeholder="Location"]') && (
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                  </div>
+                )}  
               </div>
             </div>
           )}
@@ -445,7 +476,7 @@ function Page() {
             <div className="flex flex-col lg:gap-4 gap-1.5 sm:gap-2.5 text-start text-[10px] md:text-sm lg:text-[16px]">
               <div className="border-t-2 border-indie-300/10"></div>
               <label className="text-[10px] md:text-sm lg:text-[16px]">Which College are you in?</label>
-              <div className="flex items-center border-2 border-indie-100/10 rounded-sm">
+              <div className="relative flex items-center border-2 border-indie-100/10 rounded-sm">
                 <div className="bg-indie-400 md:p-3 p-1.5 h-8 inline-block md:h-12">
                   <span className> 🎓 </span>
                 </div>
@@ -457,6 +488,11 @@ function Page() {
                   onChange={handleCollege}
                   whileFocus={{ boxShadow: "0px 0px 1.5px 1.5px #414558" }}
                 />
+                {loading && document.activeElement === document.querySelector('input[placeholder="College"]') && (
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                  </div>
+                )}  
               </div>
             </div>
           )}

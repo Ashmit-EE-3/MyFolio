@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 function UserLanguages({ handleUserDetails, userData, setUserData }) {
   const userlanguages =
     useSelector((state) => state.user.userDetails?.languages) || [];
-
+  const loading = useSelector((state) => state.user.loading);
   const [lang, setLang] = useState("");
   const languageOptions = [
     {

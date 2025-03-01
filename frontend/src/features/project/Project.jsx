@@ -12,6 +12,7 @@ import { motion } from "motion/react";
 function Project() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [showForm, setShowForm] = useState(false);
+  const [isAdding, setIsAdding] = useState(false) ; 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       name: "",
@@ -59,6 +60,7 @@ function Project() {
   };
 
   const onSubmit = async (data) => {
+    setIsAdding(true);
     try {
       setShowForm(false);
 
@@ -125,6 +127,7 @@ function Project() {
         },
       });
     }
+    setIsAdding(false);
   };
 
   async function handleConfetti() {
@@ -201,9 +204,14 @@ function Project() {
       {!showForm && (
         <div>
           <motion.button
-            className="bg-veronica-700 text-center text-indie-600 rounded-lg w-full mx-auto md:h-12 h-8 text-[10px] md:text-[16px] items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
+            disabled={isAdding}
+            className="bg-veronica-700 disabled:opacity-50 text-center text-indie-600 rounded-lg w-full mx-auto md:h-12 h-8 text-[10px] md:text-[16px] items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
             onClick={() => setShowForm(!showForm)}
           >
+            {isAdding ? <div className="flex items-center gap-1">
+            <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
+            <span>Adding Project...</span>
+            </div> : <div className="flex items-center gap-1">
             <motion.span
               animate={{ rotate: [90, 180, 270, 360] }}
               transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
@@ -212,6 +220,7 @@ function Project() {
               +
             </motion.span>
             <h1 className="text-[10px] md:text-sm lg:text-[16px]">ADD PROJECT</h1>
+            </div>}
           </motion.button>
         </div>
       )}

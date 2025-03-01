@@ -2,9 +2,13 @@
 import { useRef } from "react";
 import CertificatePdf from "./CertificatePdf";
 import { motion } from "motion/react";
+import { useDispatch, useSelector } from "react-redux";
+import { startLoading } from "./userSlice";
 
 function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDetails }) {
   const typingTimeout = useRef(null);
+  const loading = useSelector((state)=>state.user.loading);
+  const dispatch = useDispatch();
   function handleName(e)
   {
     const name=e.target.value
@@ -12,7 +16,7 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
     if (typingTimeout.current){
       clearTimeout(typingTimeout.current) ; 
     }
-
+    dispatch(startLoading());
     typingTimeout.current = setTimeout(()=>{
       setUserData((prev)=>({
         ...prev,
@@ -38,7 +42,7 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
     if (typingTimeout.current){
       clearTimeout(typingTimeout.current) ; 
     }
-
+    dispatch(startLoading());
     typingTimeout.current = setTimeout(()=>{
       setUserData((prev)=>({
         ...prev,
@@ -61,7 +65,7 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2 border-indie-400 text-[10px] md:text-sm lg:text-[16px]">
         <div className="flex border-indie-400 gap-2">
-          <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+          <div className="relative flex items-center border-2 border-indie-100/10 rounded-sm w-full">
             <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
               <span> 🏆 </span>
             </div>
@@ -73,10 +77,15 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
               onChange={handleName}
               whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
+            {loading && document.activeElement === document.querySelector('input[placeholder="Certification Name"]') && (
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                  </div>
+                )}
           </div>
         </div>
         <div className="flex border-indie-400 gap-2">
-          <div className="flex items-center border-2 border-indie-100/10 rounded-sm w-full">
+          <div className="relative flex items-center border-2 border-indie-100/10 rounded-sm w-full">
             <div className="bg-indie-400 md:p-3 p-1.5 inline-block md:h-12 h-8">
               <span> 🔗 </span>
             </div>
@@ -88,6 +97,11 @@ function UserCertificate({pdfFile,setPdfFile, setUserData,userData,handleUserDet
               onChange={handleLink}
               whileFocus={{ boxShadow: "0px 0px 2px 2px #414558" }}
             />
+            {loading && document.activeElement === document.querySelector('input[placeholder="Certification Link"]') && (
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-100 border-t-transparent"></div>
+                  </div>
+                )}
           </div>
         </div>
       </div>
