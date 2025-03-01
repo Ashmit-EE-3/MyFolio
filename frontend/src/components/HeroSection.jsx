@@ -10,15 +10,14 @@ function HeroSection() {
             initial={{opacity:0,y:-200}}
             whileInView={{opacity:1,y:0}}
             transition={{duration:0.5,type:"spring",stiffness:200}}>
-              Showcase and grow your startups
+              Showcase your portfolio, grow your reach!
             </motion.div>
             <div className="text-indie-200 text-[16px]">
-              Get an Indie Page to show your unique journey and stand out from
-              the crowd. 14118 Solopreneurs are already remarkable!
+              Get a MyFolio Page to show your unique journey!
             </div>
             <div className="flex gap-2.5">
               <div className="flex border-1 h-12 border-indie-100 items-center bg-gray-800 text-white rounded-lg px-3 w-80">
-                <span className="text-indie-100">indiepa.ge/</span>
+                <span className="text-indie-100">myfolio.com/</span>
                 <input
                   type="text"
                   placeholder="yourname"
@@ -31,7 +30,7 @@ function HeroSection() {
             whileHover={{scale:1.05,backgroundColor:"#7B2CBF"}}
             transition={{duration:0.1}}
               >
-                <p>CLAIM MY INDIE PAGE</p>
+                <p>CLAIM MY FOLIO PAGE</p>
                 <span className="group-hover:translate-x-1">
                   →
                 </span>
@@ -45,17 +44,17 @@ function HeroSection() {
         initial={{opacity:0,x:-200}}
         whileInView={{opacity:1,x:0}}
         transition={{duration:0.5}}>
-          Building in public is mainstream
+          Your Success Story starts here!
         </motion.h1>
         <motion.h3 className="text-2xl"
         initial={{opacity:0,x:200}}
         whileInView={{opacity:1,x:0}}
         transition={{duration:0.5}}>
-          You can&apos;t just build a product and expect people to come...
+          Build Your Brand with a MyFolio Page and elevate your profile!
         </motion.h3>
-        <h5>
-          <span> ⬇ </span>There are more ways to stand out
-        </h5>
+        <h3 className="text-xl">
+        From campus to career, share your journey....
+        </h3>
       </motion.div>
     </>
   );

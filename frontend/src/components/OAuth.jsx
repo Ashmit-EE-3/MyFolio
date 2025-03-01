@@ -128,10 +128,10 @@ function OAuth({ provider, Icon, name }) {
     }
 
     return (
-        <motion.button onClick={handleClick} className="bg-indie-100 flex text-xl p-2 rounded-lg w-72 items-center justify-evenly h-16 cursor-pointer"
+        <motion.button onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-evenly md:h-16 h-12 cursor-pointer"
         whileHover={{scale:0.95}}>
-            <Icon className='h-10 w-10' color='Black' />
-            <span>Sign in with {name}</span>
+            <Icon className='lg:h-10 lg:w-10 h-6 w-6' color='Black' />
+            <span className='text-[10px] md:text-sm lg:text-xl'>Sign in with {name}</span>
         </motion.button>
     )
 }

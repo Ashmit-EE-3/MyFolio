@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { FaCopy } from "react-icons/fa";
 
 function Share({ share, setShare }) {
-  const username = useSelector((state) => state.user.username);
+  const username = useSelector((state) => state.user.username.username);
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     navigator.clipboard.writeText(`indiepa.ge/${username}`);

@@ -132,9 +132,9 @@ function AdminIcons() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col md:gap-4 gap-2">
       <motion.div
-        className={`flex gap-8 mx-auto ${social.length == 0 ? `mb-4` : ``}`}
+        className={`flex flex-wrap w-fit justify-center items-center md:gap-8 sm:gap-3 mx-auto ${social.length == 0 ? `mb-4` : ``}`}
       >
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -144,7 +144,7 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:0,ease:"easeInOut",repeatDelay:2 }}
           onClick={() => handleIconClick("Github")}
         >
-          <FaGithub size={28} color="#F8F8F2" />
+          <FaGithub className="h-4 w-4 md:h-6 md:w-6 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -154,7 +154,7 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:0.4,ease:"easeInOut",repeatDelay:2 }}
           onClick={() => handleIconClick("Instagram")}
         >
-          <FaSquareInstagram size={28} color="#F8F8F2" />
+          <FaSquareInstagram className="h-4 w-4 md:h-6 md:w-6 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -164,7 +164,7 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:0.8,ease:"easeInOut",repeatDelay:2 }}
           onClick={() => handleIconClick("LinkedIn")}
         >
-          <FaLinkedin size={28} color="#F8F8F2" />
+          <FaLinkedin className="h-4 w-4 md:h-6 md:w-6 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -174,7 +174,7 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:1.2,ease:"easeInOut",repeatDelay:2}}
           onClick={() => handleIconClick("Email")}
         >
-          <MdEmail size={28} color="#F8F8F2" />
+          <MdEmail className="h-4 w-4 md:h-6 md:w-6 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -184,7 +184,7 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:1.6,ease:"easeInOut",repeatDelay:2}}
           onClick={() => handleIconClick("Twitter")}
         >
-          <BsTwitterX size={24} color="#F8F8F2" />
+          <BsTwitterX className="h-4 w-4 md:h-5 md:w-5 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
         <motion.span
           className={`hover:bg-indie-400 p-2 rounded-full cursor-pointer transition duration-200 ${
@@ -194,34 +194,34 @@ function AdminIcons() {
           transition={{ duration: 0.6, repeat: Infinity,delay:2,ease:"easeInOut",repeatDelay:2}}
           onClick={() => handleIconClick("Youtube")}
         >
-          <FaYoutube size={28} color="#F8F8F2" />
+          <FaYoutube className="h-4 w-4 md:h-6 md:w-6 lg:h-8 lg:w-8" color="#F8F8F2" />
         </motion.span>
       </motion.div>
       {social.length > 0 && (
         <form
-          className="flex flex-col gap-4 text-start p-6 bg-indie-700 rounded-2xl mb-4"
+          className="flex flex-col md:gap-4 gap-2 text-start md:p-6 p-3 bg-indie-700 rounded-2xl mb-4"
           onSubmit={handleSubmit}
         >
-          <label>{social}</label>
-          <div className="flex items-center gap-2">
+          <label className="md:text-sm lg:text-[16px] text-[10px]">{social}</label>
+          <div className="flex items-center gap-2 md:text-sm lg:text-[16px] text-[10px]">
             <input
               value={socialdetails?.[social[0]] || link}
               placeholder={`Link to your ${social} account`}
               type="url"
-              className="p-2 h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none rounded-md"
+              className="p-2 h-8 md:h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none rounded-md placeholder:text-[5px] md:placeholder:text-[14px]"
               onChange={handleLink}
             />
             {socialdetails?.[social[0]] ? (
               <button
                 onClick={handleDelete}
-                className="bg-veronica-700 p-3 rounded-lg w-24 text-indie-700 cursor-pointer hover:bg-veronica-800"
+                className="bg-veronica-700 md:text-sm md:h-10 lg:text-[16px] p-1 text-[8px] w-12 md:w-16 md:p-3 h-8 rounded-lg lg:w-24 text-indie-700 cursor-pointer hover:bg-veronica-800"
               >
                 DELETE
               </button>
             ) : (
               <button
                 onClick={handleAdd}
-                className="bg-veronica-700 p-3 rounded-lg w-24 text-indie-700 cursor-pointer hover:bg-veronica-800"
+                className="bg-veronica-700 md:p-3 p-1 h-8 md:h-10 rounded-lg lg:w-24 md:w-16 w-12 lg:text-[16px] md:text-sm text-[8px] text-indie-700 cursor-pointer hover:bg-veronica-800"
               >
                 ADD
               </button>

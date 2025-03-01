@@ -6,7 +6,7 @@ import {persistor} from '../store' ;
 import { useNavigate } from "react-router-dom";
 
 function Account() {
-  const username = useSelector((state) => state.user.username.username);
+  const username = useSelector((state) => state.user.username.username)||null;
   const [user, setUsername] = useState("");
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
@@ -129,31 +129,46 @@ function Account() {
   }
 
   const handleCopy = () => {
+    if(!username)
+    {
+      toast.error("Please enter a username first!", {
+        position: 'top-center',
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins"
+        }
+      })
+      return;
+    }
     navigator.clipboard.writeText(`indiepa.ge/${username}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="grid gap-6 mx-auto w-[40vw]">
-      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
+    <div className="grid lg:gap-6 md:gap-4 gap-3 mx-auto lg:w-full xl:w-[40vw] w-[80vw] px-10 text-[10px] md:text-[16px]">
+      <div className="bg-indie-700 rounded-2xl md:p-8 p-5 font-poppins text-indie-100">
         <form
-          className="flex flex-col gap-6 text-start"
+          className="flex flex-col md:gap-6 gap-4 text-start"
           onSubmit={changeUsername}
         >
-          <label className="text-xl">Change Username</label>
+          <label>Change Username</label>
           <div className="flex gap-2">
             <input
               placeholder={username || "Enter Username"}
               type="text"
-              className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
-            placeholder:opacity-30 p-4 w-full"
+              className="border-2 rounded-lg md:h-12 h-8 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
+            placeholder:opacity-30 md:p-4 p-2 w-full"
               value={user}
               onChange={handleChange}
               required
             />
             <button
-              className={`p-3 rounded-xl bg-indie-400 ${user !== ""
+              className={`md:p-3 p-2 md:rounded-xl rounded-md bg-indie-400 ${user !== ""
                 ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
                 : ""
                 }`}
@@ -164,21 +179,21 @@ function Account() {
           </div>
         </form>
       </div>
-      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
-        <div className="flex flex-col gap-6 text-start">
-          <h1 className="text-xl">MyFolio Domain</h1>
+      <div className="bg-indie-700 rounded-2xl md:p-8 p-5 font-poppins text-indie-100">
+        <div className="flex flex-col md:gap-6 gap-4 text-start">
+          <h1>MyFolio Domain</h1>
           <div className="flex justify-between items-center">
             <p>indiepa.ge/{username}</p>
             <button
               onClick={handleCopy}
-              className="p-3 rounded-xl bg-veronica-600 hover:bg-indie-400 cursor-pointer transition-colors duration-200"
+              className="md:p-3 md:rounded-xl p-2 rounded-md bg-veronica-600 hover:bg-indie-400 cursor-pointer transition-colors duration-200"
             >
               {copied ? "COPIED!" : "COPY"}
             </button>
           </div>
         </div>
       </div>
-      <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
+      {/* <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
         <form className="flex flex-col gap-6 text-start">
           <label className="text-xl">Custom Domain</label>
           <div className="flex gap-2">
@@ -193,7 +208,7 @@ function Account() {
             </button>
           </div>
         </form>
-      </div>
+      </div> */}
       <div className="border-b-2 border-indie-400"></div>
       <div className="flex justify-end gap-4">
         <button onClick={handleDeleteClick} className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>

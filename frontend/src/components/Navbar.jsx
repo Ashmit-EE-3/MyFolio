@@ -5,7 +5,7 @@ function Navbar() {
       <div className="flex justify-between my-8 text-indie-100 font-poppins focus:outline-none focus:ring focus:ring-indie-500 focus:ring-offset-1">
         <div className="flex gap-18 text-xl mx-25">
           <Link to="/" className="cursor-pointer">
-            Indie Page
+            MyFolio Page
           </Link>
           <div className="flex gap-8">
             <a href="#signup" className="cursor-pointer ">

@@ -37,7 +37,7 @@ const ProjectImage = ({ images, setImages }) => {
   }
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full md:space-y-4 space-y-2">
       <input
         type="file"
         accept="image/jpeg, image/png, image/jpg"
@@ -50,7 +50,7 @@ const ProjectImage = ({ images, setImages }) => {
       />
       <div>
         {images && (
-          <div className="flex gap-4">
+          <div className="flex md:gap-4 gap-2">
             {images.map((image, index) => (
               <div className="relative" key={index}>
                 <img src={URL.createObjectURL(image)} alt="Project" />
@@ -70,10 +70,10 @@ const ProjectImage = ({ images, setImages }) => {
         <button
           onClick={() => document.getElementById("image-upload").click()}
           type="button"
-          className="bg-veronica-700 hover:bg-veronica-800 focus:outline-none cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
+          className="bg-veronica-700 hover:bg-veronica-800 h-8 md:h-12 md:text-[16px] focus:outline-none cursor-pointer px-6 py-2 rounded-lg text-indie-600 font-semibold tracking-wide transition duration-200 flex items-center gap-2 justify-center"
         >
           <span>
-            <IoCloudUploadOutline style={{ color: "#22222A" }} size={28} />
+            <IoCloudUploadOutline style={{ color: "#22222A" }} className="h-4 w-4 md:h-8 md:w-8" />
           </span>
           UPLOAD IMAGE
         </button>

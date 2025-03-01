@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { IoLocationOutline, IoShareOutline } from "react-icons/io5";
+import { IoShareOutline } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -53,8 +53,8 @@ function Mobile() {
   return (
     <>
       {displayName && (
-        <div data-theme={theme} data-font={font} className="relative overflow-y-scroll w-100">
-          <div  className={`font-[family-name:var(--primary-font)] h-screen overflow-y-scroll no-scrollbar bg-[var(--primary-bg-color)] rounded-[3rem] border-12 border-black w-[95%] text-[var(--primary-text-color)] relative`}>
+        <div data-theme={theme} data-font={font} className="relative overflow-y-scroll xl:w-100 xl:block hidden">
+          <div  className={`font-[family-name:var(--primary-font)] min-h-screen overflow-y-scroll no-scrollbar bg-[var(--primary-bg-color)] rounded-[3rem] border-12 border-black w-[95%] text-[var(--primary-text-color)] relative overflow-x-hidden`}>
             <div className="w-[95%] flex justify-end my-2">
               <span className={`bg-[var(--primary-button-color)] p-0.5 rounded-md cursor-pointer ${share ? "opacity-50" : ""}`}
               onClick={handleShare}>
@@ -91,7 +91,7 @@ function Mobile() {
                   <h2 className="text-md bg-[var(--primary-button-color)] cursor-pointer hover:bg-[var(--primary-button-color-hover)] text-[var(--secondary-text-color)] hover:text-[var(--primary-text-color)] w-fit px-3 py-0.5 rounded-xl mx-auto italic">
                     @{username}
                   </h2>
-                  <p className="text-md my-1">{about}</p>
+                  <p className="text-md my-1 break-words">{about}</p>
                 </div>
                 {skills && skills.length > 0 && (
                   <>
