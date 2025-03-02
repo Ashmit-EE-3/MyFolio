@@ -207,7 +207,7 @@ function AdminIcons() {
             <input
               value={socialdetails?.[social[0]] || link}
               placeholder={`Link to your ${social} account`}
-              type="url"
+              type={`${social=="Email"?"email":"url"}`}
               className="p-2 h-8 md:h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none rounded-md placeholder:text-[5px] md:placeholder:text-[14px]"
               onChange={handleLink}
             />

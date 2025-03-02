@@ -124,7 +124,7 @@ function Account() {
 
   function changeUsername(e) {
     e.preventDefault();
-    dispatch(addUsername(user));
+    dispatch(addUsername({username:user}));
     setUsername("");
   }
 

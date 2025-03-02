@@ -7,7 +7,6 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import ProjectTechstack from "./ProjectTechStack";
 import ProjectImage from "./ProjectImage";
-import { IoImage } from "react-icons/io5";
 
 function ProjectIcons({ register, skills, setSkills, images, setImages }) {
   const [selected, setSelected] = useState({

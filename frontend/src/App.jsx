@@ -16,7 +16,6 @@ import Portfolio from './ui/Portfolio';
 
 function App() {
   const  isAuthenticated  = useSelector((state) => state.user.isAuthenticated);
-  const username=useSelector((state)=>state.user.username?.username)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -67,7 +66,7 @@ function App() {
       ]
     },
     {
-      path: `/${username}`,
+      path: '/portfolio/:username',
       element: <Portfolio />,
       errorElement: <Error />,
     }
