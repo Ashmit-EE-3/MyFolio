@@ -8,9 +8,6 @@ function Settings() {
           <NavLink to="account" className="p-2 rounded-lg">
             ACCOUNT
           </NavLink>
-          <NavLink to="billing" className="p-2 rounded-lg">
-            BILLING
-          </NavLink>
         </ul>
       </nav>
       <main className="mb-20">

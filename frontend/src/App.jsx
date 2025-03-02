@@ -10,12 +10,13 @@ import Styles from './ui/Styles';
 import Settings from './ui/Settings';
 import SignInRedirect from './ui/SignInRedirect';
 import Account from './components/Account';
-import Billing from './components/Billing';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import Portfolio from './ui/Portfolio';
 
 function App() {
   const  isAuthenticated  = useSelector((state) => state.user.isAuthenticated);
+  const username=useSelector((state)=>state.user.username?.username)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -61,13 +62,14 @@ function App() {
               path: 'account',
               element: <Account />
             },
-            {
-              path: 'billing',
-              element: <Billing />
-            }
           ]
         }
       ]
+    },
+    {
+      path: `/${username}`,
+      element: <Portfolio />,
+      errorElement: <Error />,
     }
   ])
   return (

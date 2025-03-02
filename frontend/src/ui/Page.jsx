@@ -313,7 +313,7 @@ function Page() {
   }
 
   return (
-    <div className="col-span-9 flex h-screen md:mx-auto lg:gap-8 overflow-hidden p-4 md:p-0">
+    <div className="col-span-9 flex h-screen md:mx-auto lg:gap-8 overflow-hidden p-4 md:p-0" id="page">
       <div className="flex flex-col lg:gap-6 gap-3 md:gap-4.5 font-(family-name:--font-poppins) lg:h-full overflow-y-scroll mx-auto md:mx-0 overflow-x-hidden">
         {!submit && (
           <div className="flex flex-col xl:w-[50vw] bg-indie-700 rounded-2xl text-start lg:p-6 lg:gap-5 w-[98%] p-2 md:p-4 gap-2">
@@ -402,7 +402,7 @@ function Page() {
               whileFocus={{ boxShadow: "0px 0px 2px 2px #242631" }}
               defaultValue={userData?.about || ""}
               onChange={handleAbout}
-              className="pr-8 border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder-text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
+              className="pr-8 border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
             ></motion.textarea>
             {loading && document.activeElement === document.querySelector('textarea[placeholder="About me..."]') && (
                 <div className="absolute right-2 top-1/2 -translate-y-1/2">

@@ -3,7 +3,14 @@ import { FaUserAlt } from "react-icons/fa";
 import { IoIosBrush } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
 import { motion } from "motion/react";
+import { useState } from "react";
+import Modal from "./Modal";
 function AdminNavbar() {
+  const [modal, setModal]=useState(false)
+  function handleClick()
+  {
+    setModal(true)
+  }
   return (
     <div className="md:flex justify-between bg-indie-700 p-4 font-poppins text-[18px] my-4 mx-auto rounded-xl w-[98%] items-center hidden">
       <ul className="flex gap-10 text-indie-100 font-semibold">
@@ -44,9 +51,11 @@ function AdminNavbar() {
       <button
         className="bg-veronica-700 py-4 w-[124px] rounded-lg hover:cursor-pointer hover:bg-veronica-800
       focus:outline-none"
+      onClick={handleClick}
       >
         🚀 DEPLOY
       </button>
+      {modal && <Modal setModal={setModal} />}
     </div>
   );
 }
