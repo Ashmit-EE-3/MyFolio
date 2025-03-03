@@ -3,10 +3,12 @@ import Mobile from './Mobile';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUsername } from '../features/user/userSlice';
 import { Slide, toast } from 'react-toastify';
+
 function Styles() {
     const dispatch = useDispatch() ;
     const submit = useSelector((state) => state.user.submit) ; 
     const usernameId = useSelector((state) => state.user.username?._id);
+    
     const handleFontChange = async (selected) => {
         try {
             const res = await fetch(`/api/v1/username/update/${usernameId}`, {
