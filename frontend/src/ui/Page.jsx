@@ -219,6 +219,8 @@ function Page() {
             fontFamily: "Poppins",
           },
         });
+        dispatch(endLoading()) ; 
+        return;
       }
 
       toast.success("Saved!", {
@@ -248,6 +250,7 @@ function Page() {
           fontFamily: "Poppins",
         },
       });
+      dispatch(endLoading()) ;
     }
   }
 
@@ -264,8 +267,6 @@ function Page() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usernameData),
       });
-      console.log("Response from error is : ", res);
-
       const data = await res.json();
 
       if (res.ok === false) {
@@ -280,9 +281,11 @@ function Page() {
             fontFamily: "Poppins",
           },
         });
+        setUsernameLoading(false);
         return;
       }
-
+      console.log("Data from username creation is : ",data) ; 
+      dispatch(addUsername(data));
       toast.success("Username Created!", {
         position: "top-center",
         autoClose: 1000,
@@ -294,8 +297,6 @@ function Page() {
           fontFamily: "Poppins",
         },
       });
-
-      dispatch(addUsername(data));
     } catch (error) {
       toast.error(error.message, {
         position: "top-center",

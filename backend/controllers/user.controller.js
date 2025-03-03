@@ -9,6 +9,17 @@ const test = (req,res) => {
     res.json({message: "API route is working properly!"})
 }
 
+const getUser = async(req,res,next)=>{
+    try{
+        console.log("User ID is : ", req.params.id) ; 
+        const user = await User.findById(req.params.id) ; 
+        console.log("User is : ", user) ; 
+        res.status(200).json(user._doc) ; 
+    }
+    catch(error){
+        next(error) ; 
+    }
+}
 const updateUser = async(req,res,next) =>{
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.id, {
@@ -43,4 +54,4 @@ const deleteUser = async(req,res,next) => {
     }
 }
 
-module.exports = {test, updateUser, deleteUser}
+module.exports = {test, getUser, updateUser, deleteUser}

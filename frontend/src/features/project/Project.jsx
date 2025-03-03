@@ -110,7 +110,8 @@ function Project() {
           fontFamily: "Poppins",
         },
       });
-
+      setSkills([]) ; 
+      setImages([]) ; 
       dispatch(addProject(resData));
       handleConfetti();
     } catch (error) {
@@ -204,8 +205,7 @@ function Project() {
       {!showForm && (
         <div>
           <motion.button
-            disabled={isAdding}
-            className="bg-veronica-700 disabled:opacity-50 text-center text-indie-600 rounded-lg w-full mx-auto md:h-12 h-8 text-[10px] md:text-[16px] items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
+            className="bg-veronica-700 text-center text-indie-600 rounded-lg w-full mx-auto md:h-12 h-8 text-[10px] md:text-[16px] items-center tracking-wide font-semibold cursor-pointer hover:bg-veronica-800 focus:outline-none flex justify-center gap-2 hover:scale-[0.95] transition duration-200"
             onClick={() => setShowForm(!showForm)}
           >
             {isAdding ? <div className="flex items-center gap-1">

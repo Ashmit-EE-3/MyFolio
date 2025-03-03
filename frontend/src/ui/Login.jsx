@@ -1,19 +1,36 @@
 import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials } from '../features/user/userSlice';
 import app from '../firebase';
-import { getAuth, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail, TwitterAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail} from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import OAuth from '../components/OAuth';
 import { FcGoogle } from 'react-icons/fc' ; 
 import { FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { motion } from 'motion/react';
+import { useState } from 'react';
 function Login() {
+    const [error, setError] = useState("");
+    console.log("Error from login is : ", error);
     var email = "" ;
     const navigate = useNavigate();
     const dispatch = useDispatch() ; 
     const handleChange = (e) => {
         email = e.target.value ; 
+    }
+    const handleError = (errorMessage) => {
+        if (errorMessage === "Firebase: Error (auth/account-exists-with-different-credential)."){
+            setError("You already have an account with this email. Login with the same account.")
+        }
+        else if (errorMessage === "Firebase: Error (auth/popup-closed-by-user)."){
+            setError("You have closed the login popup. Try logging in again.")
+        }
+        else {
+            setError(errorMessage);
+        }
+    
+        setTimeout(()=> {
+            setError("");
+        }, 5000); 
     }
     const handleClick = async (e)=>{
         e.preventDefault() ; 
@@ -34,11 +51,11 @@ function Login() {
 
     return (
         <div className="h-screen font-poppins flex items-center justify-center">
-            <div className="max-h-[45rem] lg:h-[40rem] h-[30rem] lg:w-[50%] w-[80%] max-w-[95%] bg-indie-800 md:rounded-4xl rounded-xl p-4 md:p-8 lg:p-10 flex flex-col items-center justify-center">
-                <div className="flex flex-col md:gap-4 gap-2 justify-center items-center max-w-[80%]">
-                    <OAuth provider = {new GoogleAuthProvider()} Icon={FcGoogle} name="Google" />
-                    <OAuth provider = {new GithubAuthProvider()} Icon={FaGithub} name="Github" />
-                    <OAuth provider = {new TwitterAuthProvider()} Icon={FaXTwitter} name="X" />
+            <div className="max-h-[45rem] lg:h-[40rem] h-[30rem] lg:w-[50%] w-[80%] max-w-[95%] md:rounded-4xl rounded-xl p-4 md:p-8 lg:p-10 flex flex-col items-center justify-center">
+                <div className="flex flex-col md:gap-4 gap-2 justify-center items-center w-[60%] max-w-[80%]">
+                    {error && <div className="bg-red-500 text-white border-2 border-white p-2 rounded-lg">{error}</div>}
+                    <OAuth provider = {new GoogleAuthProvider()} Icon={FcGoogle} name="Google" onError={handleError}/>
+                    <OAuth provider = {new GithubAuthProvider()} Icon={FaGithub} name="Github" onError={handleError} />
                     <div className="flex items-center w-full mt-3">
                         <hr className="h-0.5 bg-indie-200 w-full" />
                         <span className="mx-4 text-indie-200">or</span>

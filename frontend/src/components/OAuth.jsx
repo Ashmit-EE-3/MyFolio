@@ -9,7 +9,7 @@ import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 import { motion } from 'motion/react';
 
-function OAuth({ provider, Icon, name }) {
+function OAuth({ provider, Icon, name, onError}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.user.loading)
@@ -69,7 +69,8 @@ function OAuth({ provider, Icon, name }) {
 
         }
         catch (error) {
-            console.log(error)
+            setError(error);
+            console.log("Error from username is : ", error);
         }
     }
     const fetchSocials = async (id) => {
@@ -125,7 +126,8 @@ function OAuth({ provider, Icon, name }) {
             navigate('/admin');
         }
         catch (error) {
-            console.log(error);
+            console.log("Error from firebase is : ",error.message);
+            onError(error.message);
             dispatch(endLoading());
         }
     }

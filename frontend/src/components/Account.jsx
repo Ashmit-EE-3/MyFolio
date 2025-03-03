@@ -1,21 +1,96 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addUsername, deleteUser, logOutUser } from "../features/user/userSlice";
-import { Slide, toast} from "react-toastify";
-import {persistor} from '../store' ; 
+import { deleteUser, endLoading, logOutUser, startLoading, updateUsername } from "../features/user/userSlice";
+import { Slide, toast } from "react-toastify";
+import { persistor } from '../store';
 import { useNavigate } from "react-router-dom";
 
 function Account() {
-  const username = useSelector((state) => state.user.username.username)||null;
+  const username = useSelector((state) => state.user.username.username) || null;
   const [user, setUsername] = useState("");
   const [copied, setCopied] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate() ; 
-  const currentUser = useSelector((state) => state.user.currentUser) ;
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const usernameState = useSelector((state) => state.user.username);
+  const loading = useSelector((state) => state.user.loading);
   function handleChange(e) {
     setUsername(e.target.value);
   }
 
+  const handleUsernameSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(startLoading()) ; 
+    try {
+      if (Object.keys(usernameState).length === 0) {
+        toast.error("Username not created yet!", {
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        });
+        dispatch(endLoading()) ; 
+        return;
+      }
+      const res = await fetch(`/api/v1/username/update/${usernameState._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: user }),
+      })
+      console.log("Response from username update is : ", res);
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.message, {
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        });
+        dispatch(endLoading()) ; 
+        return;
+      }
+      console.log("Data is : ", data);
+      dispatch(updateUsername(data));
+      toast.success("Username Updated Successfully!", {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
+      dispatch(endLoading()) ; 
+    }
+    catch (error) {
+      toast.error(error, {
+        position: "top-center",
+        autoClose: 1000,
+        transition: Slide,
+        style: {
+          width: "auto",
+          whiteSpace: "nowrap",
+          padding: "12px 20px",
+          fontFamily: "Poppins",
+        },
+      });
+      dispatch(endLoading()) ; 
+    }
+  }
   const handleLogOutClick = async () => {
     try {
       const res = await fetch('/api/v1/auth/logout', {
@@ -24,8 +99,8 @@ function Account() {
 
       const data = await res.json();
       if (data.success === true) {
-        persistor.pause() ; 
-        await persistor.purge() ;
+        persistor.pause();
+        await persistor.purge();
         toast.success("Logged out successfully!", {
           position: 'top-center',
           autoClose: 1000,
@@ -37,7 +112,7 @@ function Account() {
           }
         })
         dispatch(logOutUser());
-        navigate('/') ; 
+        navigate('/');
         return;
       }
       else {
@@ -69,15 +144,15 @@ function Account() {
 
   const handleDeleteClick = async () => {
     try {
-      console.log("Current User is : ",currentUser) ;
+      console.log("Current User is : ", currentUser);
       const res = await fetch(`/api/v1/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       })
 
       const data = await res.json();
       if (data.success === true) {
-        persistor.pause() ; 
-        await persistor.purge() ; 
+        persistor.pause();
+        await persistor.purge();
         toast.success("User deleted successfully!", {
           position: 'top-center',
           autoClose: 1000,
@@ -90,7 +165,7 @@ function Account() {
           }
         })
         dispatch(deleteUser());
-        navigate('/') ; 
+        navigate('/');
         return;
       }
       else {
@@ -122,15 +197,9 @@ function Account() {
     }
   }
 
-  function changeUsername(e) {
-    e.preventDefault();
-    dispatch(addUsername({username:user}));
-    setUsername("");
-  }
 
   const handleCopy = () => {
-    if(!username)
-    {
+    if (!username) {
       toast.error("Please enter a username first!", {
         position: 'top-center',
         autoClose: 1000,
@@ -154,7 +223,7 @@ function Account() {
       <div className="bg-indie-700 rounded-2xl md:p-8 p-5 font-poppins text-indie-100">
         <form
           className="flex flex-col md:gap-6 gap-4 text-start"
-          onSubmit={changeUsername}
+          onSubmit={handleUsernameSubmit}
         >
           <label>Change Username</label>
           <div className="flex gap-2">
@@ -172,9 +241,9 @@ function Account() {
                 ? "bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200"
                 : ""
                 }`}
-              disabled={user === ""}
+              disabled={user === "" || loading}
             >
-              UPDATE
+              {loading ? "UPDATING..." : "UPDATE"}
             </button>
           </div>
         </form>

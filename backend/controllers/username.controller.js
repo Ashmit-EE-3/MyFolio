@@ -27,25 +27,16 @@ const createUsername = async(req,res,next)=>{
 
 }
 
-// const updateUser = async(req,res,next) =>{
-//     try {
-//         const updatedUser = await User.findByIdAndUpdate(req.params.id, {
-//             $set: {
-//                 displayName: req.body.displayName,
-//                 email: req.body.email,
-//                 photoURL: req.body.photoURL
-//             }
-//         }, {new: true})
-
-//         res.status(200).json(updatedUser._doc) ;
-//     }
-//     catch(error){
-//         next(error)
-//     }
-// }
-
 const updateUsername = async(req,res,next) => {
     try{
+        const username = await Username.findById(req.params.id) ; 
+
+        if (!username) return res.status(404).json({ success: false, message: "Username not created!" });
+
+        const user = await Username.findOne({username: req.body.username}) ; 
+
+        if (user) return res.status(400).json({success: false, message: "Username already exists!"}) ; 
+
         const updatedUsername = await Username.findByIdAndUpdate(req.params.id, {
             $set: req.body
         }, {new: true})
@@ -55,4 +46,15 @@ const updateUsername = async(req,res,next) => {
         next(error)
     }
 }
-module.exports = {getUsername, updateUsername, createUsername}
+
+const getUser = async(req,res,next)=>{
+    try{
+        const user = await Username.findOne({username: req.params.username})
+        res.status(200).json(user)
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+module.exports = {getUsername, updateUsername, createUsername, getUser}

@@ -212,6 +212,7 @@ function ProjectTechstack({ skills, setSkills }) {
           className="bg-veronica-700 text-indie-500 w-10 h-9 md:w-12 md:h-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
        focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent text-sm md:text-[16px]"
           onClick={handleAdd}
+          type="button"
         >
           <motion.div
             animate={{ rotate: [0, 90] }}
