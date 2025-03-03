@@ -3,19 +3,92 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUsername } from "../features/user/userSlice";
+import { Slide, toast } from "react-toastify";
 function HeroSection() {
   const nam=useSelector((state)=>state.user.username?.username)||""
   const [name, setName] = useState(nam);
   const authenticated = useSelector((state) => state.user.isAuthenticated);
+  const currentUser = useSelector((state)=>state.user.currentUser) ; 
+  const username = useSelector((state)=>state.user.username?.username) 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (authenticated) {
-      dispatch(addUsername({ username: name ,theme:"theme-0",font:"font-0"}));
-      navigate("/admin");
+      if (username && username === name) {
+        navigate("/admin");
+      }
+      else if (username && username !== name) {
+        toast.error("Username already created!", {
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+          style: {
+            width: "auto",
+            whiteSpace: "nowrap",
+            padding: "12px 20px",
+            fontFamily: "Poppins",
+          },
+        })
+      }
+      else {
+        try {
+          const formData = {
+            username: name,
+            userId: currentUser._id,
+          }
+          const res = await fetch(`/api/v1/username/create`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+          const data = await res.json();
+          if (!res.ok) {
+            toast.error(data.message, {
+              position: "top-center",
+              autoClose: 1000,
+              transition: Slide,
+              style: {
+                width: "auto",
+                whiteSpace: "nowrap",
+                padding: "12px 20px",
+                fontFamily: "Poppins",
+              },
+            })
+            return;
+          }
+          dispatch(addUsername(data)); 
+          toast.success("Username Created!",{
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          });
+          navigate("/admin");
+        }
+        catch (error) {
+          console.log("Error from landing is : ", error);
+          toast.error(error.message,{
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          });
+        }
+      }
     } else {
-      dispatch(addUsername({ username: name ,theme:"theme-0",font:"font-0"}));
       navigate("/login");
     }
   };

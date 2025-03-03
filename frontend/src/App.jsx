@@ -13,9 +13,10 @@ import Account from './components/Account';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import Portfolio from './ui/Portfolio';
+import PrivateRoute from './components/PrivateRoute';
+
 
 function App() {
-  const  isAuthenticated  = useSelector((state) => state.user.isAuthenticated);
   const router = createBrowserRouter([
     {
       path: '/',
@@ -34,7 +35,7 @@ function App() {
     },
     {
       path: '/admin',
-      element: isAuthenticated ? <Admin /> : <Navigate to="/login" replace />,
+      element: <PrivateRoute><Admin /></PrivateRoute>,
       errorElement: <Error />,
       children: [
         {
@@ -70,13 +71,14 @@ function App() {
       element: <Portfolio />,
       errorElement: <Error />,
     }
-  ])
+  ]);
+
   return (
     <>
       <RouterProvider router={router} />
       <ToastContainer limit={2} hideProgressBar />
     </>
-  )
+  );
 }
 
 export default App; 

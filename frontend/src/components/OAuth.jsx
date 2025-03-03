@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { addLogInCredentials, addUserDetails, addUsername, endLoading, startLoading } from '../features/user/userSlice';
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
@@ -9,7 +9,7 @@ import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 import { motion } from 'motion/react';
 
-function OAuth({ provider, Icon, name, onError}) {
+function OAuth({ provider, Icon, name, onError }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.user.loading)
@@ -75,7 +75,7 @@ function OAuth({ provider, Icon, name, onError}) {
     }
     const fetchSocials = async (id) => {
         try {
-            const res = await fetch(`api/v1/social/get/${id}`, {
+            const res = await fetch(`/api/v1/social/get/${id}`, {
                 method: "GET"
             })
             const data = await res.json();
@@ -103,30 +103,34 @@ function OAuth({ provider, Icon, name, onError}) {
                 photoURL: result.user.photoURL,
             };
 
-            console.log("Form Data is : ", formData);
-            const res = await fetch('api/v1/auth/oAuth', {
+            const res = await fetch('/api/v1/auth/oAuth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
-            })
+            });
             const data = await res.json();
 
             if (!res.ok) {
                 toast.error(data.message);
+                dispatch(endLoading());
+                return;
             }
-            console.log(data);
+
             dispatch(addLogInCredentials(data));
-            fetchProjects(data._id);
-            fetchProfile(data._id);
-            fetchUsername(data._id);
-            fetchSocials(data._id);
+
+            await Promise.all([
+                fetchProjects(data._id),
+                fetchProfile(data._id),
+                fetchUsername(data._id),
+                fetchSocials(data._id)
+            ]);
             dispatch(endLoading());
-            navigate('/admin');
+            navigate('/admin', { replace: true });
         }
         catch (error) {
-            console.log("Error from firebase is : ",error.message);
+            console.log("Error from firebase is : ", error.message);
             onError(error.message);
             dispatch(endLoading());
         }
@@ -136,10 +140,10 @@ function OAuth({ provider, Icon, name, onError}) {
         loading ?
             (<motion.button disabled={loading} onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-center md:h-16 h-12 cursor-pointer disabled:opacity-50"
                 whileHover={{ scale: 0.95 }}>
-                  <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2'>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-indie-600 border-t-transparent"></div>
                     <span className='text-[10px] md:text-sm lg:text-xl'>Signing in...</span>
-                  </div>
+                </div>
             </motion.button>) :
             (<motion.button onClick={handleClick} className="bg-indie-100 flex text-xl md:p-2 p-1 rounded-lg w-full items-center justify-evenly md:h-16 h-12 cursor-pointer"
                 whileHover={{ scale: 0.95 }}>
