@@ -97,10 +97,10 @@ function Styles() {
     const fontOptions = [...Array(13)].map((_, i) => ({
         value: `font-${i}`,
         label: (
-            <div className="w-auto h-auto rounded-lg p-4 bg-indie-800 text-indie-100 group ">
+            <div className="w-auto h-auto rounded-sm md:rounded-md lg:rounded-lg p-2 md:p-3 lg:p-4 bg-indie-800 text-indie-100 group ">
                 <div key={i} data-font={`font-${i}`} className="w-full h-full flex flex-row rounded-lg overflow-clip cursor-pointer">
-                    <div className="font-[family-name:var(--primary-font)] text-4xl">A</div>
-                    <div className="font-[family-name:var(--primary-font)] text-4xl">a</div>
+                    <div className="font-[family-name:var(--primary-font)] text-[16px] md:text-[24px] lg:text-[36px]">A</div>
+                    <div className="font-[family-name:var(--primary-font)] text-[16px] md:text-[24px] lg:text-[36px]">a</div>
                 </div>
             </div>
         )
@@ -108,8 +108,8 @@ function Styles() {
     const themeOptions = [...Array(13)].map((_, i) => ({
         value: `theme-${i}`,
         label: (
-            <div className="w-30 h-20 rounded-lg p-4 bg-indie-700 hover:bg-indie-500">
-                <div key={i} data-theme={`theme-${i}`} className="w-full h-full flex flex-row rounded-lg overflow-clip cursor-pointer">
+            <div className="w-15 h-10 p-2 rounded-sm md:w-20 md:h-15 md:rounded-md md:p-3 lg:w-30 lg:h-20 lg:rounded-lg lg:p-4 bg-indie-700 hover:bg-indie-500">
+                <div key={i} data-theme={`theme-${i}`} className="w-full h-full flex flex-row rounded-sm md:rounded-md lg:rounded-lg overflow-clip cursor-pointer">
                     <div className="bg-[var(--primary-bg-color)] w-1/4"></div>
                     <div className="bg-[var(--secondary-bg-color)] w-1/4"></div>
                     <div className="bg-[var(--primary-button-color)] w-1/4"></div>
@@ -124,6 +124,8 @@ function Styles() {
             ...base,
             width: 'auto',
             backgroundColor: 'var(--indie-600)',
+            maxWidth: '45vw',
+            overflowX: 'auto',
         }),
         control: (base) => ({
             ...base,
@@ -162,6 +164,7 @@ function Styles() {
             gridTemplateColumns: 'repeat(4, 1fr)',
             padding: '',
             backgroundColor: 'var(--indie-600)',
+            minWidth: 'max-content',
         }),
         option: (base, state) => ({
             ...base,
@@ -174,9 +177,9 @@ function Styles() {
         }),
     };
     return (
-        <div className='flex justify-between xl:px-40 px-10 flex-row gap-2 w-full mx-auto lg:overflow-y-scroll overflow-hidden lg:min-h-fit min-h-screen
+        <div className='flex justify-between xl:px-40 px-10 flex-row gap-2 w-full mx-auto lg:overflow-y-scroll lg:min-h-fit min-h-screen
         text-[10px] md:text-[16px] md:py-0 py-6'>
-            <div className='flex flex-col items-start gap-8'>
+            <div className='flex flex-col items-start gap-2 md:gap-4 lg:gap-8 w-full'>
                 <div className='flex flex-col items-start gap-2'>
                     <div className='px-1'>FONT</div>
                     <Select
@@ -205,8 +208,8 @@ function Styles() {
                     />
                 </div>
             </div>
-            {submit && <Mobile/>}
-
+            <div>{submit && <Mobile/>}
+            </div>
         </div>
     )
 }

@@ -5,15 +5,18 @@ import { IoMdSettings } from "react-icons/io";
 import { motion } from "motion/react";
 import { useState } from "react";
 import Modal from "./Modal";
+  
 function AdminNavbar() {
   const [modal, setModal]=useState(false)
   function handleClick()
   {
     setModal(true)
   }
+
   return (
     <div className="md:flex justify-between bg-indie-700 p-4 font-poppins text-[18px] my-4 mx-auto rounded-xl w-[98%] items-center hidden">
-      <ul className="flex gap-10 text-indie-100 font-semibold">
+      <ul className="flex items-center gap-10 text-indie-100 font-semibold">
+        <NavLink to='/'><img className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20" src="logo-myfolio.png"/></NavLink>
         <NavLink to="page" className="flex justify-center items-center h-12 p-2 rounded-lg hover:cursor-pointer hover:bg-indie-400 transition duration-200
           focus:outline-none">
           <motion.div

@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     photoURL: {
         type: String, 
-        default: "abc",
+        default: "https://thumbs.dreamstime.com/b/sophisticated-low-light-male-avatar-perfect-use-as-default-profile-picture-social-media-forums-dating-sites-353712307.jpg",
     },
 },{timestamps: true})
 

@@ -89,7 +89,51 @@ function HeroSection() {
         }
       }
     } else {
-      navigate("/login");
+      try{
+        console.log(`Hi ${name}`) ; 
+        const res = await fetch(`/api/v1/username/findUser/${name}`, {
+          method: "GET",
+        }) ;
+        if (!res.ok) {
+          toast.error("Internal Server Error!", {
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          })
+          return; 
+        }
+        const data = await res.json()  ;
+        if (data === "Username already exist!"){
+          toast.error(data, {
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          })
+          return ; 
+        } 
+        dispatch(addUsername({username: name})) ; 
+        navigate("/login") ; 
+      }
+      catch(error){
+        console.log("Error from landing is : ", error);
+        toast.error(error.message,{
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+        })
+      }
     }
   };
   return (

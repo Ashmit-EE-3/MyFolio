@@ -406,8 +406,8 @@ function Page() {
               onChange={handleAbout}
               className="pr-8 border-indie-300/10 text-[10px] md:text-sm lg:text-[16px] md:h-28 h-18 w-full placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] p-2 rounded-md focus:outline-none placeholder:opacity-30 bg-indie-500"
             ></motion.textarea>
-            <div className="absolute bottom-0 right-0 p-2 text-xs underline cursor-pointer" onMouseEnter={() => setShowMarkdownGuide(true)} onMouseLeave={() => setShowMarkdownGuide(false)}>Markdown guide</div>
-            {showMarkdownGuide && <div className="absolute  bg-black text-white text-xs right-0 translate-x-4 p-2 rounded-sm text-left flex flex-col gap-2">
+            <div className="absolute bottom-0 right-0 p-2 text-[6px] md:text-[10px] lg:text-sm underline cursor-pointer" onMouseEnter={() => setShowMarkdownGuide(true)} onMouseLeave={() => setShowMarkdownGuide(false)}>Markdown guide</div>
+            {showMarkdownGuide && <div className="absolute  bg-black text-white text-[6px] md:text-[10px] lg:text-sm right-0 translate-x-4 p-2 rounded-sm text-left flex flex-col gap-2">
               <p>Customize your about section using markdowns ✨</p>
               <p>**text** → For <b>bold</b> text</p>
               <p>*text* → For <i>italic</i> text</p>
