@@ -41,7 +41,7 @@ function Modal({ setModal }) {
         </div>
       </div>
     </div>,
-    document.getElementById("page")
+    document.getElementById("root")
   );
 }
 

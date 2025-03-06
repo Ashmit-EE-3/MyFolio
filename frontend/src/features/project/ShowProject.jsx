@@ -8,13 +8,9 @@ import { deleteProject, updateProject } from "./projectSlice";
 import { useEffect, useState } from "react";
 import { Slide, toast } from "react-toastify";
 import { motion } from "motion/react";
+import { projectIcons } from "../../utils/helper";
 
-const obj = {
-  "Planning": "🖖",
-  "In Progress": "🔥",
-  "Completed": "✅",
-  "Deployed": "🚀",
-};
+const obj=projectIcons;
 
 function ShowProject() {
   const dispatch = useDispatch();

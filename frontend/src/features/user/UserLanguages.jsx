@@ -5,54 +5,14 @@ import Select from "react-select";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "motion/react";
+import { langOptions } from "../../utils/helper";
 
 function UserLanguages({ handleUserDetails, userData, setUserData }) {
   const userlanguages =
     useSelector((state) => state.user.userDetails?.languages) || [];
-  const loading = useSelector((state) => state.user.loading);
+  // const loading = useSelector((state) => state.user.loading);
   const [lang, setLang] = useState("");
-  const languageOptions = [
-    {
-      language: "English",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg",
-    },
-    {
-      language: "Hindi",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/IN.svg",
-    },
-    {
-      language: "Spanish",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/ES.svg",
-    },
-    {
-      language: "German",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/DK.svg",
-    },
-    {
-      language: "Mandarin",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/CN.svg",
-    },
-    {
-      language: "Arabic",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/SA.svg",
-    },
-    {
-      language: "Polish",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PL.svg",
-    },
-    {
-      language: "Portugese",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/PT.svg",
-    },
-    {
-      language: "French",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/FR.svg",
-    },
-    {
-      language: "Japanese",
-      url: "https://purecatamphetamine.github.io/country-flag-icons/3x2/JP.svg",
-    },
-  ].sort((a, b) => a.language.localeCompare(b.language));
+  const languageOptions=langOptions
 
   const customStyles = {
     control: (provided) => ({

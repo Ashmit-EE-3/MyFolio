@@ -315,7 +315,7 @@ function Page() {
   }
 
   return (
-    <div className="col-span-9 flex h-screen md:mx-auto lg:gap-8 overflow-hidden p-4 md:p-0" id="page">
+    <div className="col-span-9 flex h-screen md:mx-auto lg:gap-8 overflow-hidden p-4 md:p-0">
       <div className="flex flex-col lg:gap-6 gap-3 md:gap-4.5 font-(family-name:--font-poppins) lg:h-full overflow-y-scroll mx-auto md:mx-0 overflow-x-hidden">
         {!submit && (
           <div className="flex flex-col xl:w-[50vw] bg-indie-700 rounded-2xl text-start lg:p-6 lg:gap-5 w-[98%] p-2 md:p-4 gap-2">

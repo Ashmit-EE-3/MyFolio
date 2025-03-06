@@ -13,6 +13,9 @@
     --color-veronica-700: #C77DFF ; 
     --color-veronica-800: #7B2CBF ;
     --color-veronica-900: #5A189A ;
+    --color-Proficient: #4CAF50;
+    --color-Intermediate: #FFC107;
+    --color-Basic:#F44336;
     --font-poppins: "Poppins" ; 
     --breakpoint-sm: 480px; 
     --breakpoint-md: 720px;
@@ -60,14 +63,14 @@
     --primary-button-color: #661ae6;
     --primary-button-color-hover: #38009a;
     --primary-text-color: #a6adbb;
-    --secondary-text-color: #ffffff; 
+    --secondary-text-color: #ffffff;
 }
 
 [data-theme='theme-5'] {
     --primary-bg-color: #202d4d;
     --secondary-bg-color: #0e1526;
-    --primary-button-color: #38dbf8;
-    --primary-button-color-hover: #002a3d;
+    --primary-button-color: #1ea9c2;
+    --primary-button-color-hover: #298191;
     --primary-text-color: #b4c6ef;
     --secondary-text-color: #002a3d; 
 }
@@ -101,8 +104,8 @@
 }  
 
 [data-theme='theme-9'] {
-    --primary-bg-color: #ffee00;
-    --secondary-bg-color: #e6d600;
+    --primary-bg-color: #f5e50e;
+    --secondary-bg-color: #d6cc42;
     --primary-button-color: #ff7598;
     --primary-button-color-hover: #d759a2;
     --primary-text-color: #333000;
@@ -122,8 +125,8 @@
     --primary-bg-color: #275076;
     --secondary-bg-color: #63ADF2;
     --primary-button-color: #A7CCED;
-    --primary-button-color-hover: #498cc7;
-    --primary-text-color: #304D6D;
+    --primary-button-color-hover: #0b68cc;
+    --primary-text-color: #107bd8;
     --secondary-text-color: #737883;
 }   
 
@@ -134,6 +137,14 @@
     --primary-button-color-hover: #AED9E0;
     --primary-text-color: #BCF8EC;
     --secondary-text-color: #48919c;
+} 
+[data-theme='theme-13'] {
+    --primary-bg-color: #31493C;
+    --secondary-bg-color: #7A9E7E;
+    --primary-button-color: #0a8b3b;
+    --primary-button-color-hover: #074a06;
+    --primary-text-color: #9af198;
+    --secondary-text-color: #001A23;
 } 
 
 [data-font="font-0"] {

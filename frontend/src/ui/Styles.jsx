@@ -105,7 +105,7 @@ function Styles() {
             </div>
         )
     }));
-    const themeOptions = [...Array(13)].map((_, i) => ({
+    const themeOptions = [...Array(14)].map((_, i) => ({
         value: `theme-${i}`,
         label: (
             <div className="w-15 h-10 p-2 rounded-sm md:w-20 md:h-15 md:rounded-md md:p-3 lg:w-30 lg:h-20 lg:rounded-lg lg:p-4 bg-indie-700 hover:bg-indie-500">
