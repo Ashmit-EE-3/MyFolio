@@ -24,7 +24,7 @@ function ShowProject() {
   }, [projects]);
 
   const [showMenu,setShowMenu]=useState(null)
-  const [edit,setEdit]=useState(false)
+  const [edit,setEdit]=useState(null)
   async function deleteProj(id) {
     try {
       const res = await fetch(`/api/v1/project/delete/${id}`, {
@@ -103,7 +103,7 @@ function ShowProject() {
           <Droppable droppableId="ROOT" type="group">
             {(provided) => (
               <div
-                className="flex flex-col md:gap-4"
+                className="flex flex-col gap-2 md:gap-4"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -154,12 +154,12 @@ function ShowProject() {
                                     </div>
                                   )}
                                 </h1>
-                                <div onClick={(e)=>e.stopPropagation()}><button className="cursor-pointer" onClick={()=>handleMenu(index)}><HiOutlineDotsVertical className="h-5 w-5 md:h-8 md:w-8"/></button></div>
-                                {(showMenu===index)&&<div className="bg-indie-700 rounded-sm absolute right-5 top-5">
-                                    <button className="flex gap-2 items-center justify-center hover:bg-indie-400 p-2 rounded-md w-full cursor-pointer" onClick={()=>setEdit(true)}><span><MdModeEditOutline/></span>Edit</button>
+                                <button className="md:hidden" onClick={() => deleteProj(project._id)}><MdDeleteForever className="h-5 w-5 md:h-8 md:w-8"/></button>
+                                <div onClick={(e)=>e.stopPropagation()} className="hidden md:block"><button className="cursor-pointer" onClick={()=>handleMenu(index)}><HiOutlineDotsVertical className="h-5 w-5 md:h-8 md:w-8"/></button></div>
+                                {(showMenu===index)&&<div className="bg-indie-700 rounded-sm absolute right-5 top-5 border-1 border-indie-400">
+                                    <button className="flex gap-2 items-center justify-center hover:bg-indie-400 p-2 rounded-md w-full cursor-pointer" onClick={()=>setEdit(project)}><span><MdModeEditOutline/></span>Edit</button>
                                     <button className="flex gap-2 items-center justify-center hover:bg-indie-400 p-2 rounded-md w-full cursor-pointer" onClick={() => deleteProj(project._id)}><span><MdDeleteForever/></span>Delete</button>
                                   </div>}
-                                  {edit&&<ProjectModal/>}
                               </div>
                               <p>
                                 <span> ➡ </span>
@@ -171,6 +171,7 @@ function ShowProject() {
                       </Draggable>
                     )
                 )}
+                {edit&&<ProjectModal project={edit} setEdit={setEdit}/>}
                 {provided.placeholder}
               </div>
             )}

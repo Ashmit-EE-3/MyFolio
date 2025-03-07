@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { toast, Slide } from "react-toastify";
-const ProjectImage = ({ images, setImages }) => {
+const ProjectImage = ({ images, setImages,modal }) => {
   const [isUploading, setIsUploading] = useState(false);
   const handleImageUpload = (e) => {
     setIsUploading(true);
@@ -35,7 +35,7 @@ const ProjectImage = ({ images, setImages }) => {
     }
     setIsUploading(false);
   };
-
+  
   function handleImageDelete(image) {
     setImages((prev) => prev.filter((img) => img !== image));
   }
@@ -54,7 +54,7 @@ const ProjectImage = ({ images, setImages }) => {
           <div className="flex md:gap-4 gap-2">
             {images.map((image, index) => (
               <div className="relative" key={index}>
-                <img src={URL.createObjectURL(image)} alt="Project" />
+                <img src={modal?image:URL.createObjectURL(image)} alt="Project" className={`${modal?"h-30 object-cover":""}`}/>
                 <span
                   className="absolute rounded-full bg-veronica-700 text-indie-600 text-xs w-5 h-5 flex items-center justify-center top-0
             cursor-pointer hover:bg-veronica-800 rotate-45"

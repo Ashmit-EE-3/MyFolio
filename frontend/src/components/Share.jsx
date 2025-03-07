@@ -25,7 +25,7 @@ function Share({ share, setShare }) {
           <span>
             <FaCopy color="white" />
           </span>
-          {`foliopage/${username}`}
+          {`https://myfolio.tech/portfolio/${username}`}
         </div>
         <button
           className="mx-2 bg-indie-100 p-1.5 rounded-md cursor-pointer text-indie-400"

@@ -123,14 +123,15 @@ function ProjectTechstack({ skills, setSkills }) {
           }}
         />
         <motion.button
-          className="bg-veronica-700 text-indie-500 w-10 h-9 md:w-12 md:h-12 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
-       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent text-sm md:text-[16px]"
+          className="bg-veronica-700 text-indie-500 w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-indie-600 hover:cursor-pointer hover:bg-veronica-800
+       focus:outline-none focus:ring-2 focus:ring-indie-600 focus:border-transparent text-sm md:text-[16px] flex justify-center items-center"
           onClick={handleAdd}
           type="button"
         >
           <motion.div
             animate={{ rotate: [0, 90] }}
             transition={{ repeatDelay: 2, duration: 0.2, repeat: Infinity }}
+            className="flex justify-center items-center"
           >
             +
           </motion.div>
@@ -152,7 +153,7 @@ function ProjectTechstack({ skills, setSkills }) {
                 </span>
               </li>
               <button
-                className="rotate-45 text-[10px] md:text-xs bg-veronica-700 rounded-full text-indie-500 w-4 h-4 md:w-5 md:h-5 flex justify-center items-center
+                className="rotate-45 text-[10px] md:text-xs bg-veronica-700 rounded-full text-indie-500 w-2 h-2 md:w-4 md:h-4 flex justify-center items-center
               hover:bg-veronica-800 cursor-pointer focus:outline-none focus:border-transparent"
                 onClick={() => handleDelete(skill)}
               >

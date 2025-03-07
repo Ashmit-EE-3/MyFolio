@@ -252,7 +252,7 @@ function Account() {
         <div className="flex flex-col md:gap-6 gap-4 text-start">
           <h1>MyFolio Domain</h1>
           <div className="flex justify-between items-center">
-            <p>indiepa.ge/{username}</p>
+            <p>https://myfolio.tech/portfolio/{username}</p>
             <button
               onClick={handleCopy}
               className="md:p-3 md:rounded-xl p-2 rounded-md bg-veronica-600 hover:bg-indie-400 cursor-pointer transition-colors duration-200"

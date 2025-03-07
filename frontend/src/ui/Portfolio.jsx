@@ -14,7 +14,6 @@ import StackIcon from "tech-stack-icons";
 import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import PortfolioProject from "../components/PortfolioProject";
-import PortfolioCertificate from "../components/PortfolioCertificate";
 
 const techOptions = options;
 const flags = flag;
