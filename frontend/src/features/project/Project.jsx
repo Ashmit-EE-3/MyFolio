@@ -13,12 +13,13 @@ function Project() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [showForm, setShowForm] = useState(false);
   const [isAdding, setIsAdding] = useState(false) ; 
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset,formState } = useForm({
     defaultValues: {
       name: "",
       description: "",
     },
   });
+  const {errors}=formState
   const [skills, setSkills] = useState([]);
   const [confetti, setConfetti] = useState(false);
   const [images, setImages] = useState([]);
@@ -160,9 +161,10 @@ function Project() {
                     type="text"
                     required
                     placeholder="Project Name"
-                    {...register("name", { required: true })}
+                    {...register("name", { required: true,maxLength:{value:15,message:"Max length should be 15"} })}
                     className="p-2 border-1px rounded-md md:h-12 h-8 md:text-sm lg:text-[16px] placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
                   />
+                  {errors?.name&&<p className="text-red-500 text-sm">{errors.name.message}</p>}
                 </div>
                 <div className="w-full justify-center">
                   <textarea

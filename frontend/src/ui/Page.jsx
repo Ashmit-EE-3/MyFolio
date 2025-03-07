@@ -12,11 +12,11 @@ import Project from "../features/project/Project";
 import { GiSkills } from "react-icons/gi";
 import { IoDocumentText, IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast } from "react-toastify";
-import { PiCertificateFill } from "react-icons/pi";
+// import { PiCertificateFill } from "react-icons/pi";
 import { IoMdSchool } from "react-icons/io";
 import { motion } from "motion/react"
 
-import UserCertificate from "../features/user/UserCertificate";
+// import UserCertificate from "../features/user/UserCertificate";
 import Techstack from "../features/user/Techstack";
 import UserDetails from "../features/user/UserDetails";
 import UserLanguages from "../features/user/UserLanguages";
@@ -44,7 +44,7 @@ function Page() {
     certificate: false,
     College: false,
   });
-  const [cpdf, setCpdf] = useState(null);
+  // const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
   const projects = useSelector((state) => state.project?.project);
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -450,12 +450,12 @@ function Page() {
               Icon={IoDocumentText}
               text="Resume"
             />
-            <UserDetails
+            {/* <UserDetails
               selected={selected}
               setSelected={setSelected}
               Icon={PiCertificateFill}
               text="certificate"
-            />
+            /> */}
           </div>
           {selected.Location && (
             <div className="flex flex-col lg:gap-4 sm:gap-2.5 gap-1.5 text-start text-[10px] md:text-sm lg:text-[16px]">
@@ -528,7 +528,7 @@ function Page() {
               setUserData={setUserData}
             />
           )}
-          {selected.certificate && (
+          {/* {selected.certificate && (
             <UserCertificate
               handleUserDetails={handleUserDetails}
               userData={userData}
@@ -536,7 +536,7 @@ function Page() {
               pdfFile={cpdf}
               setPdfFile={setCpdf}
             />
-          )}
+          )} */}
         </div>
         <h1 className="md:text-[16px] lg:text-xl sm:text-[12px] text-[10px] mx-auto">
           Your failures, successes and everything in between!

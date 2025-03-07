@@ -1,6 +1,6 @@
 function Spinner() {
   return (
-    <div className="flex justify-center items-center h-screen bg-white">
+    <div className="flex justify-center items-center h-screen bg-indie-600">
       <div className="bars-5"></div>
     </div>
   )

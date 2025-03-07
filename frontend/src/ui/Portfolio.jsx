@@ -14,6 +14,7 @@ import StackIcon from "tech-stack-icons";
 import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import PortfolioProject from "../components/PortfolioProject";
+import PortfolioCertificate from "../components/PortfolioCertificate";
 
 const techOptions = options;
 const flags = flag;
@@ -94,7 +95,6 @@ function Portfolio() {
     },
     [username]
   );
-  console.log("Fetched user data is : ", userData);
 
   if (loading) return <Spinner />;
 
@@ -112,11 +112,21 @@ function Portfolio() {
   const languages = userData.languages ?? null;
 
   const projects = userData?.projects;
-  console.log(projects);
+  const withImages = projects?.filter((project) => project.images.length > 0);
+  const withoutImages = projects?.filter(
+    (project) => !project.images.length > 0
+  );
+  let newProjects = [...(withImages || []), ...(withoutImages || [])];
+  let flag = false;
+  if (withImages?.length % 2 == 1) {
+    flag = true;
+  }
+  const len = withImages?.length;
+  
 
   return (
     <div
-      className="grid grid-cols-[0.4fr_0.6fr] h-screen overflow-hidden "
+      className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col md:h-screen md:overflow-hidden "
       data-theme={theme}
       data-font={font}
     >
@@ -161,11 +171,14 @@ function Portfolio() {
               {selectedTechOptions.map((option, index) => (
                 <motion.div
                   key={index}
-                  className="group relative flex rounded-sm justify-center items-center px-8 py-4 bg-[var(--primary-bg-color)]/60 border-2 border-[var(--primary-bg-color)]/30 cursor-pointer"
+                  className="group relative flex rounded-sm justify-center items-center lg:px-8 lg:py-4 md:px-6 md:py-2 px-4 py-1 bg-[var(--primary-bg-color)]/60 border-2 border-[var(--primary-bg-color)]/30 cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   <span className="group-hover:scale-[0.75] group-hover:opacity-20 transition-all duration-1000 group-hover:blur-[1px]">
-                    <StackIcon name={option.value} className="h-10 w-10" />
+                    <StackIcon
+                      name={option.value}
+                      className="lg:h-10 lg:w-10 md:h-8 md:w-8 h-6 w-6"
+                    />
                   </span>
                   <p className="absolute whitespace-nowrap scale-10 group-hover:scale-100 opacity-0 group-hover:opacity-100 transition-all duration-1000">
                     {option.label}
@@ -188,7 +201,7 @@ function Portfolio() {
                       : language.proficiency === "Intermediate"
                       ? "bg-Intermediate"
                       : "bg-Basic"
-                  } flex gap-2 items-center justify-center rounded-full px-2 py-1`}
+                  } flex gap-2 items-center justify-center rounded-full md:px-2 md:py-1 p-1`}
                 >
                   <div className="h-5 w-5 rounded-full overflow-hidden">
                     <img
@@ -211,14 +224,11 @@ function Portfolio() {
         )}
         {(Github || Instagram || Youtube || Twitter || Email || LinkedIn) && (
           <div className="flex flex-col gap-2">
-            {/* <h1 className="lg:text-2xl md:text-xl text-lg">
-              Connect With Me...
-            </h1> */}
             <div className="flex lg:gap-4 md:gap-3 gap-2 items-center md:p-2 p-1">
               {Github && (
                 <a className="cursor-pointer" href={Github} target="_blank">
                   <FiGithub
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -226,7 +236,7 @@ function Portfolio() {
               {Email && (
                 <a className="cursor-pointer" href={Email} target="_blank">
                   <CiMail
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -234,7 +244,7 @@ function Portfolio() {
               {LinkedIn && (
                 <a className="cursor-pointer" href={LinkedIn} target="_blank">
                   <SlSocialLinkedin
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -242,7 +252,7 @@ function Portfolio() {
               {Youtube && (
                 <a className="cursor-pointer" href={Youtube} target="_blank">
                   <AiOutlineYoutube
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -250,7 +260,7 @@ function Portfolio() {
               {Instagram && (
                 <a className="cursor-pointer" href={Instagram} target="_blank">
                   <FaInstagram
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -258,7 +268,7 @@ function Portfolio() {
               {Twitter && (
                 <a className="cursor-pointer" href={Twitter} target="_blank">
                   <RiTwitterXFill
-                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-3 w-3"
+                    className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
                   />
                 </a>
@@ -268,8 +278,23 @@ function Portfolio() {
         )}
       </div>
       <div className="bg-[var(--secondary-bg-color)] overflow-y-scroll no-scrollbar">
-        <div className="grid grid-cols-12 gap-16 p-10 justify-center items-center">
-        {projects && projects.map((project, index) => <div key={index} className="col-span-6"><PortfolioProject name={project.name}/></div>)}
+        <div className="xl:grid xl:grid-cols-2 flex flex-col lg:gap-10 md:gap-6 gap-4 xl:p-10 p-4">
+          {newProjects &&
+            newProjects.map((project, index) => (
+              <div
+                key={index}
+                className={`${
+                  index === len - 1 && flag ? "col-span-2" : "col-span-1"
+                }`}
+              >
+                <PortfolioProject
+                  project={project}
+                  flag={flag}
+                  index={index}
+                  len={len}
+                />
+              </div>
+            ))}
         </div>
       </div>
     </div>
