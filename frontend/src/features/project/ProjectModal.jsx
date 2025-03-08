@@ -3,10 +3,13 @@ import { createPortal } from "react-dom";
 import { useForm } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 import ProjectStatus from "./ProjectStatus";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ProjectImage from "./ProjectImage";
 import { useState } from "react";
 import ProjectTechstack from "./ProjectTechStack";
+import { toastStyles } from "../../utils/helper";
+import { useDispatch } from "react-redux";
+import { editProject } from "./projectSlice";
 
 function ProjectModal({ project, setEdit }) {
   const {
@@ -17,8 +20,8 @@ function ProjectModal({ project, setEdit }) {
     images,
     techstack,
   } = project || {};
-  const [image,setImages]=useState(images)
-  const [skills,setSkills]=useState(techstack)
+  const [image, setImages] = useState(images)
+  const [skills, setSkills] = useState(techstack)
   const { handleSubmit, register } = useForm({
     defaultValues: {
       name: name || "",
@@ -27,27 +30,37 @@ function ProjectModal({ project, setEdit }) {
       repo: repoLink || "",
     },
   });
+  const dispatch = useDispatch();
   let formData = {};
   console.log(image);
-  
-  function onSubmit(data) {
-    console.log(data);
-    toast.success("Saved", {
-      position: "top-center",
-      autoClose: 1000,
-      transition: Slide,
-      style: {
-        zIndex: 9999, 
-        width: "auto",
-        whiteSpace: "nowrap",
-        padding: "12px 20px",
-        fontFamily: "Poppins",
-      },
-    });
-    formData={...data,images:images,techstack:skills}
-    console.log(formData);
-    setEdit(()=>false)
-    // Yaha dispatch karke jaise connect karega kardena and remove this comment
+
+  async function onSubmit(data) {
+    try {
+      console.log("Images are : ", images) ; 
+      formData = { ...data, images: image, techstack: skills }
+      console.log("Edited Form data is : ",formData) 
+      const res = await fetch(`/api/v1/project/update/${project._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const resData = await res.json();
+      if (!res.ok) {
+        toast.error(resData.message, toastStyles)
+        return;
+      }
+      console.log("Edited project data is : ", resData);
+      toast.success("Saved", toastStyles);
+      dispatch(editProject(resData));
+      setEdit(() => false)
+    }
+    catch (error) {
+      toast.error(error.message, toastStyles);
+      console.log(error);
+    }
   }
   return createPortal(
     <motion.div className="fixed z-21 inset-0 backdrop-blur-[4px] flex items-center justify-center">
@@ -108,9 +121,9 @@ function ProjectModal({ project, setEdit }) {
             </label>
             <ProjectStatus register={register} />
             <label className="text-lg">Project Images:</label>
-            <ProjectImage images={image} setImages={setImages} modal={true}/>
+            <ProjectImage images={image} setImages={setImages} modal={true} />
             <label className="text-lg">Project TechStack:</label>
-            <ProjectTechstack skills={skills} setSkills={setSkills}/>
+            <ProjectTechstack skills={skills} setSkills={setSkills} />
           </div>
           <div className="flex gap-4 justify-end w-[90%]">
             <button

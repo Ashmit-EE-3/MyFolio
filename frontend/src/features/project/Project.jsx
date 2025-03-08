@@ -26,51 +26,51 @@ function Project() {
   const { width, height } = useWindowSize();
 
   const dispatch = useDispatch();
-  const convertImageURL = async (images) => {
-    try {
-      const upload = images.map(async (image) => {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("upload_preset", "tch_image_upload");
+  // const convertImageURL = async (images) => {
+  //   try {
+  //     const upload = images.map(async (image) => {
+  //       const formData = new FormData();
+  //       formData.append("file", image);
+  //       formData.append("upload_preset", "tch_image_upload");
 
-        const response = await fetch(
-          "https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
+  //       const response = await fetch(
+  //         "https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",
+  //         {
+  //           method: "POST",
+  //           body: formData,
+  //         }
+  //       );
 
-        if (!response.ok) {
-          throw new Error(
-            `Cloudinary Upload Error! Status: ${response.status}`
-          );
-        }
+  //       if (!response.ok) {
+  //         throw new Error(
+  //           `Cloudinary Upload Error! Status: ${response.status}`
+  //         );
+  //       }
 
-        const data = await response.json();
-        console.log("Cloudinary Response Data: ", data);
-        return data.secure_url;
-      });
+  //       const data = await response.json();
+  //       console.log("Cloudinary Response Data: ", data);
+  //       return data.secure_url;
+  //     });
 
-      const uploadedUrls = await Promise.all(upload);
-      return uploadedUrls;
-    } catch (error) {
-      console.error("Error uploading images: ", error);
-      return [];
-    }
-  };
+  //     const uploadedUrls = await Promise.all(upload);
+  //     return uploadedUrls;
+  //   } catch (error) {
+  //     console.error("Error uploading images: ", error);
+  //     return [];
+  //   }
+  // };
 
   const onSubmit = async (data) => {
     setIsAdding(true);
     try {
       setShowForm(false);
 
-      const uploadedImageURLs = await convertImageURL(images);
+      // const uploadedImageURLs = await convertImageURL(images);
 
       const newObject = {
         ...data,
         techstack: skills,
-        images: uploadedImageURLs,
+        images: images,
         userId: currentUser._id,
       };
 

@@ -4,7 +4,7 @@ import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 import Select from "react-select";
 import { motion } from "motion/react";
-import { options } from "../../utils/helper";
+import { options, toastStyles } from "../../utils/helper";
 
 const techOptions=options;
 
@@ -88,21 +88,12 @@ function ProjectTechstack({ skills, setSkills }) {
       if (skill === selectedSkill) present = true;
     });
     if (present) {
-      toast.error("Skill already present!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error("Skill already present!", toastStyles);
       return;
     }
     setSkills([...skills, selectedSkill]);
   }
+
   function handleDelete(skill) {
     setSkills((prev) => prev.filter((s) => s !== skill));
   }

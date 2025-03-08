@@ -1,41 +1,43 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { toast, Slide } from "react-toastify";
-const ProjectImage = ({ images, setImages,modal }) => {
+import { toast } from "react-toastify";
+import { toastStyles } from "../../utils/helper";
+const  ProjectImage = ({ images, setImages, modal }) => {
   const [isUploading, setIsUploading] = useState(false);
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async(e) => {
     setIsUploading(true);
     const file = e.target.files[0];
     if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
-      setImages([...images, file]);
-      toast.success("Image uploaded successfully!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tch_image_upload");
+
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Cloudinary Upload Error! Status: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      console.log("Cloudinary Response Data: ", data);
+
+      setImages([...images, data.secure_url]);
+      toast.success("Image uploaded successfully!", toastStyles);
     } else {
-      toast.error("Please upload a JPG, JPEG, or PNG file", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error("Please upload a JPG, JPEG, or PNG file", toastStyles);
     }
     setIsUploading(false);
   };
-  
+
   function handleImageDelete(image) {
     setImages((prev) => prev.filter((img) => img !== image));
   }
@@ -54,7 +56,7 @@ const ProjectImage = ({ images, setImages,modal }) => {
           <div className="flex md:gap-4 gap-2">
             {images.map((image, index) => (
               <div className="relative" key={index}>
-                <img src={modal?image:URL.createObjectURL(image)} alt="Project" className={`${modal?"h-30 object-cover":""}`}/>
+                <img src={image} alt="Project" className={`${modal ? "h-30 object-cover" : ""}`} />
                 <span
                   className="absolute rounded-full bg-veronica-700 text-indie-600 text-xs w-5 h-5 flex items-center justify-center top-0
             cursor-pointer hover:bg-veronica-800 rotate-45"

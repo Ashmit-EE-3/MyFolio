@@ -93,7 +93,48 @@ function Styles() {
             console.log(error)
         }
     }
+    const handleAvatarChange = async(selected) => {
+        try {
+            const res = await fetch(`/api/v1/username/update/${usernameId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ avatar: selected.value })
+            })
 
+            const data = await res.json();
+            if (!res.ok) {
+                toast.error(data.message, {
+                    position: "top-center",
+                    autoClose: 1000,
+                    transition: Slide,
+                    style: {
+                        width: "auto",
+                        whiteSpace: "nowrap",
+                        padding: "12px 20px",
+                        fontFamily: "Poppins",
+                    },
+                });
+                return ; 
+            }
+            dispatch(updateUsername(data)) ; 
+            toast.success("Saved!", {
+                position: "top-center",
+                autoClose: 1000,
+                transition: Slide,
+                style: {
+                  width: "auto",
+                  whiteSpace: "nowrap",
+                  padding: "12px 20px",
+                  fontFamily: "Poppins",
+                },
+              });
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
     const fontOptions = [...Array(13)].map((_, i) => ({
         value: `font-${i}`,
         label: (
@@ -118,7 +159,13 @@ function Styles() {
             </div>
         )
     }));
-
+    const avatars = ["https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid","https://img.freepik.com/premium-vector/business-woman-clipart-vector-illustration_1123392-3562.jpg?semt=ais_hybrid"]
+    const avatarOptions = avatars.map((avatar,i)=> ({
+        value: avatar,
+        label: (
+            <img src={avatar} className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 rounded-full" />
+        )
+    }))
     const customStyles = {
         menu: (base) => ({
             ...base,
@@ -205,6 +252,19 @@ function Styles() {
                         classNamePrefix="theme-select"
                         menuPosition="fixed"
                         onChange={handleThemeChange}
+                    />
+                </div>
+                <div className='flex flex-col items-start gap-2'>
+                    <div className='px-1'>AVATAR</div>
+                    <Select
+                        options={avatarOptions}
+                        defaultValue={avatarOptions[0]}
+                        formatOptionLabel={({ label }) => label}
+                        styles={customStyles}
+                        className="w-20"
+                        classNamePrefix="avatar-select"
+                        menuPosition="fixed"
+                        onChange={handleAvatarChange}
                     />
                 </div>
             </div>
