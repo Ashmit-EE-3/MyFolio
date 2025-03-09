@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUsername } from "../features/user/userSlice";
 import { Slide, toast } from "react-toastify";
+import landing from "../../public/landing.jpeg"; 
 function HeroSection() {
   const nam=useSelector((state)=>state.user.username?.username)||""
   const [name, setName] = useState(nam);
@@ -139,7 +140,7 @@ function HeroSection() {
   return (
     <>
       <div className="flex font-poppins lg:gap-25 justify-center lg:w-full py-6">
-        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] xl:block hidden"></div>
+        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] xl:block hidden "><img src={landing} className="w-full h-full object-cover rounded-[3rem]"/></div>
         <div className="lg:my-auto">
           <div className="flex flex-col justify-center items-center md:gap-12 gap-8 lg:w-[45rem] w-[80%] mx-auto">
             <motion.div

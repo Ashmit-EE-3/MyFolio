@@ -67,7 +67,7 @@ function App() {
       ]
     },
     {
-      path: '/portfolio/:username',
+      path: '/:username',
       element: <Portfolio />,
       errorElement: <Error />,
     }

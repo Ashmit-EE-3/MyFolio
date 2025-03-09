@@ -23,7 +23,7 @@ function Modal({ setModal }) {
               })
             return;
         }
-        navigate(`/portfolio/${username}`);
+        navigate(`/${username}`);
     }
   return createPortal(
     <motion.div className="fixed z-21 inset-0 backdrop-blur-sm flex items-center justify-center">

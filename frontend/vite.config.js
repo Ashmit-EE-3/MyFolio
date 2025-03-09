@@ -7,8 +7,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
-        secure: false,
+        target: 'https://myfolio-u8tp.onrender.com',
+        secure: true,
+        changeOrigin: true
       },
     },
   },
