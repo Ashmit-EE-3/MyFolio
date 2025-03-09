@@ -10,7 +10,6 @@ import Styles from './ui/Styles';
 import Settings from './ui/Settings';
 import SignInRedirect from './ui/SignInRedirect';
 import Account from './components/Account';
-import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import Portfolio from './ui/Portfolio';
 import PrivateRoute from './components/PrivateRoute';
