@@ -2,7 +2,7 @@ import './App.css'
 import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import Homepage from './ui/Homepage';
-import Error from './ui/error';
+import Error from './ui/Error';
 import Login from './ui/Login';
 import Admin from './ui/Admin';
 import Page from './ui/Page';
