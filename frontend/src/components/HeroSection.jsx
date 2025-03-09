@@ -159,7 +159,7 @@ function HeroSection() {
             >
               <div className="flex border-1 h-12 lg:h-14 border-indie-100 items-center bg-gray-800 text-white rounded-lg px-3 lg:w-80 w-60">
                 <span className="text-indie-100 text-sm md:text-lg">
-                  myfolio.com/
+                  myfolio.tech/
                 </span>
                 <input
                   value={name}

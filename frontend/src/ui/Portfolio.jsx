@@ -9,11 +9,12 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { AiOutlineYoutube } from "react-icons/ai";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { CiMail } from "react-icons/ci";
-import { flag, options } from "../utils/helper";
+import { flag, options, toastStyles } from "../utils/helper";
 import StackIcon from "tech-stack-icons";
 import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import PortfolioProject from "../components/PortfolioProject";
+import { toast } from "react-toastify";
 
 const techOptions = options;
 const flags = flag;
@@ -121,8 +122,36 @@ function Portfolio() {
     flag = true;
   }
   const len = withImages?.length;
-  
 
+  const handleDownload = async () => {
+    try {
+      const fileName = (userData.resume).split('/').pop();
+      const response = await fetch(`api/v1/resume/download/${fileName}`);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.message, toastStyles)
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast.success("Downloaded!",toastStyles)
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+
+    const filepath = (userData.resume).split('/').pop();
+    console.log(filepath)
+    window.location.href = `http://localhost:3000/api/v1/resume/download/${filepath}`;
+  }
   return (
     <div
       className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col md:h-screen md:overflow-hidden "
@@ -194,13 +223,12 @@ function Portfolio() {
               {languages?.map((language, index) => (
                 <div
                   key={index}
-                  className={`${
-                    language.proficiency === "Proficient"
-                      ? "bg-Proficient"
-                      : language.proficiency === "Intermediate"
+                  className={`${language.proficiency === "Proficient"
+                    ? "bg-Proficient"
+                    : language.proficiency === "Intermediate"
                       ? "bg-Intermediate"
                       : "bg-Basic"
-                  } flex gap-2 items-center justify-center rounded-full md:px-2 md:py-1 p-1`}
+                    } flex gap-2 items-center justify-center rounded-full md:px-2 md:py-1 p-1`}
                 >
                   <div className="h-5 w-5 rounded-full overflow-hidden">
                     <img
@@ -215,11 +243,9 @@ function Portfolio() {
           </div>
         )}
         {userData?.resume && (
-          <a href={userData?.resume} target="_blank">
-            <button className="text-[var(--secondary-text-color)] w-full uppercase lg:p-4 md:p-3 p-2 rounded-md bg-[var(--primary-button-color)] cursor-pointer hover:bg-[var(--primary-button-color-hover)] transition duration-300 outline-none lg:text-lg text-sm">
-              Download CV
-            </button>
-          </a>
+          <button onClick={handleDownload} className="text-[var(--secondary-text-color)] w-full uppercase lg:p-4 md:p-3 p-2 rounded-md bg-[var(--primary-button-color)] cursor-pointer hover:bg-[var(--primary-button-color-hover)] transition duration-300 outline-none lg:text-lg text-sm">
+            Download CV
+          </button>
         )}
         {(Github || Instagram || Youtube || Twitter || Email || LinkedIn) && (
           <div className="flex flex-col gap-2">
@@ -282,9 +308,8 @@ function Portfolio() {
             newProjects.map((project, index) => (
               <div
                 key={index}
-                className={`${
-                  index === len - 1 && flag ? "col-span-2" : "col-span-1"
-                }`}
+                className={`${index === len - 1 && flag ? "col-span-2" : "col-span-1"
+                  }`}
               >
                 <PortfolioProject
                   project={project}

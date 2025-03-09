@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { startLoading } from "./userSlice";
+import { toastStyles } from "../../utils/helper";
 
 function PdfUpload({
   file,
@@ -25,33 +26,32 @@ function PdfUpload({
       if (file && file.type === "application/pdf") {
         setPdfFile(file);
       }
+      
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "tch_image_upload");
+      formData.append('resume',file) ; 
+      const res = await fetch('/api/v1/resume/upload',{
+        method: 'POST',
+        body: formData
+      })
 
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dn17alkhg/raw/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const data = await res.json() ; 
 
-      if (!response.ok) {
-        throw new Error(`Cloudinary Upload Error! Status: ${response.status}`);
+      if (!res.ok){
+        toast.error(data.message,toastStyles) ;
+        setIsUploading(false) ; 
+        return ; 
       }
 
-      const data = await response.json();
-      console.log("Cloudinary Response Data: ", data);
-      const resumeURL = data.secure_url;
+      console.log(data) ; 
       setUserData((prev) => ({
         ...prev,
-        resume: resumeURL,
+        resume: data.fileURL,
       }));
       handleUserDetails({
         ...userData,
-        resume: resumeURL,
+        resume: data.fileURL,
       });
+      toast.success("Saved!",toastStyles) 
     } catch (error) {
       console.log("Error uploading PDF: ", error);
     }

@@ -147,7 +147,7 @@ function Landing() {
               "0px 0px 10px #C2CBF5",
           }}
           transition={{ duration: 1, repeat: Infinity, delay: 1 }}>
-          <span className="text-indie-100">indiepa.ge/</span>
+          <span className="text-indie-100">myfolio.tech/</span>
           <input
             type="text"
             value={name}
@@ -158,7 +158,7 @@ function Landing() {
         </motion.div>
         <motion.button className="bg-veronica-300 cursor-pointer p-3 md:h-12 h-10 text-sm md:text-lg font-semibold rounded-md bg-veronica-700 text-indie-800 md:w-120 mx-auto sm:w-80 w-60 flex items-center justify-center gap-2 group focus:outline-none"
           whileHover={{ scale: 1.05, backgroundColor: "#7B2CBF" }}
-          transition={{ duration: 0.1 }}><p>CLAIM MY INDIE PAGE</p><span className='font-bold group-hover:translate-x-1 transition-transform duration-300 ease-in-out'>→</span></motion.button>
+          transition={{ duration: 0.1 }}><p>CLAIM MY FOLIO PAGE</p><span className='font-bold group-hover:translate-x-1 transition-transform duration-300 ease-in-out'>→</span></motion.button>
       </div>
     </form>
   )
