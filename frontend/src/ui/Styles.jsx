@@ -3,10 +3,12 @@ import Mobile from './Mobile';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUsername } from '../features/user/userSlice';
 import { Slide, toast } from 'react-toastify';
+
 function Styles() {
     const dispatch = useDispatch() ;
     const submit = useSelector((state) => state.user.submit) ; 
     const usernameId = useSelector((state) => state.user.username?._id);
+    
     const handleFontChange = async (selected) => {
         try {
             const res = await fetch(`/api/v1/username/update/${usernameId}`, {
@@ -91,23 +93,64 @@ function Styles() {
             console.log(error)
         }
     }
+    const handleAvatarChange = async(selected) => {
+        try {
+            const res = await fetch(`/api/v1/username/update/${usernameId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ avatar: selected.value })
+            })
 
+            const data = await res.json();
+            if (!res.ok) {
+                toast.error(data.message, {
+                    position: "top-center",
+                    autoClose: 1000,
+                    transition: Slide,
+                    style: {
+                        width: "auto",
+                        whiteSpace: "nowrap",
+                        padding: "12px 20px",
+                        fontFamily: "Poppins",
+                    },
+                });
+                return ; 
+            }
+            dispatch(updateUsername(data)) ; 
+            toast.success("Saved!", {
+                position: "top-center",
+                autoClose: 1000,
+                transition: Slide,
+                style: {
+                  width: "auto",
+                  whiteSpace: "nowrap",
+                  padding: "12px 20px",
+                  fontFamily: "Poppins",
+                },
+              });
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
     const fontOptions = [...Array(13)].map((_, i) => ({
         value: `font-${i}`,
         label: (
-            <div className="w-auto h-auto rounded-lg p-4 bg-indie-800 text-indie-100 group ">
+            <div className="w-auto h-auto rounded-sm md:rounded-md lg:rounded-lg p-2 md:p-3 lg:p-4 bg-indie-800 text-indie-100 group ">
                 <div key={i} data-font={`font-${i}`} className="w-full h-full flex flex-row rounded-lg overflow-clip cursor-pointer">
-                    <div className="font-[family-name:var(--primary-font)] text-4xl">A</div>
-                    <div className="font-[family-name:var(--primary-font)] text-4xl">a</div>
+                    <div className="font-[family-name:var(--primary-font)] text-[16px] md:text-[24px] lg:text-[36px]">A</div>
+                    <div className="font-[family-name:var(--primary-font)] text-[16px] md:text-[24px] lg:text-[36px]">a</div>
                 </div>
             </div>
         )
     }));
-    const themeOptions = [...Array(13)].map((_, i) => ({
+    const themeOptions = [...Array(14)].map((_, i) => ({
         value: `theme-${i}`,
         label: (
-            <div className="w-30 h-20 rounded-lg p-4 bg-indie-700 hover:bg-indie-500">
-                <div key={i} data-theme={`theme-${i}`} className="w-full h-full flex flex-row rounded-lg overflow-clip cursor-pointer">
+            <div className="w-15 h-10 p-2 rounded-sm md:w-20 md:h-15 md:rounded-md md:p-3 lg:w-30 lg:h-20 lg:rounded-lg lg:p-4 bg-indie-700 hover:bg-indie-500">
+                <div key={i} data-theme={`theme-${i}`} className="w-full h-full flex flex-row rounded-sm md:rounded-md lg:rounded-lg overflow-clip cursor-pointer">
                     <div className="bg-[var(--primary-bg-color)] w-1/4"></div>
                     <div className="bg-[var(--secondary-bg-color)] w-1/4"></div>
                     <div className="bg-[var(--primary-button-color)] w-1/4"></div>
@@ -116,12 +159,20 @@ function Styles() {
             </div>
         )
     }));
-
+    const avatars = ["https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid","https://img.freepik.com/premium-vector/business-woman-clipart-vector-illustration_1123392-3562.jpg?semt=ais_hybrid"]
+    const avatarOptions = avatars.map((avatar,i)=> ({
+        value: avatar,
+        label: (
+            <img src={avatar} className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 rounded-full" />
+        )
+    }))
     const customStyles = {
         menu: (base) => ({
             ...base,
             width: 'auto',
             backgroundColor: 'var(--indie-600)',
+            maxWidth: '45vw',
+            overflowX: 'auto',
         }),
         control: (base) => ({
             ...base,
@@ -160,6 +211,7 @@ function Styles() {
             gridTemplateColumns: 'repeat(4, 1fr)',
             padding: '',
             backgroundColor: 'var(--indie-600)',
+            minWidth: 'max-content',
         }),
         option: (base, state) => ({
             ...base,
@@ -172,9 +224,9 @@ function Styles() {
         }),
     };
     return (
-        <div className='flex justify-between xl:px-40 px-10 flex-row gap-2 w-full mx-auto lg:overflow-y-scroll overflow-hidden lg:min-h-fit min-h-screen
+        <div className='flex justify-between xl:px-40 px-10 flex-row gap-2 w-full mx-auto lg:overflow-y-scroll lg:min-h-fit min-h-screen
         text-[10px] md:text-[16px] md:py-0 py-6'>
-            <div className='flex flex-col items-start gap-8'>
+            <div className='flex flex-col items-start gap-2 md:gap-4 lg:gap-8 w-full'>
                 <div className='flex flex-col items-start gap-2'>
                     <div className='px-1'>FONT</div>
                     <Select
@@ -202,9 +254,22 @@ function Styles() {
                         onChange={handleThemeChange}
                     />
                 </div>
+                <div className='flex flex-col items-start gap-2'>
+                    <div className='px-1'>AVATAR</div>
+                    <Select
+                        options={avatarOptions}
+                        defaultValue={avatarOptions[0]}
+                        formatOptionLabel={({ label }) => label}
+                        styles={customStyles}
+                        className="w-20"
+                        classNamePrefix="avatar-select"
+                        menuPosition="fixed"
+                        onChange={handleAvatarChange}
+                    />
+                </div>
             </div>
-            {submit && <Mobile/>}
-
+            <div>{submit && <Mobile/>}
+            </div>
         </div>
     )
 }

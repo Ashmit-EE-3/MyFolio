@@ -2,7 +2,7 @@ import './App.css'
 import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import Homepage from './ui/Homepage';
-import Error from './ui/error';
+import Error from './ui/Error';
 import Login from './ui/Login';
 import Admin from './ui/Admin';
 import Page from './ui/Page';
@@ -10,7 +10,6 @@ import Styles from './ui/Styles';
 import Settings from './ui/Settings';
 import SignInRedirect from './ui/SignInRedirect';
 import Account from './components/Account';
-import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import Portfolio from './ui/Portfolio';
 import PrivateRoute from './components/PrivateRoute';
@@ -67,7 +66,7 @@ function App() {
       ]
     },
     {
-      path: '/portfolio/:username',
+      path: '/:username',
       element: <Portfolio />,
       errorElement: <Error />,
     }

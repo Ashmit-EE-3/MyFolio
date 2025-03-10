@@ -11,8 +11,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://tch-q467.onrender.com',
+        target: 'https://myfolio-u8tp.onrender.com',
         secure: true,
+        changeOrigin: true
       },
     },
   },

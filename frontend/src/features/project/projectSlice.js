@@ -21,9 +21,15 @@ const projectSlice = createSlice({
         },
         addProjectLogin(state,action){
             state.project = action.payload
+        },
+        editProject(state,action){
+            const index = state.project.findIndex((project)=>project._id===action.payload._id) ; 
+            if (index!==-1){
+                state.project[index] = action.payload ; 
+            }
         }
     }
 })
 
 export default projectSlice.reducer;
-export const { addProject, addProjectLogin, deleteProject, updateProject } = projectSlice.actions;
+export const { addProject, addProjectLogin, deleteProject, updateProject, editProject } = projectSlice.actions;

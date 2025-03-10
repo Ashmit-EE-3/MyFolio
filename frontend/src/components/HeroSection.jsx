@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUsername } from "../features/user/userSlice";
 import { Slide, toast } from "react-toastify";
+import landing from "../../public/landing.jpeg"; 
 function HeroSection() {
   const nam=useSelector((state)=>state.user.username?.username)||""
   const [name, setName] = useState(nam);
@@ -89,13 +90,57 @@ function HeroSection() {
         }
       }
     } else {
-      navigate("/login");
+      try{
+        console.log(`Hi ${name}`) ; 
+        const res = await fetch(`/api/v1/username/findUser/${name}`, {
+          method: "GET",
+        }) ;
+        if (!res.ok) {
+          toast.error("Internal Server Error!", {
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          })
+          return; 
+        }
+        const data = await res.json()  ;
+        if (data === "Username already exist!"){
+          toast.error(data, {
+            position: "top-center",
+            autoClose: 1000,
+            transition: Slide,
+            style: {
+              width: "auto",
+              whiteSpace: "nowrap",
+              padding: "12px 20px",
+              fontFamily: "Poppins",
+            },
+          })
+          return ; 
+        } 
+        dispatch(addUsername({username: name})) ; 
+        navigate("/login") ; 
+      }
+      catch(error){
+        console.log("Error from landing is : ", error);
+        toast.error(error.message,{
+          position: "top-center",
+          autoClose: 1000,
+          transition: Slide,
+        })
+      }
     }
   };
   return (
     <>
       <div className="flex font-poppins lg:gap-25 justify-center lg:w-full py-6">
-        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] xl:block hidden"></div>
+        <div className="bg-indie-200 h-[42rem] w-[23rem] border-black border-[12px] rounded-[4rem] xl:block hidden "><img src={landing} className="w-full h-full object-cover rounded-[3rem]"/></div>
         <div className="lg:my-auto">
           <div className="flex flex-col justify-center items-center md:gap-12 gap-8 lg:w-[45rem] w-[80%] mx-auto">
             <motion.div
@@ -115,7 +160,7 @@ function HeroSection() {
             >
               <div className="flex border-1 h-12 lg:h-14 border-indie-100 items-center bg-gray-800 text-white rounded-lg px-3 lg:w-80 w-60">
                 <span className="text-indie-100 text-sm md:text-lg">
-                  myfolio.com/
+                  myfolio.tech/
                 </span>
                 <input
                   value={name}

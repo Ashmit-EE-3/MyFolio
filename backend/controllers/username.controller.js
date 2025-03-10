@@ -57,4 +57,15 @@ const getUser = async(req,res,next)=>{
     }
 }
 
-module.exports = {getUsername, updateUsername, createUsername, getUser}
+const findUser = async(req,res,next)=>{
+    try{
+        const user = await Username.findOne({username: req.params.username}) ; 
+        if (user) return res.status(200).json("Username already exist!") ;
+        else return res.status(200).json("Username not found!") ; 
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+module.exports = {getUsername, updateUsername, createUsername, getUser, findUser}

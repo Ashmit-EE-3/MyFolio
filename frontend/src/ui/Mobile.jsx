@@ -11,6 +11,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import StackIcon from "tech-stack-icons";
 import { useState } from "react";
 import Share from "../components/Share";
+import ReactMarkdown from "react-markdown" ;
 
 const obj = {
   English: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg",
@@ -48,8 +49,6 @@ function Mobile() {
     setShare(()=>!share)
   }
 
-  // const theme = "theme-10" ;
-  // const font = "font-18" ; 
   return (
     <>
       {displayName && (
@@ -91,7 +90,7 @@ function Mobile() {
                   <h2 className="text-md bg-[var(--primary-button-color)] cursor-pointer hover:bg-[var(--primary-button-color-hover)] text-[var(--secondary-text-color)] hover:text-[var(--primary-text-color)] w-fit px-3 py-0.5 rounded-xl mx-auto italic">
                     @{username}
                   </h2>
-                  <p className="text-md my-1 break-words">{about}</p>
+                  <p className="text-md my-1 break-words"><ReactMarkdown>{about}</ReactMarkdown></p>
                 </div>
                 {skills && skills.length > 0 && (
                   <>
@@ -163,7 +162,7 @@ function Mobile() {
                         </a>
                       )}
                       {socials["Email"] && (
-                        <a target="_blank" href={socials["Email"]}>
+                        <a target="_blank" href={"mailto:"+socials["Email"]} rel="noopener noreferrer">
                           <MdEmail size={30} color="var(--primary-button-color)" />
                         </a>
                       )}

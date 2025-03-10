@@ -6,6 +6,8 @@ const profileRouter = require('./routes/profile.route') ;
 const projectRouter = require('./routes/project.route') ;
 const socialRouter = require('./routes/social.route') ;
 const usernameRouter = require('./routes/username.route') ; 
+const resumeRouter = require('./routes/resume.route') ; 
+const cors = require('cors') ; 
 
 const app = express() ;
  
@@ -29,12 +31,18 @@ mongoose.connect(mongoURI,options)
 })
 
 app.use(express.json())
+app.use(cors({
+    origin: "https://myfolio.tech",
+    methods: ["GET","POST","PUT","DELETE"],
+    credentials: true
+})) ; 
 app.use('/api/v1/user',userRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/profile',profileRouter)
 app.use('/api/v1/project',projectRouter)
 app.use('/api/v1/social',socialRouter)
 app.use('/api/v1/username',usernameRouter)
+app.use('/api/v1/resume',resumeRouter) ; 
 
 app.listen(port, ()=>{
     console.log(`Server is listening on port ${port}!!!`) ; 

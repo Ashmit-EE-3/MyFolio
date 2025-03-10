@@ -4,7 +4,7 @@ import { addLogInCredentials, addUserDetails, addUsername, endLoading, startLoad
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { Slide, toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 import { motion } from 'motion/react';
@@ -13,6 +13,7 @@ function OAuth({ provider, Icon, name, onError }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.user.loading)
+    const username = useSelector((state)=>state.user.username?.username) ; 
     const fetchProfile = async (id) => {
         try {
             const res = await fetch(`/api/v1/profile/get/${id}`, {
@@ -58,18 +59,73 @@ function OAuth({ provider, Icon, name, onError }) {
             console.log("User Response is : ", res)
             if (!res.ok) {
                 toast.error(data.message)
+                dispatch(endLoading()) ; 
+                return ; 
             }
 
-            if (!data || !data.username) {
-                return;
+            if (username){
+                if (!data || !data.username){
+                    //create username
+                    const formData = {
+                        username : username,
+                        userId: id,
+                    }
+                    const res = await fetch('/api/v1/username/create', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                    const data = await res.json();
+                    if (!res.ok){
+                        toast.error(data.message) ; 
+                    }
+                    toast.success(data.message,{
+                        position: "top-center",
+                        autoClose: 1000,
+                        transition: Slide,
+                        style: {
+                            width: "auto",
+                            whiteSpace: "nowrap",
+                            padding: "12px 20px",
+                            fontFamily: "Poppins",
+                        },
+                    }) ; 
+                    dispatch(addUsername(data)) ; 
+                }
+                else {
+                    //check if username is already taken
+                    if (username !== data.username){
+                        toast.error("Username already created!", {
+                            position: "top-center",
+                            autoClose: 1000,
+                            transition: Slide,
+                            style: {
+                                width: "auto",
+                                whiteSpace: "nowrap",
+                                padding: "12px 20px",
+                                fontFamily: "Poppins",
+                            },
+                        }) ; 
+                        dispatch(addUsername(data)) ; 
+                        return ; 
+                    }
+                    
+                }
             }
-            console.log("Username is : ", data);
-
-            dispatch(addUsername(data))
-
+            else {
+                if (!data || !data.username){
+                    dispatch(endLoading()) ; 
+                    return ; 
+                }
+                else {
+                    dispatch(addUsername(data)) ; 
+                }
+            }
+            dispatch(endLoading()) ; 
         }
         catch (error) {
-            setError(error);
             console.log("Error from username is : ", error);
         }
     }

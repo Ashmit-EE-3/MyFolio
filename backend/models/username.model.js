@@ -19,6 +19,9 @@ const userNameSchema = new mongoose.Schema({
     font: {
         type: String,
         default: "font-0"
+    },
+    avatar: {
+        type: String,
     }
 },{timestamps: true})
 

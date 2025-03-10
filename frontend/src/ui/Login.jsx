@@ -65,6 +65,10 @@ function Login() {
                         <label htmlFor="email">Email</label>
                         <input type="email" placeholder="email@example.com" className="border-2 border-indie-200 rounded-sm md:p-2 p-1 focus:outline-none" onChange={handleChange} />
                         <motion.button whileHover={{scale:0.95}} className="bg-veronica-700 lg:text-xl md:text-sm text-[10px] md:p-2 rounded-lg md:w-full text-indie-100 md:h-16 h-12 mt-2 cursor-pointer">Sign in with Email</motion.button>
+                        <motion.button onClick={()=>navigate('/')} whileHover={{scale:0.95}} className="bg-veronica-700 lg:text-xl md:text-sm text-[10px] md:p-2 rounded-lg md:w-full text-indie-100 md:h-16 h-12 mt-2 cursor-pointer group flex justify-center items-center gap-2">
+                            <span className="transition duration-200 group-hover:-translate-x-2">←</span>
+                            <p>Back to Home</p>
+                        </motion.button>
                     </form>
                 </div>
             </div>

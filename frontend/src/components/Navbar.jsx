@@ -16,9 +16,9 @@ function Navbar() {
         <div className="flex gap-18 text-xl">
           <Link
             to="/"
-            className="cursor-pointer text-sm md:text-xl lg:text-2xl"
+            className="cursor-pointer text-sm md:text-xl lg:text-2xl flex items-center gap-2"
           >
-            MyFolio Page
+            <img src="logo-myfolio.png" className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20" alt="logo" /><span className="text-veronica-700">MyFolio</span>
           </Link>
         </div>
         <div className="lg:flex gap-8 hidden justify-center items-center text-sm md:text-lg">
