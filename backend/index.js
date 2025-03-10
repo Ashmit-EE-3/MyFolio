@@ -7,7 +7,8 @@ const projectRouter = require('./routes/project.route') ;
 const socialRouter = require('./routes/social.route') ;
 const usernameRouter = require('./routes/username.route') ; 
 const resumeRouter = require('./routes/resume.route') ; 
- 
+const cors = require('cors') ; 
+
 const app = express() ;
  
 const dotenv = require('dotenv') ; 
@@ -30,6 +31,7 @@ mongoose.connect(mongoURI,options)
 })
 
 app.use(express.json())
+app.use(cors()) ; 
 app.use('/api/v1/user',userRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/profile',profileRouter)
