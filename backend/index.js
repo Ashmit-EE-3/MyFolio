@@ -31,11 +31,11 @@ mongoose.connect(mongoURI,options)
 })
 
 app.use(express.json())
-app.use(cors({
-    origin: "https://myfolio.tech",
-    methods: ["GET","POST","PUT","DELETE"],
-    credentials: true
-})) ; 
+// app.use(cors({
+//     origin: "https://myfolio.tech",
+//     methods: ["GET","POST","PUT","DELETE"],
+//     credentials: true
+// })) ; 
 app.use('/api/v1/user',userRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/profile',profileRouter)
