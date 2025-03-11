@@ -157,7 +157,7 @@ function OAuth({ provider, Icon, name, onError }) {
                 photoURL: result.user.photoURL,
             };
 
-            const res = await fetch('/api/v1/auth/oAuth', {
+            const res = await fetch('https://myfolio-11.onrender.com/api/v1/auth/oAuth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
