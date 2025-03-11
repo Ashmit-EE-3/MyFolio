@@ -65,7 +65,6 @@ function OAuth({ provider, Icon, name, onError }) {
 
             if (username){
                 if (!data || !data.username){
-                    //create username
                     const formData = {
                         username : username,
                         userId: id,
@@ -95,7 +94,6 @@ function OAuth({ provider, Icon, name, onError }) {
                     dispatch(addUsername(data)) ; 
                 }
                 else {
-                    //check if username is already taken
                     if (username !== data.username){
                         toast.error("Username already created!", {
                             position: "top-center",
@@ -186,7 +184,7 @@ function OAuth({ provider, Icon, name, onError }) {
             navigate('/admin', { replace: true });
         }
         catch (error) {
-            console.log("Error from firebase is : ", error.message);
+            console.log("Error from firebase is : ", error);
             onError(error.message);
             dispatch(endLoading());
         }
