@@ -167,7 +167,8 @@ function OAuth({ provider, Icon, name, onError }) {
             const data = await res.json();
 
             if (!res.ok) {
-                toast.error(data.message);
+                console.log("Error from oAuth is : ", data);
+                toast.error(data);
                 dispatch(endLoading());
                 return;
             }

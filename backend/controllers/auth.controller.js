@@ -26,8 +26,8 @@ const oAuth = async (req, res, next) => {
 
         }
     } catch(error){
-        res.status(500).json({success: false, msg: "Error from oAuth is : ", error});
-        next(error) ; 
+        res.status(500).json({success: false, msg: `Error from oAuth is : ${error}`});
+        // next(error) ; 
     }
 }
 
