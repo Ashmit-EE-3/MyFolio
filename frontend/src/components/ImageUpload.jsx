@@ -1,30 +1,14 @@
 /* eslint-disable react/prop-types */
 import { IoCloudUploadOutline } from "react-icons/io5";
-import {toast,Slide} from "react-toastify"
+import {toast} from "react-toastify"
+import { toastStyles } from "../utils/helper";
 const ImageUpload = () => {
     const handleImageUpload = (e) => {
       const file = e.target.files[0];
       if (file && /^image\/(jpeg|png|jpg)$/.test(file.type)) {
-        toast.success("Image uploaded successfully",{
-          position: 'top-center',
-          autoClose: 2000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px"
-          }
-        });
+        toast.success("Image uploaded successfully",toastStyles);
       } else {
-        toast.error("Please upload a JPG, JPEG or PNG file",{position: 'top-center',
-          autoClose: 2000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px"
-          }
-        });
+        toast.error("Please upload a JPG, JPEG or PNG file",toastStyles);
       }
     };
   

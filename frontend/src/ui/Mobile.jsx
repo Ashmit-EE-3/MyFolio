@@ -12,9 +12,6 @@ import StackIcon from "tech-stack-icons";
 import { useState } from "react";
 import Share from "../components/Share";
 import ReactMarkdown from "react-markdown" ;
-import {useCallback} from "react";
-import Particles from "react-tsparticles";
-import {loadSlim} from "tsparticles-slim";
 
 const obj = {
   English: "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg",
@@ -33,37 +30,6 @@ const obj = {
 };
 
 function Mobile() {
-
-  const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine);
-  }, []);
-
-  const particlesOptions = {
-    particles: {
-      number: {
-        value: 80,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: "var(--primary-text-color)"
-      },
-      links: {
-        enable: true,
-        color: "var(--primary-text-color)",
-        opacity: 0.2
-      },
-      move: {
-        enable: true,
-        speed: 1
-      }
-    },
-    background: {
-      color: "transparent"
-    }
-  };
 
   const displayName = useSelector(
     (state) => state.user.currentUser.displayName
@@ -88,7 +54,6 @@ function Mobile() {
     <>
       {displayName && (
         <div data-theme={theme} data-font={font} className="relative overflow-y-scroll xl:w-100 xl:block hidden">
-          <Particles className="absolute inset-0" init={particlesInit} options={particlesOptions}/> 
           <div  className={`font-[family-name:var(--primary-font)] min-h-screen overflow-y-scroll no-scrollbar bg-[var(--primary-bg-color)] rounded-[3rem] border-12 border-black w-[95%] text-[var(--primary-text-color)] relative overflow-x-hidden`}>
             <div className="w-[95%] flex justify-end my-2">
               <span className={`bg-[var(--primary-button-color)] p-0.5 rounded-md cursor-pointer ${share ? "opacity-50" : ""}`}

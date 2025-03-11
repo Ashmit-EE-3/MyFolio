@@ -29,7 +29,7 @@ function PdfUpload({
       
       const formData = new FormData();
       formData.append('resume',file) ; 
-      const res = await fetch('/api/v1/resume/upload',{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/resume/upload`,{
         method: 'POST',
         body: formData
       })
@@ -53,6 +53,7 @@ function PdfUpload({
       });
       toast.success("Saved!",toastStyles) 
     } catch (error) {
+      toast.error(error.message,toastStyles) ; 
       console.log("Error uploading PDF: ", error);
     }
     setIsUploading(false);

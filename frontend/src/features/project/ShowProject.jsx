@@ -10,7 +10,7 @@ import { deleteProject, updateProject } from "./projectSlice";
 import { useEffect, useState } from "react";
 import { Slide, toast } from "react-toastify";
 import { motion } from "motion/react";
-import { projectIcons } from "../../utils/helper";
+import { projectIcons, toastStyles } from "../../utils/helper";
 import ProjectModal from "./ProjectModal"
 
 const obj = projectIcons;
@@ -27,53 +27,23 @@ function ShowProject() {
   const [edit,setEdit]=useState(null)
   async function deleteProj(id) {
     try {
-      const res = await fetch(`/api/v1/project/delete/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/delete/${id}`, {
         method: "DELETE",
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message,toastStyles);
       }
 
-      toast.success("Project deleted!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Project deleted!",toastStyles);
       setProjectList((prevList) =>
         prevList.filter((project) => project._id !== id)
       );
       dispatch(deleteProject(id));
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message,toastStyles);
     }
   }
   function handleMenu(index){

@@ -5,7 +5,7 @@ import { Slide, toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 import Select from "react-select";
 import { motion } from "motion/react";
-import { options } from "../../utils/helper";
+import { options, toastStyles } from "../../utils/helper";
 
 const techOptions=options
 
@@ -78,24 +78,11 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
 
   function handleAdd() {
     if (!selectedSkill) {
-      toast.error("Please select a skill", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-      });
+      toast.error("Please select a skill",toastStyles);
       return;
     }
     if (tc.includes(selectedSkill)) {
-      toast.error("Skill Already Present", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-        },
-      });
+      toast.error("Skill Already Present", toastStyles);
       return;
     }
 

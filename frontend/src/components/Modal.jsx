@@ -2,7 +2,8 @@ import { motion } from "motion/react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { toastStyles } from "../utils/helper";
 
 function Modal({ setModal }) {
     const navigate=useNavigate();
@@ -10,20 +11,10 @@ function Modal({ setModal }) {
     function handleClick()
     {
         if(!username){
-            toast.error("Please fill your details first!",{
-                position: "top-center",
-                autoClose: 1000,
-                transition: Slide,
-                style: {
-                  width: "auto",
-                  whiteSpace: "nowrap",
-                  padding: "12px 20px",
-                  fontFamily: "Poppins",
-                },
-              })
+            toast.error("Please fill your details first!",toastStyles)
             return;
         }
-        navigate(`/portfolio/${username}`);
+        navigate(`/${username}`);
     }
   return createPortal(
     <motion.div className="fixed z-21 inset-0 backdrop-blur-sm flex items-center justify-center">

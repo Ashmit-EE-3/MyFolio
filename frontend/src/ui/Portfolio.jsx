@@ -30,7 +30,7 @@ function Portfolio() {
         setLoading(true);
         try {
           const usernameRes = await fetch(
-            `/api/v1/username/getUser/${username}`
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/username/getUser/${username}`
           );
           const usernameData = await usernameRes.json();
 
@@ -46,10 +46,10 @@ function Portfolio() {
 
           const [profileRes, projectsRes, socialsRes, userRes] =
             await Promise.all([
-              fetch(`/api/v1/profile/get/${userId}`),
-              fetch(`/api/v1/project/get/${userId}`),
-              fetch(`/api/v1/social/get/${userId}`),
-              fetch(`/api/v1/user/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/profile/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/social/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/get/${userId}`),
             ]);
 
           const [profile, projects, socials, user] = await Promise.all([
@@ -126,7 +126,7 @@ function Portfolio() {
   const handleDownload = async () => {
     try {
       const fileName = (userData.resume).split('/').pop();
-      const response = await fetch(`api/v1/resume/download/${fileName}`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/resume/download/${fileName}`);
 
       const data = await response.json();
 
@@ -150,7 +150,7 @@ function Portfolio() {
 
     const filepath = (userData.resume).split('/').pop();
     console.log(filepath)
-    window.location.href = `http://localhost:3000/api/v1/resume/download/${filepath}`;
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/v1/resume/download/${filepath}`;
   }
   return (
     <div

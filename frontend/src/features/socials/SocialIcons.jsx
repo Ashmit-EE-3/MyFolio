@@ -9,6 +9,7 @@ import { MdEmail } from "react-icons/md";
 import { BsTwitterX } from "react-icons/bs";
 import { FaYoutube } from "react-icons/fa";
 import { motion } from "motion/react";
+import { toastStyles } from "../../utils/helper";
 
 function AdminIcons() {
   const [selected, setSelected] = useState({
@@ -48,7 +49,7 @@ function AdminIcons() {
 
   function handleAdd() {
     if (!link && socialdetails?.[social[0]]) {
-      setLink(socialdetails[social[0]]); // YAHA DELETE KARANA HOGA.
+      setLink(socialdetails[social[0]]); 
       return;
     }
     const updatedFormData = {
@@ -72,7 +73,7 @@ function AdminIcons() {
     e.preventDefault();
     try {
       console.log("Form Data is : ", formData);
-      const res = await fetch("/api/v1/social/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/social/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -81,44 +82,14 @@ function AdminIcons() {
       const data = await res.json();
 
       if (data.success === false) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message, toastStyles);
       }
 
-      toast.success("Socials Saved!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Socials Saved!", toastStyles);
       console.log("Data is : ", data);
       dispatch(addSocial(data));
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message,toastStyles);
     }
     setSelected({
       Github: false,

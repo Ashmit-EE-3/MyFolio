@@ -7,7 +7,7 @@ function Share({ share, setShare }) {
   const username = useSelector((state) => state.user.username.username);
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
-    navigator.clipboard.writeText(`indiepa.ge/${username}`);
+    navigator.clipboard.writeText(`myfolio.tech/${username}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -25,7 +25,7 @@ function Share({ share, setShare }) {
           <span>
             <FaCopy color="white" />
           </span>
-          {`https://myfolio.tech/portfolio/${username}`}
+          {`https://myfolio.tech/${username}`}
         </div>
         <button
           className="mx-2 bg-indie-100 p-1.5 rounded-md cursor-pointer text-indie-400"

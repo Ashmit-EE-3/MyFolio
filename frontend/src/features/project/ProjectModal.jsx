@@ -39,7 +39,7 @@ function ProjectModal({ project, setEdit }) {
       console.log("Images are : ", images) ; 
       formData = { ...data, images: image, techstack: skills }
       console.log("Edited Form data is : ",formData) 
-      const res = await fetch(`/api/v1/project/update/${project._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/update/${project._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

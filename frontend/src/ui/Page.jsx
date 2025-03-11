@@ -12,11 +12,8 @@ import Project from "../features/project/Project";
 import { GiSkills } from "react-icons/gi";
 import { IoDocumentText, IoLanguageSharp } from "react-icons/io5";
 import { Slide, toast } from "react-toastify";
-// import { PiCertificateFill } from "react-icons/pi";
 import { IoMdSchool } from "react-icons/io";
 import { motion } from "motion/react"
-
-// import UserCertificate from "../features/user/UserCertificate";
 import Techstack from "../features/user/Techstack";
 import UserDetails from "../features/user/UserDetails";
 import UserLanguages from "../features/user/UserLanguages";
@@ -24,6 +21,7 @@ import CVUpload from "../features/user/CVUpload";
 import Mobile from "./Mobile";
 import ShowProject from "../features/project/ShowProject";
 import { MdLocationPin } from "react-icons/md";
+import { toastStyles } from "../utils/helper";
 
 function Page() {
   const submit = useSelector((state) => state.user.submit);
@@ -44,7 +42,6 @@ function Page() {
     certificate: false,
     College: false,
   });
-  // const [cpdf, setCpdf] = useState(null);
   const [cv, setCv] = useState(null);
   const projects = useSelector((state) => state.project?.project);
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -102,7 +99,7 @@ function Page() {
   const handleUserSubmit = async (updatedFormData) => {
     try {
       console.log("Form Data is : ", updatedFormData);
-      const res = await fetch(`/api/v1/user/update/${currentUser._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/update/${currentUser._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -111,45 +108,15 @@ function Page() {
       });
       const data = await res.json();
       if (data.success === false) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message,toastStyles);
         return;
       }
       dispatch(updateUser(data));
       dispatch(endLoading());
-      toast.success("Saved!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Saved!", toastStyles);
     } catch (error) {
       console.log(error);
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error, toastStyles);
     }
   };
 
@@ -200,7 +167,7 @@ function Page() {
     setUserData(updatedUserDetails);
     try {
       console.log("Updated User Details : ", updatedUserDetails);
-      const res = await fetch("/api/v1/profile/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/profile/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedUserDetails),
@@ -209,48 +176,18 @@ function Page() {
       const data = await res.json();
 
       if (data.success === false) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message, toastStyles);
         dispatch(endLoading());
         return;
       }
 
-      toast.success("Saved!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Saved!", toastStyles);
 
       console.log("Data is : ", data);
       dispatch(addUserDetails(data));
       dispatch(endLoading());
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message, toastStyles);
       dispatch(endLoading());
     }
   }
@@ -263,7 +200,7 @@ function Page() {
         username: username,
         userId: currentUser._id,
       };
-      const res = await fetch("/api/v1/username/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usernameData),
@@ -271,45 +208,16 @@ function Page() {
       const data = await res.json();
 
       if (res.ok === false) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message, toastStyles);
         setUsernameLoading(false);
         return;
       }
       console.log("Data from username creation is : ", data);
       dispatch(addUsername(data));
-      toast.success("Username Created!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Username Created!", toastStyles
+      );
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message,toastStyles);
     }
     setUsernameLoading(false);
   }
