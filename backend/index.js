@@ -31,6 +31,7 @@ mongoose.connect(mongoURI,options)
 })
 
 app.use(express.json())
+app.use(cors()) ; 
 // app.use(cors({
 //     origin: "https://myfolio.tech",
 //     methods: ["GET","POST","PUT","DELETE"],

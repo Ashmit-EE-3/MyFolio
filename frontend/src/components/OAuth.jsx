@@ -184,7 +184,7 @@ function OAuth({ provider, Icon, name, onError }) {
             navigate('/admin', { replace: true });
         }
         catch (error) {
-            console.log("Error from firebase is : ", error);
+            console.log("Error from login is : ", error);
             onError(error.message);
             dispatch(endLoading());
         }
