@@ -151,7 +151,7 @@ function OAuth({ provider, Icon, name, onError }) {
         try {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
-             
+            console.log("Result from oAuth is : ", result) ; 
             const formData = {
                 displayName: result.user.displayName,
                 email: result.user.email,
