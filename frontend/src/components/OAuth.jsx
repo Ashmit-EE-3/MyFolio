@@ -151,13 +151,13 @@ function OAuth({ provider, Icon, name, onError }) {
         try {
             const auth = getAuth(app);
             const result = await signInWithPopup(auth, provider);
-            console.log("Result from oAuth is : ", result) ; 
+             
             const formData = {
                 displayName: result.user.displayName,
                 email: result.user.email,
                 photoURL: result.user.photoURL,
             };
-
+            console.log("Result from oAuth is : ", formData) ;
             const res = await fetch('https://myfolio-11.onrender.com/api/v1/auth/oAuth', {
                 method: 'POST',
                 headers: {
