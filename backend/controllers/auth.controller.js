@@ -26,6 +26,7 @@ const oAuth = async (req, res, next) => {
 
         }
     } catch(error){
+        console.log("Error from oAuth is : ", error);
         next(error) ; 
     }
 }
