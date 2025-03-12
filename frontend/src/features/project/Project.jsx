@@ -97,7 +97,7 @@ function Project() {
                     type="text"
                     required
                     placeholder="Project Name"
-                    {...register("name", { required: true,maxLength:{value:15,message:"Max length should be 15"} })}
+                    {...register("name", { required: true,maxLength:{value:20,message:"Max length should be 20"} })}
                     className="p-2 border-1px rounded-md md:h-12 h-8 md:text-sm lg:text-[16px] placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
                   />
                   {errors?.name&&<p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -117,6 +117,7 @@ function Project() {
                   setSkills={setSkills}
                   images={images}
                   setImages={setImages}
+                  errors={errors}
                 />
               </div>
               <motion.button

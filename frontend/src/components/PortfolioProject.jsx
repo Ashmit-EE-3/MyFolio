@@ -41,16 +41,16 @@ function PortfolioProject({ project, flag, index, len }) {
   return (
     <div className="bg-[var(--primary-bg-color)] text-[var(--primary-text-color)] rounded-lg flex flex-col h-min overflow-hidden">
       <div
-        className={`mx-2 ${
+        className={`mx-1 ${
           flag && index === len - 1
             ? "hover:scale-[1.025]"
             : "hover:scale-[1.06]"
-        } flex flex-col group gap-2 p-4 hover:bg-[var(--primary-button-color-hover)] transition duration-200 rounded-2xl cursor-default min-h-31`}
+        } flex flex-col group gap-1 p-4 hover:bg-[var(--primary-button-color-hover)] transition duration-200 rounded-2xl cursor-default min-h-31`}
       >
         <div className="flex items-center justify-between gap-3 lg:gap-2">
           <div
             className={`${
-              flag && index === len - 1 ? "gap-1.5 md:gap-4" : "md:gap-2 gap-1"
+              flag && index === len - 1 ? "gap-1.5 md:gap-3" : "gap-1"
             } flex items-center`}
           >
             <span className="group-hover:-rotate-15 transition delay-200">
@@ -66,13 +66,13 @@ function PortfolioProject({ project, flag, index, len }) {
             <h1
               className="text-sm md:text-xl lg:text-2xl md:font-bold font-semibold"
             >
-              <a href={projectLink} className="cursor-pointer hover:underline" target="_blank">
+              <a href={projectLink} className="cursor-pointer hover:underline whitespace-nowrap" target="_blank">
                 {name}
               </a>
             </h1>
           </div>
           <p
-            className={`md:text-lg text-sm bg-[var(--primary-text-color)] text-[var(--secondary-text-color)] rounded-full px-2 hidden md:block whitespace-nowrap`}
+            className={`md:text-[15px] text-xs bg-[var(--primary-text-color)] text-[var(--secondary-text-color)] rounded-full px-2 hidden md:block whitespace-nowrap`}
           >
             {icons[status]} {status}
           </p>
@@ -81,7 +81,7 @@ function PortfolioProject({ project, flag, index, len }) {
           {showFull ? description : halfDescription}
           {!showFull && description !== halfDescription && (
             <span
-              className="text-xs cursor-pointer hover:text-[var(--secondary-text-color)]"
+              className="md:text-xs text-[10px] cursor-pointer hover:text-[var(--secondary-text-color)]"
               onClick={() => setShowFull(!showFull)}
             >
               {" "}
@@ -90,7 +90,7 @@ function PortfolioProject({ project, flag, index, len }) {
           )}
           {showFull && description !== halfDescription && (
             <span
-              className="text-xs cursor-pointer hover:text-[var(--secondary-text-color)]"
+              className="md:text-xs text-[10px] cursor-pointer hover:text-[var(--secondary-text-color)]"
               onClick={() => setShowFull(!showFull)}
             >
               {" "}

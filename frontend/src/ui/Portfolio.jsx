@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 
 const techOptions = options;
 const flags = flag;
-
+const default_avatar="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid"
 function Portfolio() {
   const { username } = useParams();
   const [userData, setUserData] = useState({});
@@ -66,8 +66,7 @@ function Portfolio() {
             !userRes.ok
           ) {
             console.log("Failed to fetch user data");
-          }
-
+          }          
           setUserData({
             email: user?.email,
             displayName: user?.displayName,
@@ -82,6 +81,7 @@ function Portfolio() {
             languages: profile?.languages,
             resume: profile?.resume,
             techStack: profile?.techStack,
+            avatar:usernameData?.avatar,
             projects,
             socials,
           });
@@ -152,15 +152,21 @@ function Portfolio() {
     console.log(filepath)
     window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/v1/resume/download/${filepath}`;
   }
+  
+  if(userData?.photoURL && userData?.photoURL.includes("google"))
+    userData.photoURL=undefined
+
+  if(userData?.avatar===undefined)
+    userData.avatar=default_avatar
   return (
     <div
-      className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col md:h-screen md:overflow-hidden "
+      className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col h-screen md:overflow-hidden "
       data-theme={theme}
       data-font={font}
     >
       <div className="font-[family-name:var(--primary-font)] bg-[var(--secondary-bg-color)] text-[var(--primary-text-color)] overflow-y-scroll lg:py-20 md:py-10 py-8 lg:px-14 md:px-10 px-2 flex flex-col lg:gap-6 md:gap-4 gap-2 relative no-scrollbar">
         <img
-          src={userData.photoURL}
+          src={userData.photoURL||userData.avatar}
           alt="profile"
           className="rounded-full lg:h-40 lg:w-40 md:h-30 md:w-30 w-15 h-15 border-10 border-[var(--primary-button-color)] relative"
         />
@@ -192,7 +198,7 @@ function Portfolio() {
             <ReactMarkdown>{userData?.about}</ReactMarkdown>
           </p>
         )}
-        {selectedTechOptions && (
+        {selectedTechOptions.length>0 && (
           <div className="flex flex-col gap-4">
             <h1 className="lg:text-2xl md:text-xl text-lg">Skills:</h1>
             <div className="flex flex-wrap lg:gap-3 md:gap-2 gap-1">
@@ -259,7 +265,7 @@ function Portfolio() {
                 </a>
               )}
               {Email && (
-                <a className="cursor-pointer" href={Email} target="_blank">
+                <a className="cursor-pointer" href={"mailto:"+Email} target="_blank">
                   <CiMail
                     className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
@@ -302,7 +308,8 @@ function Portfolio() {
           </div>
         )}
       </div>
-      <div className="bg-[var(--secondary-bg-color)] overflow-y-scroll no-scrollbar">
+      <div className="bg-[var(--secondary-bg-color)] h-full overflow-y-scroll no-scrollbar">
+        <span className="md:hidden text-lg font-poppins text-indie-400 p-4">Projects:</span>
         <div className="xl:grid xl:grid-cols-2 flex flex-col lg:gap-10 md:gap-6 gap-4 xl:p-10 p-4">
           {newProjects &&
             newProjects.map((project, index) => (

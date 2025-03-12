@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-function ProjectStatus({register}) {
+function ProjectStatus({register,errors}) {
   return (
     <div className="flex lg:gap-4 gap-2 flex-col">
       <div className="border-t-2 border-indie-300/30"></div>
@@ -15,7 +15,9 @@ function ProjectStatus({register}) {
           className="text-indie-100 rounded-lg border-2 border-indie-600 bg-indie-600
       focus:outline-none focus:border-transparent cursor-pointer
       text-start w-full px-2 md:h-10 h-8"
-          {...register("status")}
+          {...register("status",{
+            required:{value:true,message:"Please fill out project status"}
+          })}
         >
           <option value="" disabled>
             Pick One
@@ -25,6 +27,7 @@ function ProjectStatus({register}) {
           <option value="Completed">✅ Completed</option>
           <option value="Deployed">🚀 Deployed</option>
         </select>
+        {errors?.status&&<p className="text-red-500 text-sm">{errors.status.message}</p>}
       </div>
     </div>
   );
