@@ -84,18 +84,12 @@ function OAuth({ provider, Icon, name, onError }) {
                         toast.error(data.message, toastStyles) ; 
                     }
                     toast.success(data.message, toastStyles) ; 
-                    if (data.deployed){
-                        dispatch(setDeployed()) ; 
-                    }
                     dispatch(addUsername(data)) ; 
                 }
                 else {
                     if (username !== data.username){
                         toast.error("Username already created!", toastStyles) ; 
                         dispatch(addUsername(data)) ; 
-                        if (data.deployed){
-                            dispatch(setDeployed()) ; 
-                        }
                         return ; 
                     }
                     
@@ -107,9 +101,6 @@ function OAuth({ provider, Icon, name, onError }) {
                     return ; 
                 }
                 else {
-                    if (data.deployed){
-                        dispatch(setDeployed()) ; 
-                    }
                     dispatch(addUsername(data)) ; 
                 }
             }

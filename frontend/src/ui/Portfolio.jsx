@@ -220,7 +220,7 @@ function Portfolio() {
             </div>
           </div>
         )}
-        {languages && (
+        {languages?.length > 0 && (
           <div className="flex flex-col gap-2">
             <h1 className="lg:text-2xl md:text-xl text-lg">Languages:</h1>
             <div className="flex flex-wrap md:gap-2 gap-1 md:p-2 p-1">

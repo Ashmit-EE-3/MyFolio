@@ -38,7 +38,8 @@ function ProjectModal({ project, setEdit }) {
   async function onSubmit(data) {
     try {
       console.log("Images are : ", images) ; 
-      formData = { ...data, images: image, techstack: skills }
+      console.log("Data is : ", data) ; 
+      formData = { name: data.name, description: data.description, projectLink: data.link, repoLink: data.repo, status:data.status, images: image, techstack: skills }
       console.log("Edited Form data is : ",formData) 
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/update/${project._id}`, {
         method: "PUT",
