@@ -6,7 +6,7 @@ const initialState = {
     submit: false,
     isAuthenticated: false,
     userDetails: {}, 
-    loading: false, 
+    loading: false,
 }
 const userSlice = createSlice({
     name: 'user',
@@ -21,6 +21,9 @@ const userSlice = createSlice({
         logOutUser(state) {
             state.isAuthenticated = false ; 
             state.currentUser = {}
+            state.username = {}
+            state.userDetails = {}
+            state.submit = false 
         },
         updateUser(state,action){
             state.currentUser = action.payload
@@ -30,7 +33,7 @@ const userSlice = createSlice({
             state.currentUser = {}
             state.username = {}
             state.userDetails = {}
-            state.submit = false 
+            state.submit = false
         },
         addUsername(state, action) {
             state.username = action.payload,

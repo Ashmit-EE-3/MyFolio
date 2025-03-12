@@ -4,7 +4,7 @@ import { addLogInCredentials, addUserDetails, addUsername, endLoading, startLoad
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
-import { Slide, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 import { motion } from 'motion/react';
@@ -84,12 +84,18 @@ function OAuth({ provider, Icon, name, onError }) {
                         toast.error(data.message, toastStyles) ; 
                     }
                     toast.success(data.message, toastStyles) ; 
+                    if (data.deployed){
+                        dispatch(setDeployed()) ; 
+                    }
                     dispatch(addUsername(data)) ; 
                 }
                 else {
                     if (username !== data.username){
                         toast.error("Username already created!", toastStyles) ; 
                         dispatch(addUsername(data)) ; 
+                        if (data.deployed){
+                            dispatch(setDeployed()) ; 
+                        }
                         return ; 
                     }
                     
@@ -101,6 +107,9 @@ function OAuth({ provider, Icon, name, onError }) {
                     return ; 
                 }
                 else {
+                    if (data.deployed){
+                        dispatch(setDeployed()) ; 
+                    }
                     dispatch(addUsername(data)) ; 
                 }
             }

@@ -23,7 +23,7 @@ function Portfolio() {
   const { username } = useParams();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [deployed,setDeployed] = useState(true) ; 
   useEffect(
     function () {
       async function fetchData() {
@@ -43,6 +43,10 @@ function Portfolio() {
           }
 
           const userId = usernameData.userId;
+
+          if (!usernameData.deployed){
+            setDeployed(false) ; 
+          }
 
           const [profileRes, projectsRes, socialsRes, userRes] =
             await Promise.all([
@@ -96,8 +100,13 @@ function Portfolio() {
     [username]
   );
 
-  if (loading) return <Spinner />;
 
+  if (!deployed){
+    throw new Error("Profile not yet deployed!") ; 
+  };
+
+  if (loading) return <Spinner />;
+  
   const theme = userData.theme;
   const font = userData.font;
 

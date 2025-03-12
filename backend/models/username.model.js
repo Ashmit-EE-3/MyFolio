@@ -7,6 +7,10 @@ const userNameSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    deployed: {
+        type: Boolean,
+        default: false
+    },
     username: {
         type: String,
         required: true,
