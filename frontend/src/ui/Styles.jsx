@@ -2,7 +2,10 @@ import Select from 'react-select';
 import Mobile from './Mobile';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUsername } from '../features/user/userSlice';
-import { Slide, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { toastStyles } from '../utils/helper';
+
+const avatars = ["https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid","https://img.freepik.com/premium-vector/business-woman-clipart-vector-illustration_1123392-3562.jpg?semt=ais_hybrid"]
 
 function Styles() {
     const dispatch = useDispatch() ;
@@ -11,7 +14,7 @@ function Styles() {
     
     const handleFontChange = async (selected) => {
         try {
-            const res = await fetch(`/api/v1/username/update/${usernameId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/update/${usernameId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -21,31 +24,11 @@ function Styles() {
 
             const data = await res.json();
             if (!res.ok) {
-                toast.error(data.message, {
-                    position: "top-center",
-                    autoClose: 1000,
-                    transition: Slide,
-                    style: {
-                        width: "auto",
-                        whiteSpace: "nowrap",
-                        padding: "12px 20px",
-                        fontFamily: "Poppins",
-                    },
-                });
+                toast.error(data.message, toastStyles);
                 return ; 
             }
             dispatch(updateUsername(data)) ; 
-            toast.success("Saved!", {
-                position: "top-center",
-                autoClose: 1000,
-                transition: Slide,
-                style: {
-                  width: "auto",
-                  whiteSpace: "nowrap",
-                  padding: "12px 20px",
-                  fontFamily: "Poppins",
-                },
-              });
+            toast.success("Saved!", toastStyles);
         }
         catch (error) {
             console.log(error)
@@ -53,7 +36,7 @@ function Styles() {
     }
     const handleThemeChange = async(selected) => {
         try {
-            const res = await fetch(`/api/v1/username/update/${usernameId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/update/${usernameId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -63,31 +46,11 @@ function Styles() {
 
             const data = await res.json();
             if (!res.ok) {
-                toast.error(data.message, {
-                    position: "top-center",
-                    autoClose: 1000,
-                    transition: Slide,
-                    style: {
-                        width: "auto",
-                        whiteSpace: "nowrap",
-                        padding: "12px 20px",
-                        fontFamily: "Poppins",
-                    },
-                });
+                toast.error(data.message, toastStyles);
                 return ; 
             }
             dispatch(updateUsername(data)) ; 
-            toast.success("Saved!", {
-                position: "top-center",
-                autoClose: 1000,
-                transition: Slide,
-                style: {
-                  width: "auto",
-                  whiteSpace: "nowrap",
-                  padding: "12px 20px",
-                  fontFamily: "Poppins",
-                },
-              });
+            toast.success("Saved!", toastStyles);
         }
         catch (error) {
             console.log(error)
@@ -95,7 +58,7 @@ function Styles() {
     }
     const handleAvatarChange = async(selected) => {
         try {
-            const res = await fetch(`/api/v1/username/update/${usernameId}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/update/${usernameId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -105,31 +68,11 @@ function Styles() {
 
             const data = await res.json();
             if (!res.ok) {
-                toast.error(data.message, {
-                    position: "top-center",
-                    autoClose: 1000,
-                    transition: Slide,
-                    style: {
-                        width: "auto",
-                        whiteSpace: "nowrap",
-                        padding: "12px 20px",
-                        fontFamily: "Poppins",
-                    },
-                });
+                toast.error(data.message, toastStyles);
                 return ; 
             }
             dispatch(updateUsername(data)) ; 
-            toast.success("Saved!", {
-                position: "top-center",
-                autoClose: 1000,
-                transition: Slide,
-                style: {
-                  width: "auto",
-                  whiteSpace: "nowrap",
-                  padding: "12px 20px",
-                  fontFamily: "Poppins",
-                },
-              });
+            toast.success("Saved!", toastStyles);
         }
         catch (error) {
             console.log(error)
@@ -159,8 +102,7 @@ function Styles() {
             </div>
         )
     }));
-    const avatars = ["https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid","https://img.freepik.com/premium-vector/business-woman-clipart-vector-illustration_1123392-3562.jpg?semt=ais_hybrid"]
-    const avatarOptions = avatars.map((avatar,i)=> ({
+    const avatarOptions = avatars.map((avatar)=> ({
         value: avatar,
         label: (
             <img src={avatar} className="w-10 h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 rounded-full" />

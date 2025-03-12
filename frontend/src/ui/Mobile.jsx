@@ -28,12 +28,17 @@ const obj = {
   Japanese:
     "https://purecatamphetamine.github.io/country-flag-icons/3x2/JP.svg",
 };
+const default_avatar="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid"
 
 function Mobile() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
   const displayName = useSelector(
     (state) => state.user.currentUser.displayName
   );
-  const userImage = useSelector((state) => state.user.currentUser.photoURL);
+  let userImage = useSelector((state) => state.user.currentUser.photoURL);
   const username = useSelector((state) => state.user.username.username);
   const about = useSelector((state) => state.user.userDetails?.about);
   const college = useSelector((state) => state.user.userDetails?.college);
@@ -48,7 +53,8 @@ function Mobile() {
   {
     setShare(()=>!share)
   }
-
+  if(userImage.includes("google"))
+    userImage=undefined
   return (
     <>
       {displayName && (
@@ -63,7 +69,7 @@ function Mobile() {
             {share && <Share share={share} setShare={setShare}/>}
             <div className={`flex flex-col justify-center items-center gap-4 ${share ? "opacity-25" : ""}`}>
               <img
-                src={userImage}
+                src={userImage||default_avatar}
                 className="rounded-full w-30 h-30 border-6 border-[var(--primary-button-color)] absolute top-10"
               />
               <div className="bg-[var(--secondary-bg-color)] w-[96%] mx-auto my-18 rounded-lg flex flex-col gap-2">
@@ -162,7 +168,7 @@ function Mobile() {
                         </a>
                       )}
                       {socials["Email"] && (
-                        <a target="_blank" href={"mailto:"+socials["Email"]} rel="noopener noreferrer">
+                        <a target="_blank" href={"mailto:"+socials["Email"]}>
                           <MdEmail size={30} color="var(--primary-button-color)" />
                         </a>
                       )}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUsername } from "../features/user/userSlice";
 import { Slide, toast } from "react-toastify";
+import { toastStyles } from "../utils/helper";
 
 function Landing() {
   const nam = useSelector((state) => state.user.username?.username) || ""
@@ -20,17 +21,7 @@ function Landing() {
         navigate("/admin");
       }
       else if (username && username !== name) {
-        toast.error("Username already created!", {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        })
+        toast.error("Username already created!",toastStyles)
       }
       else {
         try {
@@ -38,7 +29,7 @@ function Landing() {
             username: name,
             userId: currentUser._id,
           }
-          const res = await fetch('/api/v1/username/create', {
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/create`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -47,81 +38,35 @@ function Landing() {
           })
           const data = await res.json();
           if (!res.ok) {
-            toast.error(data.message, {
-              position: "top-center",
-              autoClose: 1000,
-              transition: Slide,
-              style: {
-                width: "auto",
-                whiteSpace: "nowrap",
-                padding: "12px 20px",
-                fontFamily: "Poppins",
-              },
-            })
+            toast.error(data.message, toastStyles)
             return;
           }
           dispatch(addUsername(data)); 
-          toast.success("Username Created!",{
-            position: "top-center",
-            autoClose: 1000,
-            transition: Slide,
-            style: {
-              width: "auto",
-              whiteSpace: "nowrap",
-              padding: "12px 20px",
-              fontFamily: "Poppins",
-            },
-          });
+          toast.success("Username Created!",toastStyles);
           navigate("/admin");
         }
         catch (error) {
           console.log("Error from landing is : ", error);
-          toast.error(error.message,{
-            position: "top-center",
-            autoClose: 1000,
-            transition: Slide,
-            style: {
-              width: "auto",
-              whiteSpace: "nowrap",
-              padding: "12px 20px",
-              fontFamily: "Poppins",
-            },
-          });
+          toast.error(error.message,toastStyles);
         }
       }
     } else {
+      if (name === ""){
+        navigate('/login') ; 
+        return ; 
+      }
       try{
         console.log(`Hi ${name}`) ; 
-        const res = await fetch(`/api/v1/username/findUser/${name}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/findUser/${name}`, {
           method: "GET",
         }) ;
         if (!res.ok) {
-          toast.error("Internal Server Error!", {
-            position: "top-center",
-            autoClose: 1000,
-            transition: Slide,
-            style: {
-              width: "auto",
-              whiteSpace: "nowrap",
-              padding: "12px 20px",
-              fontFamily: "Poppins",
-            },
-          })
+          toast.error("Internal Server Error!", toastStyles)
           return; 
         }
         const data = await res.json()  ;
         if (data === "Username already exist!"){
-          toast.error(data, {
-            position: "top-center",
-            autoClose: 1000,
-            transition: Slide,
-            style: {
-              width: "auto",
-              whiteSpace: "nowrap",
-              padding: "12px 20px",
-              fontFamily: "Poppins",
-            },
-          })
+          toast.error(data, toastStyles)
           return ; 
         } 
         dispatch(addUsername({username: name})) ; 
@@ -129,11 +74,7 @@ function Landing() {
       }
       catch(error){
         console.log("Error from landing is : ", error);
-        toast.error(error.message,{
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-        })
+        toast.error(error.message,toastStyles)
       }
     }
   };

@@ -4,6 +4,7 @@ import { deleteUser, endLoading, logOutUser, startLoading, updateUsername } from
 import { Slide, toast } from "react-toastify";
 import { persistor } from '../store';
 import { useNavigate } from "react-router-dom";
+import { toastStyles } from "../utils/helper";
 
 function Account() {
   const username = useSelector((state) => state.user.username.username) || null;
@@ -23,21 +24,11 @@ function Account() {
     dispatch(startLoading()) ; 
     try {
       if (Object.keys(usernameState).length === 0) {
-        toast.error("Username not created yet!", {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error("Username not created yet!",toastStyles);
         dispatch(endLoading()) ; 
         return;
       }
-      const res = await fetch(`/api/v1/username/update/${usernameState._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/update/${usernameState._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -47,53 +38,23 @@ function Account() {
       console.log("Response from username update is : ", res);
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(data.message,toastStyles);
         dispatch(endLoading()) ; 
         return;
       }
       console.log("Data is : ", data);
       dispatch(updateUsername(data));
-      toast.success("Username Updated Successfully!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Username Updated Successfully!",toastStyles);
       dispatch(endLoading()) ; 
     }
     catch (error) {
-      toast.error(error, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message, toastStyles);
       dispatch(endLoading()) ; 
     }
   }
   const handleLogOutClick = async () => {
     try {
-      const res = await fetch('/api/v1/auth/logout', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`, {
         method: 'GET',
       })
 
@@ -101,43 +62,16 @@ function Account() {
       if (data.success === true) {
         persistor.pause();
         await persistor.purge();
-        toast.success("Logged out successfully!", {
-          position: 'top-center',
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px"
-          }
-        })
+        toast.success("Logged out successfully!",toastStyles);
         dispatch(logOutUser());
         navigate('/');
         return;
       }
       else {
-        toast.error("Something went wrong!", {
-          position: 'top-center',
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px"
-          }
-        })
+        toast.error("Something went wrong!", toastStyles)
       }
     } catch (error) {
-      toast.error(error, {
-        position: 'top-center',
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px"
-        }
-      })
+      toast.error(error.message, toastStyles)
       console.log(error)
     }
   }
@@ -145,7 +79,7 @@ function Account() {
   const handleDeleteClick = async () => {
     try {
       console.log("Current User is : ", currentUser);
-      const res = await fetch(`/api/v1/user/delete/${currentUser._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       })
 
@@ -153,46 +87,16 @@ function Account() {
       if (data.success === true) {
         persistor.pause();
         await persistor.purge();
-        toast.success("User deleted successfully!", {
-          position: 'top-center',
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins"
-          }
-        })
+        toast.success("User deleted successfully!",toastStyles)
         dispatch(deleteUser());
         navigate('/');
         return;
       }
       else {
-        toast.error("Something went wrong!", {
-          position: 'top-center',
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins"
-          }
-        })
+        toast.error("Something went wrong!", toastStyles)
       }
     } catch (error) {
-      toast.error(error, {
-        position: 'top-center',
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins"
-        }
-      })
+      toast.error(error.message, toastStyles)
       console.log(error)
     }
   }
@@ -200,20 +104,10 @@ function Account() {
 
   const handleCopy = () => {
     if (!username) {
-      toast.error("Please enter a username first!", {
-        position: 'top-center',
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins"
-        }
-      })
+      toast.error("Please enter a username first!", toastStyles)
       return;
     }
-    navigator.clipboard.writeText(`indiepa.ge/${username}`);
+    navigator.clipboard.writeText(`myfolio.tech/${username}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -252,7 +146,7 @@ function Account() {
         <div className="flex flex-col md:gap-6 gap-4 text-start">
           <h1>MyFolio Domain</h1>
           <div className="flex justify-between items-center">
-            <p>https://myfolio.tech/portfolio/{username}</p>
+            <p>https://myfolio.tech/{username}</p>
             <button
               onClick={handleCopy}
               className="md:p-3 md:rounded-xl p-2 rounded-md bg-veronica-600 hover:bg-indie-400 cursor-pointer transition-colors duration-200"
@@ -262,22 +156,7 @@ function Account() {
           </div>
         </div>
       </div>
-      {/* <div className="bg-indie-700 rounded-2xl p-8 font-poppins text-indie-100">
-        <form className="flex flex-col gap-6 text-start">
-          <label className="text-xl">Custom Domain</label>
-          <div className="flex gap-2">
-            <input
-              placeholder="example.com"
-              type="text"
-              className="border-2 rounded-lg h-12 focus:outline-none focus:ring focus:ring-indie-200 focus-ring-offset-1
-            placeholder:opacity-30 p-4 w-full"
-            />
-            <button className="p-3 rounded-xl bg-veronica-700 hover:bg-veronica-800 cursor-pointer transition-colors duration-200">
-              SAVE
-            </button>
-          </div>
-        </form>
-      </div> */}
+
       <div className="border-b-2 border-indie-400"></div>
       <div className="flex justify-end gap-4">
         <button onClick={handleDeleteClick} className="p-3 rounded-xl hover:bg-red-500 cursor-pointer transition-colors duration-200">DELETE</button>

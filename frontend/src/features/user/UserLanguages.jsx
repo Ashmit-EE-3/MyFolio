@@ -10,7 +10,6 @@ import { langOptions } from "../../utils/helper";
 function UserLanguages({ handleUserDetails, userData, setUserData }) {
   const userlanguages =
     useSelector((state) => state.user.userDetails?.languages) || [];
-  // const loading = useSelector((state) => state.user.loading);
   const [lang, setLang] = useState("");
   const languageOptions=langOptions
 
@@ -85,11 +84,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
 
   function onSubmit(data) {
     if (!lang) {
-      toast.error("Please select a language", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-      });
+      toast.error("Please select a language", toastStyles);
       return;
     }
     var present = false;
@@ -97,17 +92,7 @@ function UserLanguages({ handleUserDetails, userData, setUserData }) {
       if (language.language === lang) present = true;
     });
     if (present) {
-      toast.error("Language Already Present", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error("Language Already Present", toastStyles);
       return;
     }
     const newLanguageData = [

@@ -4,15 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://myfolio-u8tp.onrender.com',
-        secure: true,
-        changeOrigin: true
-      },
-    },
-  },
   plugins: [
     react({
       include: "**/*.{jsx,tsx}",

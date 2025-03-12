@@ -22,7 +22,7 @@ function ProjectModal({ project, setEdit }) {
   } = project || {};
   const [image, setImages] = useState(images)
   const [skills, setSkills] = useState(techstack)
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register,formState } = useForm({
     defaultValues: {
       name: name || "",
       description: description || "",
@@ -30,6 +30,7 @@ function ProjectModal({ project, setEdit }) {
       repo: repoLink || "",
     },
   });
+  const {errors}=formState;
   const dispatch = useDispatch();
   let formData = {};
   console.log(image);
@@ -39,7 +40,7 @@ function ProjectModal({ project, setEdit }) {
       console.log("Images are : ", images) ; 
       formData = { ...data, images: image, techstack: skills }
       console.log("Edited Form data is : ",formData) 
-      const res = await fetch(`/api/v1/project/update/${project._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/update/${project._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -83,12 +84,17 @@ function ProjectModal({ project, setEdit }) {
             <label htmlFor="name" className="text-lg">
               Project Name:
             </label>
+            <div>
             <input
               id="name"
               type="text"
-              {...register("name")}
+              {...register("name",{
+                maxLength:{value:20,message:"Max Length should be 20"}
+              })}
               className="border-1 border-indie-300 rounded-md h-10 px-2 focus:outline-none"
             />
+            {errors?.name?.message&&<p className="text-red-500">{errors.name.message}</p>}
+            </div>
             <label htmlFor="description" className="text-lg">
               Project Description:
             </label>
@@ -119,7 +125,7 @@ function ProjectModal({ project, setEdit }) {
             <label htmlFor="status" className="text-lg">
               Project Status:
             </label>
-            <ProjectStatus register={register} />
+            <ProjectStatus register={register} errors={errors}/>
             <label className="text-lg">Project Images:</label>
             <ProjectImage images={image} setImages={setImages} modal={true} />
             <label className="text-lg">Project TechStack:</label>

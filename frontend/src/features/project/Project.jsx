@@ -8,6 +8,7 @@ import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import { Slide, toast } from "react-toastify";
 import { motion } from "motion/react";
+import { toastStyles } from "../../utils/helper";
 
 function Project() {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -26,46 +27,11 @@ function Project() {
   const { width, height } = useWindowSize();
 
   const dispatch = useDispatch();
-  // const convertImageURL = async (images) => {
-  //   try {
-  //     const upload = images.map(async (image) => {
-  //       const formData = new FormData();
-  //       formData.append("file", image);
-  //       formData.append("upload_preset", "tch_image_upload");
-
-  //       const response = await fetch(
-  //         "https://api.cloudinary.com/v1_1/dn17alkhg/image/upload",
-  //         {
-  //           method: "POST",
-  //           body: formData,
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         throw new Error(
-  //           `Cloudinary Upload Error! Status: ${response.status}`
-  //         );
-  //       }
-
-  //       const data = await response.json();
-  //       console.log("Cloudinary Response Data: ", data);
-  //       return data.secure_url;
-  //     });
-
-  //     const uploadedUrls = await Promise.all(upload);
-  //     return uploadedUrls;
-  //   } catch (error) {
-  //     console.error("Error uploading images: ", error);
-  //     return [];
-  //   }
-  // };
-
+  
   const onSubmit = async (data) => {
     setIsAdding(true);
     try {
       setShowForm(false);
-
-      // const uploadedImageURLs = await convertImageURL(images);
 
       const newObject = {
         ...data,
@@ -77,7 +43,7 @@ function Project() {
       console.log("Submitting project data: ", newObject);
       reset();
 
-      const res = await fetch("/api/v1/project/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newObject),
@@ -86,48 +52,18 @@ function Project() {
       const resData = await res.json();
       console.log("Res Data is : ", resData);
       if (!res.ok) {
-        toast.error(resData.message, {
-          position: "top-center",
-          autoClose: 1000,
-          transition: Slide,
-          style: {
-            width: "auto",
-            whiteSpace: "nowrap",
-            padding: "12px 20px",
-            fontFamily: "Poppins",
-          },
-        });
+        toast.error(resData.message, toastStyles);
         return;
       }
 
-      toast.success("Project added successfully!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.success("Project added successfully!", toastStyles);
       setSkills([]) ; 
       setImages([]) ; 
       dispatch(addProject(resData));
       handleConfetti();
     } catch (error) {
       console.error("Error submitting project:", error);
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-        style: {
-          width: "auto",
-          whiteSpace: "nowrap",
-          padding: "12px 20px",
-          fontFamily: "Poppins",
-        },
-      });
+      toast.error(error.message, toastStyles);
     }
     setIsAdding(false);
   };
@@ -161,7 +97,7 @@ function Project() {
                     type="text"
                     required
                     placeholder="Project Name"
-                    {...register("name", { required: true,maxLength:{value:15,message:"Max length should be 15"} })}
+                    {...register("name", { required: true,maxLength:{value:20,message:"Max length should be 20"} })}
                     className="p-2 border-1px rounded-md md:h-12 h-8 md:text-sm lg:text-[16px] placeholder:text-[10px] md:placeholder:text-[14px] lg:placeholder:text-[16px] placeholder:opacity-30 bg-indie-500 w-full focus:outline-none"
                   />
                   {errors?.name&&<p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -181,6 +117,7 @@ function Project() {
                   setSkills={setSkills}
                   images={images}
                   setImages={setImages}
+                  errors={errors}
                 />
               </div>
               <motion.button

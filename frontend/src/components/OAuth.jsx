@@ -4,10 +4,11 @@ import { addLogInCredentials, addUserDetails, addUsername, endLoading, startLoad
 import app from '../firebase';
 import { getAuth, signInWithPopup } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
-import { Slide, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { addSocial } from '../features/socials/socialSlice';
 import { addProjectLogin } from '../features/project/projectSlice';
 import { motion } from 'motion/react';
+import { toastStyles } from '../utils/helper';
 
 function OAuth({ provider, Icon, name, onError }) {
     const navigate = useNavigate();
@@ -16,30 +17,31 @@ function OAuth({ provider, Icon, name, onError }) {
     const username = useSelector((state)=>state.user.username?.username) ; 
     const fetchProfile = async (id) => {
         try {
-            const res = await fetch(`/api/v1/profile/get/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/profile/get/${id}`, {
                 method: "GET"
             })
             const data = await res.json();
             if (!res.ok) {
-                toast.error(data.message);
+                toast.error(data.message, toastStyles);
             }
             console.log("Profile is : ", data);
             dispatch(addUserDetails(data));
 
         }
         catch (error) {
+            toast.error(error.message, toastStyles);
             console.log(error)
         }
     }
     const fetchProjects = async (id) => {
         try {
-            const res = await fetch(`/api/v1/project/get/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/get/${id}`, {
                 method: "GET",
             })
             const data = await res.json();
 
             if (!res.ok) {
-                toast.error(data.message)
+                toast.error(data.message, toastStyles);
             }
             console.log("Projects are : ", data);
 
@@ -47,30 +49,30 @@ function OAuth({ provider, Icon, name, onError }) {
 
         }
         catch (error) {
+            toast.error(error.message, toastStyles);
             console.log(error)
         }
     }
     const fetchUsername = async (id) => {
         try {
-            const res = await fetch(`/api/v1/username/get/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/get/${id}`, {
                 method: "GET"
             })
             const data = await res.json();
             console.log("User Response is : ", res)
             if (!res.ok) {
-                toast.error(data.message)
+                toast.error(data.message, toastStyles);
                 dispatch(endLoading()) ; 
                 return ; 
             }
 
             if (username){
                 if (!data || !data.username){
-                    //create username
                     const formData = {
                         username : username,
                         userId: id,
                     }
-                    const res = await fetch('/api/v1/username/create', {
+                    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/create`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -79,36 +81,21 @@ function OAuth({ provider, Icon, name, onError }) {
                     })
                     const data = await res.json();
                     if (!res.ok){
-                        toast.error(data.message) ; 
+                        toast.error(data.message, toastStyles) ; 
                     }
-                    toast.success(data.message,{
-                        position: "top-center",
-                        autoClose: 1000,
-                        transition: Slide,
-                        style: {
-                            width: "auto",
-                            whiteSpace: "nowrap",
-                            padding: "12px 20px",
-                            fontFamily: "Poppins",
-                        },
-                    }) ; 
+                    toast.success(data.message, toastStyles) ; 
+                    if (data.deployed){
+                        dispatch(setDeployed()) ; 
+                    }
                     dispatch(addUsername(data)) ; 
                 }
                 else {
-                    //check if username is already taken
                     if (username !== data.username){
-                        toast.error("Username already created!", {
-                            position: "top-center",
-                            autoClose: 1000,
-                            transition: Slide,
-                            style: {
-                                width: "auto",
-                                whiteSpace: "nowrap",
-                                padding: "12px 20px",
-                                fontFamily: "Poppins",
-                            },
-                        }) ; 
+                        toast.error("Username already created!", toastStyles) ; 
                         dispatch(addUsername(data)) ; 
+                        if (data.deployed){
+                            dispatch(setDeployed()) ; 
+                        }
                         return ; 
                     }
                     
@@ -120,6 +107,9 @@ function OAuth({ provider, Icon, name, onError }) {
                     return ; 
                 }
                 else {
+                    if (data.deployed){
+                        dispatch(setDeployed()) ; 
+                    }
                     dispatch(addUsername(data)) ; 
                 }
             }
@@ -131,13 +121,13 @@ function OAuth({ provider, Icon, name, onError }) {
     }
     const fetchSocials = async (id) => {
         try {
-            const res = await fetch(`/api/v1/social/get/${id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/social/get/${id}`, {
                 method: "GET"
             })
             const data = await res.json();
 
             if (!res.ok) {
-                toast.error(data.message)
+                toast.error(data.message, toastStyles);
             }
             console.log("Socials are : ", data);
 
@@ -145,6 +135,7 @@ function OAuth({ provider, Icon, name, onError }) {
 
         }
         catch (error) {
+            toast.error(error.message, toastStyles);
             console.log(error)
         }
     }
@@ -159,7 +150,7 @@ function OAuth({ provider, Icon, name, onError }) {
                 photoURL: result.user.photoURL,
             };
 
-            const res = await fetch('/api/v1/auth/oAuth', {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/oAuth`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -169,7 +160,7 @@ function OAuth({ provider, Icon, name, onError }) {
             const data = await res.json();
 
             if (!res.ok) {
-                toast.error(data.message);
+                toast.error(data.message, toastStyles);
                 dispatch(endLoading());
                 return;
             }
@@ -187,6 +178,7 @@ function OAuth({ provider, Icon, name, onError }) {
         }
         catch (error) {
             console.log("Error from firebase is : ", error.message);
+            toast.error(error.message, toastStyles);
             onError(error.message);
             dispatch(endLoading());
         }

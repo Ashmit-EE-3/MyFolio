@@ -76,11 +76,7 @@ function ProjectTechstack({ skills, setSkills }) {
 
   function handleAdd() {
     if (!selectedSkill) {
-      toast.error("Please select a tool!", {
-        position: "top-center",
-        autoClose: 1000,
-        transition: Slide,
-      });
+      toast.error("Please select a tool!", toastStyles);
       return;
     }
     var present = false;

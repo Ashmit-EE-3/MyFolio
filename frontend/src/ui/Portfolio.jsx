@@ -15,22 +15,23 @@ import ReactMarkdown from "react-markdown";
 import { motion } from "motion/react";
 import PortfolioProject from "../components/PortfolioProject";
 import { toast } from "react-toastify";
+import supabase from "../supabase";
 
 const techOptions = options;
 const flags = flag;
-
+const default_avatar = "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4841.jpg?semt=ais_hybrid"
 function Portfolio() {
   const { username } = useParams();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [deployed, setDeployed] = useState(true);
   useEffect(
     function () {
       async function fetchData() {
         setLoading(true);
         try {
           const usernameRes = await fetch(
-            `/api/v1/username/getUser/${username}`
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/username/getUser/${username}`
           );
           const usernameData = await usernameRes.json();
 
@@ -44,12 +45,16 @@ function Portfolio() {
 
           const userId = usernameData.userId;
 
+          if (!usernameData.deployed) {
+            setDeployed(false);
+          }
+
           const [profileRes, projectsRes, socialsRes, userRes] =
             await Promise.all([
-              fetch(`/api/v1/profile/get/${userId}`),
-              fetch(`/api/v1/project/get/${userId}`),
-              fetch(`/api/v1/social/get/${userId}`),
-              fetch(`/api/v1/user/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/profile/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/project/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/social/get/${userId}`),
+              fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/user/get/${userId}`),
             ]);
 
           const [profile, projects, socials, user] = await Promise.all([
@@ -67,7 +72,6 @@ function Portfolio() {
           ) {
             console.log("Failed to fetch user data");
           }
-
           setUserData({
             email: user?.email,
             displayName: user?.displayName,
@@ -82,6 +86,7 @@ function Portfolio() {
             languages: profile?.languages,
             resume: profile?.resume,
             techStack: profile?.techStack,
+            avatar: usernameData?.avatar,
             projects,
             socials,
           });
@@ -95,6 +100,11 @@ function Portfolio() {
     },
     [username]
   );
+
+
+  if (!deployed) {
+    throw new Error("Profile not yet deployed!");
+  };
 
   if (loading) return <Spinner />;
 
@@ -125,42 +135,36 @@ function Portfolio() {
 
   const handleDownload = async () => {
     try {
-      const fileName = (userData.resume).split('/').pop();
-      const response = await fetch(`api/v1/resume/download/${fileName}`);
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast.error(data.message, toastStyles)
-        return;
-      }
-
+      const response = await fetch(userData.resume);
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      toast.success("Downloaded!",toastStyles)
-    } catch (error) {
-      console.error('Error downloading file:', error);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Resume Downloaded!", toastStyles);
     }
-
-    const filepath = (userData.resume).split('/').pop();
-    console.log(filepath)
-    window.location.href = `http://localhost:3000/api/v1/resume/download/${filepath}`;
+    catch (error) {
+      toast.error(error.message, toastStyles);
+      console.log(error)
+    }
   }
+
+  if (userData?.photoURL && userData?.photoURL.includes("google"))
+    userData.photoURL = undefined
+
+  if (userData?.avatar === undefined)
+    userData.avatar = default_avatar
   return (
     <div
-      className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col md:h-screen md:overflow-hidden "
+      className="md:grid md:grid-cols-[0.4fr_0.6fr] flex flex-col h-screen md:overflow-hidden "
       data-theme={theme}
       data-font={font}
     >
       <div className="font-[family-name:var(--primary-font)] bg-[var(--secondary-bg-color)] text-[var(--primary-text-color)] overflow-y-scroll lg:py-20 md:py-10 py-8 lg:px-14 md:px-10 px-2 flex flex-col lg:gap-6 md:gap-4 gap-2 relative no-scrollbar">
         <img
-          src={userData.photoURL}
+          src={userData.photoURL || userData.avatar}
           alt="profile"
           className="rounded-full lg:h-40 lg:w-40 md:h-30 md:w-30 w-15 h-15 border-10 border-[var(--primary-button-color)] relative"
         />
@@ -192,7 +196,7 @@ function Portfolio() {
             <ReactMarkdown>{userData?.about}</ReactMarkdown>
           </p>
         )}
-        {selectedTechOptions && (
+        {selectedTechOptions.length > 0 && (
           <div className="flex flex-col gap-4">
             <h1 className="lg:text-2xl md:text-xl text-lg">Skills:</h1>
             <div className="flex flex-wrap lg:gap-3 md:gap-2 gap-1">
@@ -259,7 +263,7 @@ function Portfolio() {
                 </a>
               )}
               {Email && (
-                <a className="cursor-pointer" href={Email} target="_blank">
+                <a className="cursor-pointer" href={"mailto:" + Email} target="_blank">
                   <CiMail
                     className="lg:h-8 lg:w-8 md:h-6 md:w-6 h-4 w-4"
                     color="[var(--secondary-text-color)]"
@@ -302,7 +306,8 @@ function Portfolio() {
           </div>
         )}
       </div>
-      <div className="bg-[var(--secondary-bg-color)] overflow-y-scroll no-scrollbar">
+      <div className="bg-[var(--secondary-bg-color)] h-full overflow-y-scroll no-scrollbar">
+        <span className="md:hidden text-lg font-poppins text-indie-400 p-4">Projects:</span>
         <div className="xl:grid xl:grid-cols-2 flex flex-col lg:gap-10 md:gap-6 gap-4 xl:p-10 p-4">
           {newProjects &&
             newProjects.map((project, index) => (
