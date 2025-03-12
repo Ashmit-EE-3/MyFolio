@@ -51,6 +51,10 @@ function Landing() {
         }
       }
     } else {
+      if (name === ""){
+        navigate('/login') ; 
+        return ; 
+      }
       try{
         console.log(`Hi ${name}`) ; 
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/username/findUser/${name}`, {

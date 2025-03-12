@@ -5,6 +5,10 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { startLoading } from "./userSlice";
 import { toastStyles } from "../../utils/helper";
+import { toast } from "react-toastify";
+import supabase from "../../supabase";
+
+
 
 function PdfUpload({
   file,
@@ -18,38 +22,35 @@ function PdfUpload({
   const pdfName = file ? file.name : "";
   const cv = useSelector((state) => state.user.userDetails?.resume);
   const [hover, setHover] = useState(false);
+
   async function handleFileUpload(e) {
     setIsUploading(true);
     try {
       dispatch(startLoading());
       const file = e.target.files[0];
+      const filePath = `cv/${Date.now()}-${file.name}`;
       if (file && file.type === "application/pdf") {
         setPdfFile(file);
       }
-      
-      const formData = new FormData();
-      formData.append('resume',file) ; 
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/resume/upload`,{
-        method: 'POST',
-        body: formData
-      })
 
-      const data = await res.json() ; 
+      console.log("supabase is : ", supabase)
+      const {data,error} = await supabase.storage.from('cv').upload(filePath, file) ; 
 
-      if (!res.ok){
-        toast.error(data.message,toastStyles) ;
-        setIsUploading(false) ; 
+      if (error) {
+        toast.error(error,toastStyles) ; 
+        setIsUploading(false) ;  
         return ; 
       }
 
-      console.log(data) ; 
+      const {data: url} = supabase.storage.from('cv').getPublicUrl(filePath) 
+      console.log("Url is : ", url) ; 
       setUserData((prev) => ({
         ...prev,
-        resume: data.fileURL,
+        resume: url.publicUrl,
       }));
       handleUserDetails({
         ...userData,
-        resume: data.fileURL,
+        resume: url.publicUrl,
       });
       toast.success("Saved!",toastStyles) 
     } catch (error) {
