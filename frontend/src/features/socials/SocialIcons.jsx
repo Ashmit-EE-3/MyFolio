@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addSocial } from "../socials/socialSlice";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { FaGithub } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
@@ -174,12 +174,12 @@ function AdminIcons() {
           onSubmit={handleSubmit}
         >
           <label className="md:text-sm lg:text-[16px] text-[10px]">{social}</label>
-          <div className="flex items-center gap-2 md:text-sm lg:text-[16px] text-[10px]">
+          <div className={`flex items-center gap-2 md:text-sm lg:text-[16px] text-[10px]`}>
             <input
               value={socialdetails?.[social[0]] || link}
               placeholder={`Link to your ${social} account`}
-              type={`${social=="Email"?"email":"url"}`}
-              className="p-2 h-8 md:h-12 placeholder:opacity-30 bg-indie-500 w-full outline-none rounded-md placeholder:text-[5px] md:placeholder:text-[14px]"
+              type={`${social[0]==='Email'?"email":"url"}`}
+              className="p-2 h-8 md:h-12 placeholder:opacity-30 w-full bg-indie-500 outline-none rounded-md placeholder:text-[8px] md:placeholder:text-[14px]"
               onChange={handleLink}
             />
             {socialdetails?.[social[0]] ? (

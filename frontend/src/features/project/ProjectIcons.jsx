@@ -9,7 +9,7 @@ import ProjectTechstack from "./ProjectTechStack";
 import ProjectImage from "./ProjectImage";
 import ProjectStatus from "./ProjectStatus";
 
-function ProjectIcons({ register, skills, setSkills, images, setImages }) {
+function ProjectIcons({ register, skills, setSkills, images, setImages,errors}) {
   const [selected, setSelected] = useState({
     link: false,
     repo: false,
@@ -132,7 +132,7 @@ function ProjectIcons({ register, skills, setSkills, images, setImages }) {
           </div>
         )}
         {selected.status && (
-          <ProjectStatus register={register}/>
+          <ProjectStatus register={register} errors={errors}/>
         )}
         {selected.tools && (
           <ProjectTechstack skills={skills} setSkills={setSkills} />

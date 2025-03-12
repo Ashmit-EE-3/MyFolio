@@ -1,24 +1,15 @@
-# TCH - Thak Chuka Hun 
+# 🚀 MyFolio – Your No-Code Portfolio Maker  
 
-Push changes to your branch- 
-1. git checkout your-branch-name
-2. git add .
-3. git commit -m ""
-4. git push origin your-branch-name
+Create and launch your personal developer portfolio in minutes—**no coding required!** Just fill in your details, showcase your projects, customize your theme, and get a unique portfolio link instantly.  
 
-Merge your branch with the main branch (apni branch ke change ko main branch mein daal rha hun)
-1. git checkout main
-2. git fetch
-3. git pull origin main
-4. git merge your-branch-name
-5. Conflicts(if any) : git add .
-                       git commit -m ""
-6. git push origin main
+## ✨ Features  
 
-Merge main branch into your branch (main branch ke changes ko apni branch mein daal rha hun)
-1. git checkout your-branch-name
-2. git fetch origin
-3. git merge origin/main
-4. Conflicst(if any): git add . 
-                      git commit -m "" 
-5. git push origin your-branch-name
+- **User Profile**: Add name, email, location, tech stack, and social links.  
+- **Project Showcase**: Upload project details, tech stack, repository link, images, and descriptions.  
+- **Customizable Themes**: Select fonts, colors, and styles to personalize your portfolio.  
+- **Auto Deployment**: One-click deploy to a unique username-based URL.  
+- **Free & Instant**: Get your portfolio live in seconds.  
+
+# 🚀 Claim your page now!  
+👉 **[Get Started for Free](https://www.myfolio.tech)**  
+

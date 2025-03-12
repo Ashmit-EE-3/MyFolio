@@ -11,7 +11,7 @@ import {
 import Project from "../features/project/Project";
 import { GiSkills } from "react-icons/gi";
 import { IoDocumentText, IoLanguageSharp } from "react-icons/io5";
-import { Slide, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { IoMdSchool } from "react-icons/io";
 import { motion } from "motion/react"
 import Techstack from "../features/user/Techstack";
