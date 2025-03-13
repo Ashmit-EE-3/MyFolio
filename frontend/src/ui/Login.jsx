@@ -1,19 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { addLogInCredentials } from '../features/user/userSlice';
+import { addLogInCredentials, updateUser } from '../features/user/userSlice';
 import app from '../firebase';
-import { getAuth, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail} from "firebase/auth";
-import { useDispatch } from 'react-redux';
+import { getAuth, GoogleAuthProvider, GithubAuthProvider, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink} from "firebase/auth";
+import { useDispatch, useSelector } from 'react-redux';
 import OAuth from '../components/OAuth';
 import { FcGoogle } from 'react-icons/fc' ; 
 import { FaGithub } from "react-icons/fa";
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toastStyles } from '../utils/helper';
+import { get } from 'mongoose';
+import { toast } from 'react-toastify';
 function Login() {
     const [error, setError] = useState("");
     console.log("Error from login is : ", error);
     var email = "" ;
     const navigate = useNavigate();
-    const dispatch = useDispatch() ; 
+    const dispatch = useDispatch() ;
+     
     const handleChange = (e) => {
         email = e.target.value ; 
     }
@@ -34,20 +38,44 @@ function Login() {
     }
     const handleClick = async (e)=>{
         e.preventDefault() ; 
+
+        if (!email){
+            toast.error("No Email Found!", toastStyles) ;
+            return ; 
+        }
+
         const auth = getAuth(app);
         const actionCodeSettings = {
-            url:"http://localhost:5173/admin",
+            url:"https://myfolio.tech/admin",
             handleCodeInApp: true
         }
-        sendSignInLinkToEmail(auth, email, actionCodeSettings)
-            .then(() => {
-                dispatch(addLogInCredentials({email: email})) ; 
-                navigate('/signInRedirect') ; 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+
+        try{
+            await sendSignInLinkToEmail(auth, email, actionCodeSettings) ;
+            dispatch(updateUser({email: email})) ; 
+            navigate('/signInRedirect') ; 
+        }
+        catch(error){
+            toast.error(error.message, toastStyles) 
+            console.log(error)
+        }
     }
+
+    useEffect(()=>{
+        const auth = getAuth(); 
+        if (isSignInWithEmailLink(auth, window.location.href)){
+            const storedEmail = useSelector((state)=>state.user.currentUser?.email) ; 
+
+            signInWithEmailLink(auth, storedEmail, window.location.href)
+            .then((result)=>{
+                dispatch(addLogInCredentials({email: storedEmail})) ; 
+                navigate('/admin') ; 
+            })
+            .catch((error)=>{
+                console.log(error) ; 
+            })
+        }
+    }, [dispatch,navigate]) ; 
 
     return (
         <div className="h-screen font-poppins flex items-center justify-center">
