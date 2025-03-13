@@ -9,7 +9,6 @@ import { FaGithub } from "react-icons/fa";
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { toastStyles } from '../utils/helper';
-import { get } from 'mongoose';
 import { toast } from 'react-toastify';
 function Login() {
     const [error, setError] = useState("");
