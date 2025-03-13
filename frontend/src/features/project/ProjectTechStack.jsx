@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 import Select from "react-select";
 import { motion } from "motion/react";
 import { options, toastStyles } from "../../utils/helper";
 
-const techOptions=options;
+const techOptions = options;
 
 function ProjectTechstack({ skills, setSkills }) {
   const [selectedSkill, setSelectedSkill] = useState("");
@@ -36,6 +36,9 @@ function ProjectTechstack({ skills, setSkills }) {
       cursor: "pointer",
       alignItems: "left",
       fontSize: "10px",
+      ":active": {
+        backgroundColor: "#282A36",
+      },
       "@media (min-width: 650px)": {
         padding: "10px",
         fontSize: "14px",
@@ -97,7 +100,9 @@ function ProjectTechstack({ skills, setSkills }) {
   return (
     <div className="flex flex-col gap-2 md:gap-4">
       <div className="border-t-2 border-indie-300/30"></div>
-      <label className="text-start text-[10px] md:text-xs lg:text-[16px]">Tech Stack💻</label>
+      <label className="text-start text-[10px] md:text-xs lg:text-[16px]">
+        Tech Stack💻
+      </label>
       <div className="w-full flex gap-2 justify-items-start items-start">
         <Select
           className="w-full text-[10px] md:text-xs lg:text-[16px]"

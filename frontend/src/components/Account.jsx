@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, endLoading, logOutUser, startLoading, updateUsername } from "../features/user/userSlice";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { persistor } from '../store';
 import { useNavigate } from "react-router-dom";
 import { toastStyles } from "../utils/helper";
+import Spinner from "../ui/Spinner"
 
 function Account() {
   const username = useSelector((state) => state.user.username.username) || null;
@@ -15,6 +16,7 @@ function Account() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const usernameState = useSelector((state) => state.user.username);
   const loading = useSelector((state) => state.user.loading);
+  const [load,setLoad]=useState(false);
   function handleChange(e) {
     setUsername(e.target.value);
   }
@@ -54,6 +56,7 @@ function Account() {
   }
   const handleLogOutClick = async () => {
     try {
+      setLoad(true);
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`, {
         method: 'GET',
       })
@@ -65,10 +68,12 @@ function Account() {
         toast.success("Logged out successfully!",toastStyles);
         dispatch(logOutUser());
         navigate('/');
+        setLoad(false);
         return;
       }
       else {
         toast.error("Something went wrong!", toastStyles)
+        setLoad(false);
       }
     } catch (error) {
       toast.error(error.message, toastStyles)
@@ -111,6 +116,9 @@ function Account() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if(load)
+    return <Spinner/>
 
   return (
     <div className="grid lg:gap-6 md:gap-4 gap-3 mx-auto lg:w-full xl:w-[40vw] w-[80vw] px-10 text-[10px] md:text-[16px]">

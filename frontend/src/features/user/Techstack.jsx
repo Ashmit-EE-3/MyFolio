@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import StackIcon from "tech-stack-icons";
 import Select from "react-select";
 import { motion } from "motion/react";
@@ -39,6 +39,9 @@ function Techstack({ setUserData, handleUserDetails, userData }) {
         padding: "10px",
         fontSize: "14px",
       },
+      ":active": {
+      backgroundColor: "#282A36",
+    },
     }),
     singleValue: (provided) => ({
       ...provided,
